@@ -1,0 +1,12 @@
+{
+  "name": "gif-engine",
+  "version-semver": "0.0.0",
+  "dependencies": [],
+  "default-features": [],
+  "features": {
+    "test": {
+      "description": "Dependencies for tests and benchmarks",
+      "dependencies": ["utest"]
+    }
+  }
+}

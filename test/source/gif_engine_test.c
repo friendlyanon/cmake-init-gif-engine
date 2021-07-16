@@ -1,11 +1,9 @@
 #include "gif_engine/gif_engine.h"
+#include <utest.h>
 
-#include <string.h>
-
-int main(int argc, const char* argv[])
+UTEST(main, compare)
 {
-  (void)argc;
-  (void)argv;
-
-  return strcmp("gif_engine", exported_function()) == 0 ? 0 : 1;
+  ASSERT_STREQ("gif_engine", exported_function());
 }
+
+UTEST_MAIN()

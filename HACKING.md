@@ -41,7 +41,7 @@ the project:
     {
       "name": "dev",
       "binaryDir": "${sourceDir}/build/dev",
-      "inherits": ["dev-mode", "ci-<os>"]
+      "inherits": ["dev-mode", "ci-<os>", "vcpkg"]
     }
   ]
 }
@@ -56,6 +56,11 @@ sorts of things that you would otherwise want to pass to the configure command
 in the terminal.
 
 ### Configure, build and test
+
+To build the project as a developer, please make sure you have [vcpkg][3]
+installed and properly set up at least with the `VCPKG_ROOT` env var pointing
+to the right place, because some dependencies are provided with ports in the
+project.
 
 If you followed the above instructions, then you can configure, build and test
 the project respectively with the following commands from the project root on
@@ -77,3 +82,4 @@ cd build/dev && ctest
 
 [1]: https://cmake.org/cmake/help/latest/manual/cmake-presets.7.html
 [2]: https://cmake.org/download/
+[3]: https://github.com/microsoft/vcpkg
