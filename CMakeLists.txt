@@ -6,7 +6,7 @@ project(
     gif_engine
     VERSION 0.0.0
     DESCRIPTION "GIF decoder in C"
-    HOMEPAGE_URL "https://example.com/"
+    HOMEPAGE_URL "https://github.com/friendlyanon/cmake-init-gif-engine"
     LANGUAGES C
 )
 
