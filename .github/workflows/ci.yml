@@ -121,9 +121,9 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
-    - name: Install static analyzers
+    - name: Install cppcheck
       if: matrix.os == 'ubuntu'
-      run: sudo apt-get install clang-tidy cppcheck -y -q
+      run: sudo apt-get install cppcheck -y -q
 
     - name: Install vcpkg
       uses: friendlyanon/setup-vcpkg@v1
