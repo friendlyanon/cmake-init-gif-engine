@@ -1,9 +1,8 @@
-#include "gif_engine/gif_engine.h"
-
 #include <stdbool.h>
 #include <stddef.h>
 #include <utest.h>
 
+#include "gif_engine/gif_engine.h"
 #include "gif_mmap.h"
 
 UTEST(mmap, main)

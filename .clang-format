@@ -76,7 +76,7 @@ IncludeCategories:
     Priority: 1
   - Regex: '.*'
     Priority: 2
-IncludeIsMainRegex: ''
+IncludeIsMainRegex: '$'
 IncludeIsMainSourceRegex: ''
 IndentCaseLabels: true
 IndentCaseBlocks: false
