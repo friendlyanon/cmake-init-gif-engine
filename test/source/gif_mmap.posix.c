@@ -1,5 +1,6 @@
 #include <errno.h>
 #include <fcntl.h>
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <string.h>
@@ -68,10 +69,13 @@ void gif_mmap_print_last_error_to_stderr(void)
           error_message);
 }
 
-void gif_mmap_deallocate(gif_mmap_span* span)
+bool gif_mmap_deallocate(gif_mmap_span* span)
 {
-  munmap(span->pointer, span->size);
+  if (munmap(span->pointer, span->size) != 0) {
+    return false;
+  }
+
   int file_descriptor;
   memcpy(&file_descriptor, &span->cleanup_data, sizeof(int));
-  close(file_descriptor);
+  return close(file_descriptor) == 0;
 }

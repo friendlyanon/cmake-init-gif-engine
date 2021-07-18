@@ -9,8 +9,7 @@
 
 static const char* failed_function_name = NULL;
 
-enum
-{
+enum {
   CLEANUP_SIZE = 2,
 };
 
@@ -150,15 +149,23 @@ void gif_mmap_print_last_error_to_stderr(void)
   LocalFree(error_message);
 }
 
-void gif_mmap_deallocate(gif_mmap_span* span)
+bool gif_mmap_deallocate(gif_mmap_span* span)
 {
-  UnmapViewOfFile(span->pointer);
+  if (UnmapViewOfFile(span->pointer) == 0) {
+    return false;
+  }
+
   HANDLE* cleanup_data = &span->cleanup_data;
-  CloseHandle(cleanup_data[0]);
-  CloseHandle(cleanup_data[1]);
-  /*
-   * Possible leak if GetProcessHeap() fails, but the deallocate function is
-   * called at the end of the tests anyway
-   */
-  HeapFree(GetProcessHeap(), 0, cleanup_data);
+  for (size_t i = 0; i < CLEANUP_SIZE; ++i) {
+    if (CloseHandle(cleanup_data[i]) == 0) {
+      return false;
+    }
+  }
+
+  HANDLE heap = GetProcessHeap();
+  if (heap == NULL) {
+    return false;
+  }
+
+  return HeapFree(heap, 0, cleanup_data) != 0;
 }
