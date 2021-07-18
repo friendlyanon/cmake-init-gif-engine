@@ -5,6 +5,7 @@
 typedef struct gif_mmap_span {
   void* pointer;
   size_t size;
+  void* cleanup_data;
 } gif_mmap_span;
 
 /**
@@ -20,6 +21,6 @@ gif_mmap_span gif_mmap_allocate(const char* path_to_file);
 void gif_mmap_print_last_error_to_stderr(void);
 
 /**
- * Deallocates the file mapped to the location gif_mmap_allocate returns.
+ * Deallocates the mapping to the file mapped by gif_mmap_allocate.
  */
-void gif_mmap_deallocate(void* pointer_to_allocation);
+void gif_mmap_deallocate(gif_mmap_span* span);
