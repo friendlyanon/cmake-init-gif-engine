@@ -12,14 +12,23 @@ endif()
 find_package(utest REQUIRED)
 include(utest_discover_tests)
 
-add_executable(
+link_libraries(gif_engine::gif_engine utest::utest)
+include_directories(source)
+
+function(def_test name)
+  add_executable("${name}" ${ARGN})
+  target_compile_features("${name}" PRIVATE c_std_11)
+endfunction()
+
+set(mmap_variant posix)
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  set(mmap_variant nt)
+endif()
+
+def_test(
     gif_engine_test
     source/gif_engine_test.c
+    "source/gif_mmap.${mmap_variant}.c"
 )
-target_link_libraries(
-    gif_engine_test PRIVATE
-    gif_engine::gif_engine utest::utest
-)
-target_compile_features(gif_engine_test PRIVATE c_std_11)
 
 utest_discover_tests(gif_engine_test DEPENDS gif_engine::gif_engine)
