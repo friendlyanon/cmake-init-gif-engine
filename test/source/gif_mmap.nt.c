@@ -1,3 +1,5 @@
+#include <Windows.h>
+
 #include "gif_mmap.h"
 
 gif_mmap_span gif_mmap_allocate(const char* path_to_file)

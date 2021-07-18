@@ -12,23 +12,30 @@ endif()
 find_package(utest REQUIRED)
 include(utest_discover_tests)
 
-link_libraries(gif_engine::gif_engine utest::utest)
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED YES)
+
 include_directories(source)
 
-function(def_test name)
-  add_executable("${name}" ${ARGN})
-  target_compile_features("${name}" PRIVATE c_std_11)
-endfunction()
+add_library(gif_engine_mmap OBJECT)
 
-set(mmap_variant posix)
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  set(mmap_variant nt)
+  target_sources(gif_engine_mmap PRIVATE source/gif_mmap.nt.c)
+  target_compile_definitions(gif_engine_mmap PRIVATE WIN32_LEAN_AND_MEAN)
+  if(NOT CMAKE_VERSION VERSION_LESS "3.16")
+    target_precompile_headers(gif_engine_mmap PRIVATE <Windows.h>)
+  endif()
+else()
+  target_sources(gif_engine_mmap PRIVATE source/gif_mmap.posix.c)
 endif()
 
-def_test(
+add_executable(
     gif_engine_test
     source/gif_engine_test.c
-    "source/gif_mmap.${mmap_variant}.c"
+)
+target_link_libraries(
+    gif_engine_test PRIVATE
+    gif_engine_mmap gif_engine::gif_engine utest::utest
 )
 
 utest_discover_tests(gif_engine_test DEPENDS gif_engine::gif_engine)
