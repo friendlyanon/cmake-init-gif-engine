@@ -140,7 +140,7 @@ void gif_mmap_print_last_error_to_stderr(void)
                  NULL);
 
   fprintf(stderr,
-          "%s failed with error %d: %s",
+          "%s failed with error %d: %s\n",
           failed_function_name,
           error_code,
           error_message);
