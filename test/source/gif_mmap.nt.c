@@ -105,6 +105,7 @@ gif_mmap_span gif_mmap_allocate(const char* path_to_file)
 
 cleanup_file_view:
   UnmapViewOfFile(pointer);
+  pointer = NULL;
 
 cleanup_mapping_handle:
   CloseHandle(mapping_handle);
