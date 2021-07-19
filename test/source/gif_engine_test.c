@@ -1,8 +1,8 @@
+#include <gif_engine/gif_engine.h>
 #include <stdbool.h>
 #include <stddef.h>
 #include <utest.h>
 
-#include "gif_engine/gif_engine.h"
 #include "gif_mmap.h"
 
 UTEST(mmap, main)
@@ -16,9 +16,15 @@ UTEST(mmap, main)
   }
 }
 
-UTEST(main, compare)
+UTEST(main, api)
 {
-  ASSERT_STREQ("gif_engine", exported_function());
+  gif_result parse_result = gif_parse(NULL, 0, NULL, NULL);
+  gif_result decode_result = gif_decode(NULL, NULL);
+  gif_result free_result = gif_free_details(NULL, NULL);
+
+  ASSERT_EQ(parse_result.code, GIF_SUCCESS);
+  ASSERT_EQ(decode_result.code, GIF_SUCCESS);
+  ASSERT_EQ(free_result.code, GIF_SUCCESS);
 }
 
 UTEST_MAIN()
