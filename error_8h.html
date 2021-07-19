@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>gif_engine/gif_engine.h file | gif_engine</title>
+  <title>gif_engine/error.h file | gif_engine</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -48,7 +48,7 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_44b2d8d24a35d5791b4d8e75a1fd217b.html">gif_engine</a>/</span>gif_engine.h <span class="m-thin">file</span>
+          <span class="m-breadcrumb"><a href="dir_44b2d8d24a35d5791b4d8e75a1fd217b.html">gif_engine</a>/</span>error.h <span class="m-thin">file</span>
         </h1>
         <p><span></span></p>
         <div class="m-block m-default">
@@ -57,43 +57,43 @@
             <li>
               Reference
               <ul>
+                <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#enum-members">Enums</a></li>
                 <li><a href="#typedef-members">Typedefs</a></li>
-                <li><a href="#func-members">Functions</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="typedef-members">
-          <h2><a href="#typedef-members">Typedefs</a></h2>
+        <section id="nested-classes">
+          <h2><a href="#nested-classes">Classes</a></h2>
           <dl class="m-doc">
-            <dt id="ab74024ca273d97ce898f0c363e595979">
-              using <a href="#ab74024ca273d97ce898f0c363e595979" class="m-doc-self">gif_allocator</a> = void*(*)(size_t size)
-            </dt>
-            <dd><span></span></dd>
-            <dt id="ae3043d47758bf1da6556deb0213fa4b8">
-              using <a href="#ae3043d47758bf1da6556deb0213fa4b8" class="m-doc-self">gif_deallocator</a> = void(*)(void*allocation)
+            <dt>
+              struct <a href="structgif__result.html" class="m-doc">gif_result</a>
             </dt>
             <dd><span></span></dd>
           </dl>
         </section>
-        <section id="func-members">
-          <h2><a href="#func-members">Functions</a></h2>
+        <section id="enum-members">
+          <h2><a href="#enum-members">Enums</a></h2>
           <dl class="m-doc">
-            <dt id="ad872f5f024716f43bbb1d6694a8f6bc4">
-              <span class="m-doc-wrap-bumper">auto <a href="#ad872f5f024716f43bbb1d6694a8f6bc4" class="m-doc-self">gif_parse</a>(</span><span class="m-doc-wrap">uint8_t* buffer,
-              size_t buffer_size,
-              <a href="structgif__details.html" class="m-doc">gif_<wbr />details</a>* details,
-              <a href="gif__engine_8h.html#ab74024ca273d97ce898f0c363e595979" class="m-doc">gif_<wbr />allocator</a> allocator) -&gt; <a href="structgif__result.html" class="m-doc">gif_<wbr />result</a></span>
+            <dt id="a4e23027c2fedeb9dfec028d3978861e1">
+              <span class="m-doc-wrap-bumper">enum <a href="#a4e23027c2fedeb9dfec028d3978861e1" class="m-doc-self">gif_result_code</a> { </span><span class="m-doc-wrap"><a href="#a4e23027c2fedeb9dfec028d3978861e1ae33cf82923226aa3465d4cc1503559e6" class="m-doc">GIF_SUCCESS</a>,
+              <a href="#a4e23027c2fedeb9dfec028d3978861e1aee8e69fc7f7f716d3a06a2677262eb04" class="m-doc">GIF_READ_PAST_BUFFER</a>,
+              <a href="#a4e23027c2fedeb9dfec028d3978861e1a6faa375c2bc98a27205c5e87cb949b08" class="m-doc">GIF_ALLOC_FAIL</a>,
+              <a href="#a4e23027c2fedeb9dfec028d3978861e1a165ae2607a00380384258c0551c86877" class="m-doc">GIF_DEALLOC_FAIL</a> }</span>
             </dt>
             <dd><span></span></dd>
-            <dt id="a39edbe0abccbd6d8728db1f733f305ad">
-              <span class="m-doc-wrap-bumper">auto <a href="#a39edbe0abccbd6d8728db1f733f305ad" class="m-doc-self">gif_decode</a>(</span><span class="m-doc-wrap"><a href="structgif__details.html" class="m-doc">gif_<wbr />details</a>* details,
-              <a href="gif__engine_8h.html#ab74024ca273d97ce898f0c363e595979" class="m-doc">gif_<wbr />allocator</a> allocator) -&gt; <a href="structgif__result.html" class="m-doc">gif_<wbr />result</a></span>
+          </dl>
+        </section>
+        <section id="typedef-members">
+          <h2><a href="#typedef-members">Typedefs</a></h2>
+          <dl class="m-doc">
+            <dt id="ae3db8af0228dc5e7bcbc50fa4a9d9c67">
+              using <a href="#ae3db8af0228dc5e7bcbc50fa4a9d9c67" class="m-doc-self">gif_result_code</a> = enum <a href="error_8h.html#a4e23027c2fedeb9dfec028d3978861e1" class="m-doc">gif_<wbr />result_<wbr />code</a>
             </dt>
             <dd><span></span></dd>
-            <dt id="ab0d5bfe74c3cde843870d7cb270149d8">
-              <span class="m-doc-wrap-bumper">auto <a href="#ab0d5bfe74c3cde843870d7cb270149d8" class="m-doc-self">gif_free_details</a>(</span><span class="m-doc-wrap"><a href="structgif__details.html" class="m-doc">gif_<wbr />details</a>* details,
-              <a href="gif__engine_8h.html#ae3043d47758bf1da6556deb0213fa4b8" class="m-doc">gif_<wbr />deallocator</a> deallocator) -&gt; <a href="structgif__result.html" class="m-doc">gif_<wbr />result</a></span>
+            <dt id="a2e5844432a839c14405e9c43c38b2172">
+              using <a href="#a2e5844432a839c14405e9c43c38b2172" class="m-doc-self">gif_result</a> = struct <a href="structgif__result.html" class="m-doc">gif_<wbr />result</a>
             </dt>
             <dd><span></span></dd>
           </dl>
