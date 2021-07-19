@@ -9,9 +9,7 @@
 
 static const char* failed_function_name = NULL;
 
-enum {
-  CLEANUP_SIZE = 2,
-};
+enum { CLEANUP_SIZE = 2 };
 
 static bool create_file(HANDLE* result_handle, const char* path_to_file)
 {
