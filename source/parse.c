@@ -58,6 +58,34 @@ static bool read_descriptor(uint8_t** begin,
   return true;
 }
 
+static size_t size_to_count(uint8_t size)
+{
+  return 2ULL << size;
+}
+
+static gif_result_code read_global_color_table(uint8_t** begin,
+                                               uint8_t* end,
+                                               gif_details* details)
+{
+  size_t color_count = size_to_count(details->descriptor.packed.size);
+  size_t color_bytes = color_count * 3;
+  if ((size_t)(end - *begin) < color_bytes) {
+    return GIF_READ_PAST_BUFFER;
+  }
+
+  uint32_t* buffer = allocator_(color_bytes * sizeof(uint32_t));
+  if (buffer == NULL) {
+    return GIF_ALLOC_FAIL;
+  }
+
+  for (size_t i = 0; i < color_count; ++i) {
+    buffer[i] = read_color_un(begin);
+  }
+
+  details->global_color_table = buffer;
+  return GIF_SUCCESS;
+}
+
 gif_result_code gif_parse_impl(void** data)
 {
   uint8_t* current = buffer_;
@@ -86,6 +114,14 @@ gif_result_code gif_parse_impl(void** data)
   if (!read_descriptor(&current, end, &details_->descriptor)) {
     *data = current;
     return GIF_READ_PAST_BUFFER;
+  }
+
+  if (details_->descriptor.packed.global_color_table_flag) {
+    gif_result_code code = read_global_color_table(&current, end, details_);
+    if (code != GIF_SUCCESS) {
+      *data = current;
+      return code;
+    }
   }
 
   // TODO

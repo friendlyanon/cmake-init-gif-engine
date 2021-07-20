@@ -57,3 +57,26 @@ bool read_le_short(uint8_t** begin, uint8_t* end, uint16_t* destination);
  * This function will advance the pointer pointed to by buffer by 2.
  */
 uint16_t read_le_short_un(uint8_t** buffer);
+
+/**
+ * Skips count number of bytes with bounds checking.
+ *
+ * This function will advance the pointer pointed to by begin by count.
+ */
+bool skip_bytes(uint8_t** begin, uint8_t* end, size_t count);
+
+/**
+ * Reads count number of bytes into buffer with bounds checking.
+ *
+ * This function will advance the pointer pointed to by begin by count.
+ */
+bool read_bytes(uint8_t** begin, uint8_t* end, uint8_t* buffer, size_t count);
+
+/**
+ * Reads a 3 byte color in the RGB format.
+ *
+ * This function will advance the pointer pointed to by begin by 3.
+ *
+ * @return 32 bit integer in the 0x00RRGGBB format that encodes an RGB color
+ */
+uint32_t read_color_un(uint8_t** buffer);
