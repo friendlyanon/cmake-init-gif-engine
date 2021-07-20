@@ -91,25 +91,21 @@ gif_result_code gif_parse_impl(void** data)
   uint8_t* current = buffer_;
   uint8_t* end = buffer_ + buffer_size_;
 
-  switch (is_gif_file(&current, end)) {
-    case CMP_EQ:
-      break;
-    case CMP_NEQ:
-      return GIF_NOT_A_GIF;
-    case CMP_OOB:
-      *data = current;
-      return GIF_READ_PAST_BUFFER;
-  }
+#define CONST_CHECK(predicate, fail_code) \
+  do { \
+    switch (predicate(&current, end)) { \
+      case CMP_EQ: \
+        break; \
+      case CMP_NEQ: \
+        return fail_code; \
+      case CMP_OOB: \
+        *data = current; \
+        return GIF_READ_PAST_BUFFER; \
+    } \
+  } while (0)
 
-  switch (is_gif_version_supported(&current, end)) {
-    case CMP_EQ:
-      break;
-    case CMP_NEQ:
-      return GIF_NOT_A_GIF89A;
-    case CMP_OOB:
-      *data = current;
-      return GIF_READ_PAST_BUFFER;
-  }
+  CONST_CHECK(is_gif_file, GIF_NOT_A_GIF);
+  CONST_CHECK(is_gif_version_supported, GIF_NOT_A_GIF89A);
 
   if (!read_descriptor(&current, end, &details_->descriptor)) {
     *data = current;
