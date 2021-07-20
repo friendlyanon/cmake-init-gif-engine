@@ -1,5 +1,7 @@
 #include "parse.h"
 
+#include <string.h>
+
 #include "buffer_ops.h"
 
 static uint8_t* buffer_;
@@ -86,6 +88,12 @@ static gif_result_code read_global_color_table(uint8_t** begin,
   return GIF_SUCCESS;
 }
 
+typedef enum gif_block_type {
+  GIF_EXTENSION_BLOCK = 0x21,
+  GIF_IMAGE_DESCRIPTOR_BLOCK = 0x2C,
+  GIF_TAIL_BLOCK = 0x3B,
+} gif_block_type;
+
 gif_result_code gif_parse_impl(void** data)
 {
   uint8_t* current = buffer_;
@@ -120,7 +128,34 @@ gif_result_code gif_parse_impl(void** data)
     }
   }
 
-  // TODO
+  while (1) {
+    uint8_t block_type_byte;
+    if (!read_byte(&current, end, &block_type_byte)) {
+      *data = current;
+      return GIF_READ_PAST_BUFFER;
+    }
+
+    gif_block_type block_type = (gif_block_type)block_type_byte;
+    switch (block_type) {
+      case GIF_EXTENSION_BLOCK:
+        // TODO
+        break;
+      case GIF_IMAGE_DESCRIPTOR_BLOCK:
+        // TODO
+        break;
+      case GIF_TAIL_BLOCK:
+        goto tail_block;
+      default:
+        *data = current;
+        return GIF_UNKNOWN_BLOCK;
+    }
+  }
+
+tail_block:
+  _Static_assert(sizeof(void*) >= sizeof(size_t),
+                 "void* should have a size greater than or equal to size_t");
+  size_t leftover_bytes = end - current;
+  memcpy(*data, &leftover_bytes, sizeof(size_t));
 
   return GIF_SUCCESS;
 }
