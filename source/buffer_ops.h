@@ -11,11 +11,9 @@ typedef enum compare_result {
 } compare_result;
 
 /**
- * A memcmp wrapper to compare begin and data until data_size length with bounds
- * checking.
- *
- * This function will advance the pointer pointed to by begin by data_size if
- * the read isn't OOB.
+ * A memcmp wrapper to compare \c begin and \c data until \c data_size length
+ * with bounds checking. This function will advance the pointer pointed to by
+ * \c begin by \c data_size if the read isn't OOB.
  *
  * @return Result of the equality comparison or an indication of OOB
  */
@@ -25,58 +23,49 @@ compare_result buffer_is_eq(uint8_t** begin,
                             size_t data_size);
 
 /**
- * Reads an 8 bit number with bounds checking.
+ * Reads an 8 bit number with bounds checking. This function will advance the
+ * pointer pointed to by \c begin by 1 if the read isn't OOB.
  *
- * This function will advance the pointer pointed to by begin by 1 if the read
- * isn't OOB.
- *
- * @return true if the read isn't OOB, otherwise false
+ * @return \c true if the read isn't OOB, otherwise \c false
  */
 bool read_byte(uint8_t** begin, uint8_t* end, uint8_t* destination);
 
 /**
- * Reads a 8 bit number without bounds checking.
- *
- * This function will advance the pointer pointed to by buffer by 1.
+ * Reads a 8 bit number without bounds checking. This function will advance the
+ * pointer pointed to by \c buffer by 1.
  */
 uint8_t read_byte_un(uint8_t** buffer);
 
 /**
- * Reads a 16 bit little-endian number with bounds checking.
+ * Reads a 16 bit little-endian number with bounds checking. This function will
+ * advance the pointer pointed to by \c begin by 2 if the read isn't OOB.
  *
- * This function will advance the pointer pointed to by begin by 2 if the read
- * isn't OOB.
- *
- * @return true if the read isn't OOB, otherwise false
+ * @return \c true if the read isn't OOB, otherwise \c false
  */
 bool read_le_short(uint8_t** begin, uint8_t* end, uint16_t* destination);
 
 /**
- * Reads a 16 bit little-endian number without bounds checking.
- *
- * This function will advance the pointer pointed to by buffer by 2.
+ * Reads a 16 bit little-endian number without bounds checking. This function
+ * will advance the pointer pointed to by \c buffer by 2.
  */
 uint16_t read_le_short_un(uint8_t** buffer);
 
 /**
- * Skips count number of bytes with bounds checking.
- *
- * This function will advance the pointer pointed to by begin by count.
+ * Skips \c count number of bytes with bounds checking. This function will
+ * advance the pointer pointed to by \c begin by <tt>count</tt>.
  */
 bool skip_bytes(uint8_t** begin, uint8_t* end, size_t count);
 
 /**
- * Reads count number of bytes into buffer with bounds checking.
- *
- * This function will advance the pointer pointed to by begin by count.
+ * Reads \c count number of bytes into \c buffer with bounds checking. This
+ * function will advance the pointer pointed to by \c begin by <tt>count</tt>.
  */
 bool read_bytes(uint8_t** begin, uint8_t* end, uint8_t* buffer, size_t count);
 
 /**
- * Reads a 3 byte color in the RGB format.
+ * Reads a 3 byte color in the RGB format. This function will advance the
+ * pointer pointed to by \c begin by 3.
  *
- * This function will advance the pointer pointed to by begin by 3.
- *
- * @return 32 bit integer in the 0x00RRGGBB format that encodes an RGB color
+ * @return 32 bit integer in the \c 0x00RRGGBB format that encodes an RGB color
  */
 uint32_t read_color_un(uint8_t** buffer);

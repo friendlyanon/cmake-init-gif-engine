@@ -22,9 +22,9 @@ gif_mmap_span gif_mmap_allocate(const char* path_to_file);
 void gif_mmap_print_last_error_to_stderr(void);
 
 /**
- * Deallocates the mapping to the file mapped by gif_mmap_allocate.
- *
- * @return \c true if deallocation was successful, otherwise \c false . If this
+ * Deallocates the mapping to the file mapped by gif_mmap_allocate. If this
  * function fails, it's advised to crash the program.
+ *
+ * @return \c true if deallocation was successful, otherwise \c false
  */
 bool gif_mmap_deallocate(gif_mmap_span* span);
