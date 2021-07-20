@@ -18,6 +18,7 @@ include(cmake/variables.cmake)
 add_library(
     gif_engine_gif_engine
     source/gif_engine.c
+    source/buffer_ops.c
 )
 add_library(gif_engine::gif_engine ALIAS gif_engine_gif_engine)
 
@@ -46,6 +47,8 @@ target_include_directories(
     PUBLIC
     "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
 )
+
+target_include_directories(gif_engine_gif_engine PRIVATE source)
 
 target_include_directories(
     gif_engine_gif_engine SYSTEM
