@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <string.h>
 
+#include "decode.h"
 #include "parse.h"
 
 gif_result gif_parse(uint8_t* buffer,
@@ -26,12 +27,12 @@ gif_result gif_parse(uint8_t* buffer,
 
 gif_result gif_decode(gif_details* details, gif_allocator allocator)
 {
-  (void)details;
-  (void)allocator;
+  void* data = NULL;
+  gif_result_code code = gif_decode_impl(&data, details, allocator);
 
   return (gif_result) {
-      .code = GIF_SUCCESS,
-      .data = NULL,
+      .code = code,
+      .data = data,
   };
 }
 
