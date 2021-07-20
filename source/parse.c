@@ -87,6 +87,38 @@ static gif_result_code read_global_color_table(uint8_t** begin, uint8_t* end)
   return GIF_SUCCESS;
 }
 
+typedef enum gif_extension_type {
+  GIF_GRAPHICS_CONTROL_EXTENSION = 0xF9,
+  GIF_APPLICATION_EXTENSION = 0xFF,
+  GIF_COMMENT_EXTENSION = 0xFE,
+  GIF_TEXT_EXTENSION = 0x01,
+} gif_extension_type;
+
+static gif_result_code read_extension_block(void** data,
+                                            uint8_t** current,
+                                            uint8_t* end)
+{
+  uint8_t extension_type_byte;
+  if (!read_byte(current, end, &extension_type_byte)) {
+    *data = *current;
+    return GIF_READ_PAST_BUFFER;
+  }
+
+  gif_extension_type extension_type = (gif_block_type)extension_type_byte;
+  switch (extension_type) {
+    default:
+      *data = *current;
+      return GIF_UNKNOWN_EXTENSION;
+  }
+}
+
+static gif_result_code read_image_descriptor_block(void** data,
+                                                   uint8_t** current,
+                                                   uint8_t* end)
+{
+  return GIF_SUCCESS;
+}
+
 typedef enum gif_block_type {
   GIF_EXTENSION_BLOCK = 0x21,
   GIF_IMAGE_DESCRIPTOR_BLOCK = 0x2C,
@@ -136,12 +168,20 @@ gif_result_code gif_parse_impl(void** data)
 
     gif_block_type block_type = (gif_block_type)block_type_byte;
     switch (block_type) {
-      case GIF_EXTENSION_BLOCK:
-        // TODO
+      case GIF_EXTENSION_BLOCK: {
+        gif_result_code code = read_extension_block(data, &current, end);
+        if (code != GIF_SUCCESS) {
+          return code;
+        }
         break;
-      case GIF_IMAGE_DESCRIPTOR_BLOCK:
-        // TODO
+      }
+      case GIF_IMAGE_DESCRIPTOR_BLOCK: {
+        gif_result_code code = read_image_descriptor_block(data, &current, end);
+        if (code != GIF_SUCCESS) {
+          return code;
+        }
         break;
+      }
       case GIF_TAIL_BLOCK:
         goto tail_block;
       default:

@@ -12,6 +12,7 @@ typedef enum gif_result_code {
   GIF_NOT_A_GIF89A,
 
   GIF_UNKNOWN_BLOCK,
+  GIF_UNKNOWN_EXTENSION,
 } gif_result_code;
 
 typedef struct gif_result {
