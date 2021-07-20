@@ -74,7 +74,7 @@ static gif_result_code read_global_color_table(uint8_t** begin, uint8_t* end)
     return GIF_READ_PAST_BUFFER;
   }
 
-  uint32_t* buffer = allocator_(color_bytes * sizeof(uint32_t));
+  uint32_t* buffer = allocator_(NULL, color_bytes * sizeof(uint32_t));
   if (buffer == NULL) {
     return GIF_ALLOC_FAIL;
   }

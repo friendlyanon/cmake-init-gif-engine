@@ -10,7 +10,7 @@
 extern "C" {
 #endif
 
-typedef void* (*gif_allocator)(size_t size);
+typedef void* (*gif_allocator)(void* pointer, size_t size);
 typedef void (*gif_deallocator)(void* allocation);
 
 GIF_ENGINE_EXPORT gif_result gif_parse(uint8_t* buffer,
