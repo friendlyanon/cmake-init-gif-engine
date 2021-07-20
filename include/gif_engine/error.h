@@ -6,6 +6,7 @@ typedef enum gif_result_code {
   GIF_READ_PAST_BUFFER,
 
   GIF_ALLOC_FAIL,
+  GIF_REALLOC_FAIL,
   GIF_DEALLOC_FAIL,
 
   GIF_NOT_A_GIF,
