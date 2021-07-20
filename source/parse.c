@@ -37,14 +37,13 @@ static compare_result is_gif_version_supported(uint8_t** begin, uint8_t* end)
 
 enum { LOGICAL_SCREEN_DESCRIPTOR_SIZE = 7U };
 
-static bool read_descriptor(uint8_t** begin,
-                            uint8_t* end,
-                            gif_descriptor* descriptor)
+static bool read_descriptor(uint8_t** begin, uint8_t* end)
 {
   if (end - *begin < LOGICAL_SCREEN_DESCRIPTOR_SIZE) {
     return false;
   }
 
+  gif_descriptor* descriptor = &details_->descriptor;
   descriptor->canvas_width = read_le_short_un(begin);
   descriptor->canvas_height = read_le_short_un(begin);
 
@@ -67,11 +66,9 @@ static size_t size_to_count(uint8_t size)
   return 2ULL << size;
 }
 
-static gif_result_code read_global_color_table(uint8_t** begin,
-                                               uint8_t* end,
-                                               gif_details* details)
+static gif_result_code read_global_color_table(uint8_t** begin, uint8_t* end)
 {
-  size_t color_count = size_to_count(details->descriptor.packed.size);
+  size_t color_count = size_to_count(details_->descriptor.packed.size);
   size_t color_bytes = color_count * 3;
   if ((size_t)(end - *begin) < color_bytes) {
     return GIF_READ_PAST_BUFFER;
@@ -86,7 +83,7 @@ static gif_result_code read_global_color_table(uint8_t** begin,
     buffer[i] = read_color_un(begin);
   }
 
-  details->global_color_table = buffer;
+  details_->global_color_table = buffer;
   return GIF_SUCCESS;
 }
 
@@ -117,13 +114,13 @@ gif_result_code gif_parse_impl(void** data)
   CONST_CHECK(is_gif_file, GIF_NOT_A_GIF);
   CONST_CHECK(is_gif_version_supported, GIF_NOT_A_GIF89A);
 
-  if (!read_descriptor(&current, end, &details_->descriptor)) {
+  if (!read_descriptor(&current, end)) {
     *data = current;
     return GIF_READ_PAST_BUFFER;
   }
 
   if (details_->descriptor.packed.global_color_table_flag) {
-    gif_result_code code = read_global_color_table(&current, end, details_);
+    gif_result_code code = read_global_color_table(&current, end);
     if (code != GIF_SUCCESS) {
       *data = current;
       return code;
