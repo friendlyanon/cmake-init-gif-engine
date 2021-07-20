@@ -1,5 +1,6 @@
 #include "parse.h"
 
+#include <assert.h>
 #include <string.h>
 
 #include "buffer_ops.h"
@@ -62,6 +63,7 @@ static bool read_descriptor(uint8_t** begin,
 
 static size_t size_to_count(uint8_t size)
 {
+  assert(size < 8U);
   return 2ULL << size;
 }
 
