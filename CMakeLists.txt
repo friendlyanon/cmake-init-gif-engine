@@ -19,6 +19,7 @@ add_library(
     gif_engine_gif_engine
     source/gif_engine.c
     source/buffer_ops.c
+    source/decode.c
     source/parse.c
 )
 add_library(gif_engine::gif_engine ALIAS gif_engine_gif_engine)
