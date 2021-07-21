@@ -18,6 +18,8 @@ GIF_ENGINE_EXPORT gif_result gif_parse(uint8_t* buffer,
                                        gif_details* details,
                                        gif_allocator allocator);
 
+GIF_ENGINE_EXPORT void* gif_pop_last_position(void);
+
 GIF_ENGINE_EXPORT gif_result gif_decode(gif_details* details,
                                         gif_allocator allocator);
 

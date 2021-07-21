@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "buffer_ops.h"
+#include "last_position.h"
 
 static uint8_t* buffer_;
 static size_t buffer_size_;
@@ -100,14 +101,14 @@ static gif_result_code read_extension_block(void** data,
 {
   uint8_t extension_type_byte;
   if (!read_byte(current, end, &extension_type_byte)) {
-    *data = *current;
+    gif_set_last_position(*current);
     return GIF_READ_PAST_BUFFER;
   }
 
   gif_extension_type extension_type = (gif_block_type)extension_type_byte;
   switch (extension_type) {
     default:
-      *data = *current;
+      gif_set_last_position(*current);
       return GIF_UNKNOWN_EXTENSION;
   }
 }
@@ -138,7 +139,7 @@ gif_result_code gif_parse_impl(void** data)
       case CMP_NEQ: \
         return fail_code; \
       case CMP_OOB: \
-        *data = current; \
+        gif_set_last_position(current); \
         return GIF_READ_PAST_BUFFER; \
     } \
   } while (0)
@@ -147,14 +148,14 @@ gif_result_code gif_parse_impl(void** data)
   CONST_CHECK(is_gif_version_supported, GIF_NOT_A_GIF89A);
 
   if (!read_descriptor(&current, end)) {
-    *data = current;
+    gif_set_last_position(current);
     return GIF_READ_PAST_BUFFER;
   }
 
   if (details_->descriptor.packed.global_color_table_flag) {
     gif_result_code code = read_global_color_table(&current, end);
     if (code != GIF_SUCCESS) {
-      *data = current;
+      gif_set_last_position(current);
       return code;
     }
   }
@@ -162,7 +163,7 @@ gif_result_code gif_parse_impl(void** data)
   while (1) {
     uint8_t block_type_byte;
     if (!read_byte(&current, end, &block_type_byte)) {
-      *data = current;
+      gif_set_last_position(current);
       return GIF_READ_PAST_BUFFER;
     }
 
@@ -185,7 +186,7 @@ gif_result_code gif_parse_impl(void** data)
       case GIF_TAIL_BLOCK:
         goto tail_block;
       default:
-        *data = current;
+        gif_set_last_position(current);
         return GIF_UNKNOWN_BLOCK;
     }
   }
