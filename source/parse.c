@@ -95,6 +95,22 @@ typedef enum gif_extension_type {
   GIF_TEXT_EXTENSION = 0x01,
 } gif_extension_type;
 
+static bool skip_block(uint8_t** current, uint8_t* end)
+{
+  while (1) {
+    uint8_t subblock_size;
+    if (!read_byte(current, end, &subblock_size)) {
+      return false;
+    }
+    if (subblock_size == 0) {
+      return true;
+    }
+    if (!skip_bytes(current, end, subblock_size)) {
+      return false;
+    }
+  }
+}
+
 static gif_result_code read_extension_block(void** data,
                                             uint8_t** current,
                                             uint8_t* end)
@@ -103,16 +119,23 @@ static gif_result_code read_extension_block(void** data,
 
   uint8_t extension_type_byte;
   if (!read_byte(current, end, &extension_type_byte)) {
-    gif_set_last_position(*current);
-    return GIF_READ_PAST_BUFFER;
+    THROW(GIF_READ_PAST_BUFFER, *current);
   }
 
   gif_extension_type extension_type = (gif_extension_type)extension_type_byte;
   switch (extension_type) {
+    case GIF_COMMENT_EXTENSION:
+      /* fallthrough */
+    case GIF_TEXT_EXTENSION:
+      if (!skip_block(current, end)) {
+        THROW(GIF_READ_PAST_BUFFER, *current);
+      }
+      break;
     default:
-      gif_set_last_position(*current);
-      return GIF_UNKNOWN_EXTENSION;
+      THROW(GIF_UNKNOWN_EXTENSION, *current);
   }
+
+  return GIF_SUCCESS;
 }
 
 static gif_result_code read_image_descriptor_block(void** data,
@@ -154,23 +177,20 @@ gif_result_code gif_parse_impl(void** data)
   CONST_CHECK(is_gif_version_supported, GIF_NOT_A_GIF89A);
 
   if (!read_descriptor(&current, end)) {
-    gif_set_last_position(current);
-    return GIF_READ_PAST_BUFFER;
+    THROW(GIF_READ_PAST_BUFFER, current);
   }
 
   if (details_->descriptor.packed.global_color_table_flag) {
     gif_result_code code = read_global_color_table(&current, end);
     if (code != GIF_SUCCESS) {
-      gif_set_last_position(current);
-      return code;
+      THROW(code, current);
     }
   }
 
   while (1) {
     uint8_t block_type_byte;
     if (!read_byte(&current, end, &block_type_byte)) {
-      gif_set_last_position(current);
-      return GIF_READ_PAST_BUFFER;
+      THROW(GIF_READ_PAST_BUFFER, current);
     }
 
     gif_block_type block_type = (gif_block_type)block_type_byte;
@@ -192,8 +212,7 @@ gif_result_code gif_parse_impl(void** data)
       case GIF_TAIL_BLOCK:
         goto tail_block;
       default:
-        gif_set_last_position(current);
-        return GIF_UNKNOWN_BLOCK;
+        THROW(GIF_UNKNOWN_BLOCK, current);
     }
   }
 
