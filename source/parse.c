@@ -99,13 +99,15 @@ static gif_result_code read_extension_block(void** data,
                                             uint8_t** current,
                                             uint8_t* end)
 {
+  (void)data;
+
   uint8_t extension_type_byte;
   if (!read_byte(current, end, &extension_type_byte)) {
     gif_set_last_position(*current);
     return GIF_READ_PAST_BUFFER;
   }
 
-  gif_extension_type extension_type = (gif_block_type)extension_type_byte;
+  gif_extension_type extension_type = (gif_extension_type)extension_type_byte;
   switch (extension_type) {
     default:
       gif_set_last_position(*current);
@@ -117,6 +119,10 @@ static gif_result_code read_image_descriptor_block(void** data,
                                                    uint8_t** current,
                                                    uint8_t* end)
 {
+  (void)data;
+  (void)current;
+  (void)end;
+
   return GIF_SUCCESS;
 }
 
