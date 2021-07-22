@@ -167,14 +167,14 @@ static gif_result_code read_graphics_control_extension(void** data,
     return frame_data_code;
   }
 
-  if (read_byte_un(current, end) != GIF_GRAPHICS_CONTROL_EXTENSION_SIZE) {
+  if (read_byte_un(current) != GIF_GRAPHICS_CONTROL_EXTENSION_SIZE) {
     return GIF_GRAPHICS_CONTROL_EXTENSION_SIZE_MISMATCH;
   }
 
-  uint8_t packed_byte = read_byte_un(current, end);
-  uint16_t delay = read_le_short_un(current, end);
-  uint8_t transparent_color_index = read_byte_un(current, end);
-  uint8_t terminator = read_byte_un(current, end);
+  uint8_t packed_byte = read_byte_un(current);
+  uint16_t delay = read_le_short_un(current);
+  uint8_t transparent_color_index = read_byte_un(current);
+  uint8_t terminator = read_byte_un(current);
   if (terminator != 0) {
     return GIF_GRAPHICS_CONTROL_EXTENSION_NULL_MISSING;
   }
