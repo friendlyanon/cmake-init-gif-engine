@@ -318,7 +318,7 @@ static gif_result_code read_image_descriptor_block(void** data,
   packed->local_color_table_flag = (packed_byte & 0b1000'0000) != 0;
   packed->interlace_flag = (packed_byte & 0b0100'0000) != 0;
   packed->sort_flag = (packed_byte & 0b0010'0000) != 0;
-  packed->size = packed_byte & 0b1000'0111;
+  packed->size = packed_byte & 0b0000'0111;
 
   if (packed->local_color_table_flag) {
     gif_result_code code = read_color_table(
