@@ -47,10 +47,10 @@ static void free_frame_vector(gif_frame_vector frame_vector,
   }
 
   for (size_t i = 0; i < size; ++i) {
-    gif_frame_data* frame_data = &frame_vector.frames[i];
-    deallocator(frame_data->local_color_table);
-    deallocator(frame_data);
+    deallocator(frame_vector.frames[i].local_color_table);
   }
+
+  deallocator(frame_vector.frames);
 }
 
 void gif_free_details(gif_details* details, gif_deallocator deallocator)
