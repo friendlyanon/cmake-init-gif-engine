@@ -24,6 +24,8 @@ typedef enum gif_result_code {
   GIF_INCORRECT_NETSCAPE_SUBBLOCK_SIZE,
   GIF_INCORRECT_NETSCAPE_SUBBLOCK_ID,
   GIF_NETSCAPE_NULL_MISSING,
+
+  GIF_IMAGE_DESCRIPTOR_MISSING,
 } gif_result_code;
 
 typedef struct gif_result {

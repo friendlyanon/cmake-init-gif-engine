@@ -390,6 +390,9 @@ gif_result_code gif_parse_impl(void** data)
         break;
       }
       case GIF_TAIL_BLOCK:
+        if (frame_index == 0) {
+          THROW(GIF_IMAGE_DESCRIPTOR_MISSING, current);
+        }
         goto tail_block;
       default:
         THROW(GIF_UNKNOWN_BLOCK, current);
