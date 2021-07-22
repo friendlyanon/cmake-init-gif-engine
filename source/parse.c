@@ -439,7 +439,7 @@ tail_block:
   _Static_assert(sizeof(void*) >= sizeof(size_t),
                  "void* should have a size greater than or equal to size_t");
   size_t leftover_bytes = end - current;
-  memcpy(*data, &leftover_bytes, sizeof(size_t));
+  memcpy(data, &leftover_bytes, sizeof(size_t));
 
   return GIF_SUCCESS;
 }
