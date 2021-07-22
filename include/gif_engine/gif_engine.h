@@ -23,8 +23,8 @@ GIF_ENGINE_EXPORT void* gif_pop_last_position(void);
 GIF_ENGINE_EXPORT gif_result gif_decode(gif_details* details,
                                         gif_allocator allocator);
 
-GIF_ENGINE_EXPORT gif_result gif_free_details(gif_details* details,
-                                              gif_deallocator deallocator);
+GIF_ENGINE_EXPORT void gif_free_details(gif_details* details,
+                                        gif_deallocator deallocator);
 
 #ifdef __cplusplus
 }  // extern "C"

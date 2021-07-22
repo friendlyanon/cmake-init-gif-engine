@@ -38,13 +38,23 @@ gif_result gif_decode(gif_details* details, gif_allocator allocator)
   };
 }
 
-gif_result gif_free_details(gif_details* details, gif_deallocator deallocator)
+static void free_frame_vector(gif_frame_vector frame_vector,
+                              gif_deallocator deallocator)
 {
-  (void)details;
-  (void)deallocator;
+  size_t size = frame_vector.size;
+  if (size == 0) {
+    return;
+  }
 
-  return (gif_result) {
-      .code = GIF_SUCCESS,
-      .data = NULL,
-  };
+  for (size_t i = 0; i < size; ++i) {
+    gif_frame_data* frame_data = &frame_vector.frames[i];
+    deallocator(frame_data->local_color_table);
+    deallocator(frame_data);
+  }
+}
+
+void gif_free_details(gif_details* details, gif_deallocator deallocator)
+{
+  deallocator(details->global_color_table);
+  free_frame_vector(details->frame_vector, deallocator);
 }
