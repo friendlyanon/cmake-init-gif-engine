@@ -86,7 +86,7 @@ static bool skip_block(uint8_t** current, uint8_t* end)
 
 enum { GIF_FRAME_VECTOR_GROWTH = 10U };
 
-static gif_result_code ensure_frame_data(size_t frame_index)
+static gif_result_code ensure_frame_data(void** data, size_t frame_index)
 {
   gif_frame_vector* frame_vector = &details_->frame_vector;
 
@@ -101,7 +101,12 @@ static gif_result_code ensure_frame_data(size_t frame_index)
     gif_frame_data* frames_allocation =
         allocator_(frame_vector->frames, byte_length);
     if (frames_allocation == NULL) {
-      return frame_vector->frames == NULL ? GIF_ALLOC_FAIL : GIF_REALLOC_FAIL;
+      if (frame_vector->frames == NULL) {
+        return GIF_ALLOC_FAIL;
+      }
+
+      *data = frame_vector->frames;
+      return GIF_REALLOC_FAIL;
     }
 
     frame_vector->capacity = new_capacity;
@@ -127,15 +132,13 @@ static gif_result_code read_graphics_control_extension(void** data,
                                                        uint8_t* end,
                                                        size_t frame_index)
 {
-  (void)data;
-
   /* The plus two comes from the length byte itself and the terminating null
    * byte */
   if ((size_t)(end - *current) < GIF_GRAPHICS_CONTROL_EXTENSION_SIZE + 2U) {
     return GIF_READ_PAST_BUFFER;
   }
 
-  gif_result_code frame_data_code = ensure_frame_data(frame_index);
+  gif_result_code frame_data_code = ensure_frame_data(data, frame_index);
   if (frame_data_code != GIF_SUCCESS) {
     return frame_data_code;
   }
@@ -290,13 +293,11 @@ static gif_result_code read_image_descriptor_block(void** data,
                                                    uint8_t* end,
                                                    size_t frame_index)
 {
-  (void)data;
-
   if ((size_t)(end - *current) < GIF_IMAGE_DESCRIPTOR_SIZE) {
     return GIF_READ_PAST_BUFFER;
   }
 
-  gif_result_code frame_data_code = ensure_frame_data(frame_index);
+  gif_result_code frame_data_code = ensure_frame_data(data, frame_index);
   if (frame_data_code != GIF_SUCCESS) {
     return frame_data_code;
   }
