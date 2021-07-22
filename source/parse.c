@@ -147,12 +147,58 @@ static gif_result_code ensure_frame_data(size_t frame_index)
   return GIF_SUCCESS;
 }
 
-static gif_result_code read_extension_block(void** data,
-                                            uint8_t** current,
-                                            uint8_t* end)
+enum { GIF_GRAPHICS_CONTROL_EXTENSION_SIZE = 4U };
+
+static gif_result_code read_graphics_control_extension(void** data,
+                                                       uint8_t** current,
+                                                       uint8_t* end,
+                                                       size_t frame_index)
 {
   (void)data;
 
+  /* The plus two comes from the length byte itself and the terminating null
+   * byte */
+  if ((size_t)(end - *current) < GIF_GRAPHICS_CONTROL_EXTENSION_SIZE + 2U) {
+    return GIF_READ_PAST_BUFFER;
+  }
+
+  gif_result_code frame_data_code = ensure_frame_data(frame_index);
+  if (frame_data_code != GIF_SUCCESS) {
+    return frame_data_code;
+  }
+
+  if (read_byte_un(current, end) != GIF_GRAPHICS_CONTROL_EXTENSION_SIZE) {
+    return GIF_GRAPHICS_CONTROL_EXTENSION_SIZE_MISMATCH;
+  }
+
+  uint8_t packed_byte = read_byte_un(current, end);
+  uint16_t delay = read_le_short_un(current, end);
+  uint8_t transparent_color_index = read_byte_un(current, end);
+  uint8_t terminator = read_byte_un(current, end);
+  if (terminator != 0) {
+    return GIF_GRAPHICS_CONTROL_EXTENSION_NULL_MISSING;
+  }
+
+  gif_graphic_extension* graphic_extension =
+      &details_->frame_vector.frames[frame_index].graphic_extension;
+  gif_graphic_extension_packed* packed = &graphic_extension->packed;
+  packed->disposal_method = (packed_byte & 0b0001'1100) >> 2;
+  packed->user_input_flag = (packed_byte & 0b0000'0010) != 0;
+  packed->transparent_color_flag = packed_byte & 0b0000'0001;
+
+  graphic_extension->delay = delay;
+  graphic_extension->transparent_color_index = transparent_color_index;
+
+  return GIF_SUCCESS;
+}
+
+static gif_result_code read_extension_block(
+    void** data,
+    uint8_t** current,
+    uint8_t* end,
+    size_t frame_index,
+    bool* seen_graphics_control_extension)
+{
   uint8_t extension_type_byte;
   if (!read_byte(current, end, &extension_type_byte)) {
     THROW(GIF_READ_PAST_BUFFER, *current);
@@ -160,6 +206,19 @@ static gif_result_code read_extension_block(void** data,
 
   gif_extension_type extension_type = (gif_extension_type)extension_type_byte;
   switch (extension_type) {
+    case GIF_GRAPHICS_CONTROL_EXTENSION: {
+      if (*seen_graphics_control_extension) {
+        THROW(GIF_MULTIPLE_GRAPHICS_CONTROL_EXTENSIONS, *current);
+      }
+      *seen_graphics_control_extension = true;
+
+      gif_result_code code =
+          read_graphics_control_extension(data, current, end, frame_index);
+      if (code != GIF_SUCCESS) {
+        THROW(code, *current);
+      }
+      break;
+    }
     case GIF_COMMENT_EXTENSION:
       /* fallthrough */
     case GIF_TEXT_EXTENSION:
@@ -176,11 +235,13 @@ static gif_result_code read_extension_block(void** data,
 
 static gif_result_code read_image_descriptor_block(void** data,
                                                    uint8_t** current,
-                                                   uint8_t* end)
+                                                   uint8_t* end,
+                                                   size_t frame_index)
 {
   (void)data;
   (void)current;
   (void)end;
+  (void)frame_index;
 
   return GIF_SUCCESS;
 }
@@ -223,6 +284,8 @@ gif_result_code gif_parse_impl(void** data)
     }
   }
 
+  size_t frame_index = 0;
+  bool seen_graphics_control_extension = false;
   while (1) {
     uint8_t block_type_byte;
     if (!read_byte(&current, end, &block_type_byte)) {
@@ -232,17 +295,21 @@ gif_result_code gif_parse_impl(void** data)
     gif_block_type block_type = (gif_block_type)block_type_byte;
     switch (block_type) {
       case GIF_EXTENSION_BLOCK: {
-        gif_result_code code = read_extension_block(data, &current, end);
+        gif_result_code code = read_extension_block(
+            data, &current, end, frame_index, &seen_graphics_control_extension);
         if (code != GIF_SUCCESS) {
           return code;
         }
         break;
       }
       case GIF_IMAGE_DESCRIPTOR_BLOCK: {
-        gif_result_code code = read_image_descriptor_block(data, &current, end);
+        gif_result_code code =
+            read_image_descriptor_block(data, &current, end, frame_index);
         if (code != GIF_SUCCESS) {
           return code;
         }
+        ++frame_index;
+        seen_graphics_control_extension = false;
         break;
       }
       case GIF_TAIL_BLOCK:
