@@ -283,16 +283,70 @@ static gif_result_code read_extension_block(
   return GIF_SUCCESS;
 }
 
+enum { GIF_IMAGE_DESCRIPTOR_SIZE = 9U };
+
 static gif_result_code read_image_descriptor_block(void** data,
                                                    uint8_t** current,
                                                    uint8_t* end,
                                                    size_t frame_index)
 {
   (void)data;
-  (void)current;
-  (void)end;
-  (void)frame_index;
 
+  if ((size_t)(end - *current) < GIF_IMAGE_DESCRIPTOR_SIZE) {
+    return GIF_READ_PAST_BUFFER;
+  }
+
+  gif_result_code frame_data_code = ensure_frame_data(frame_index);
+  if (frame_data_code != GIF_SUCCESS) {
+    return frame_data_code;
+  }
+
+  gif_frame_data* frame_data = &details_->frame_vector.frames[frame_index];
+  gif_frame_descriptor* descriptor = &frame_data->descriptor;
+  descriptor->left = read_le_short_un(current);
+  descriptor->top = read_le_short_un(current);
+  descriptor->width = read_le_short_un(current);
+  descriptor->height = read_le_short_un(current);
+
+  uint8_t packed_byte = read_byte_un(current);
+  gif_frame_descriptor_packed* packed = &descriptor->packed;
+  packed->local_color_table_flag = (packed_byte & 0b1000'0000) != 0;
+  packed->interlace_flag = (packed_byte & 0b0100'0000) != 0;
+  packed->sort_flag = (packed_byte & 0b0010'0000) != 0;
+  packed->size = packed_byte & 0b1000'0111;
+
+  if (packed->local_color_table_flag) {
+    gif_result_code code = read_color_table(
+        current, end, &frame_data->local_color_table, packed->size, allocator_);
+    if (code != GIF_SUCCESS) {
+      return code;
+    }
+  }
+
+  uint8_t min_code_size;
+  if (!read_byte(current, end, &min_code_size)) {
+    return GIF_READ_PAST_BUFFER;
+  }
+
+  uint8_t* first_subblock = *current + 1;
+  size_t data_length = 0;
+  while (1) {
+    uint8_t subblock_size;
+    if (!read_byte(current, end, &subblock_size)) {
+      return GIF_READ_PAST_BUFFER;
+    }
+    if (subblock_size == 0) {
+      break;
+    }
+    if (!skip_bytes(current, end, subblock_size)) {
+      return GIF_READ_PAST_BUFFER;
+    }
+    data_length += subblock_size;
+  }
+
+  frame_data->min_code_size = min_code_size;
+  frame_data->first_subblock = first_subblock;
+  frame_data->data_length = data_length;
   return GIF_SUCCESS;
 }
 
