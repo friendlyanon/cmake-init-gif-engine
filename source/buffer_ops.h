@@ -4,6 +4,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include "gif_engine/gif_engine.h"
+
 typedef enum compare_result {
   CMP_OOB,
   CMP_EQ,
@@ -69,3 +71,14 @@ bool read_bytes(uint8_t** begin, uint8_t* end, uint8_t* buffer, size_t count);
  * @return 32 bit integer in the \c 0x00RRGGBB format that encodes an RGB color
  */
 uint32_t read_color_un(uint8_t** buffer);
+
+/**
+ * Reads a color table. This function will advance the pointer pointed to by \c
+ * begin by <tt>(2 &lt;&lt; size) * 3</tt>. The allocated color table will be
+ * output via the \c destination parameter.
+ */
+gif_result_code read_color_table(uint8_t** begin,
+                                 uint8_t* end,
+                                 uint32_t** destination,
+                                 uint8_t size,
+                                 gif_allocator allocator);

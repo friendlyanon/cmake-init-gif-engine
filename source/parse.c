@@ -61,33 +61,6 @@ static bool read_descriptor(uint8_t** begin, uint8_t* end)
   return true;
 }
 
-static size_t size_to_count(uint8_t size)
-{
-  assert(size < 8U);
-  return 2ULL << size;
-}
-
-static gif_result_code read_global_color_table(uint8_t** begin, uint8_t* end)
-{
-  size_t color_count = size_to_count(details_->descriptor.packed.size);
-  size_t color_bytes = color_count * 3;
-  if ((size_t)(end - *begin) < color_bytes) {
-    return GIF_READ_PAST_BUFFER;
-  }
-
-  uint32_t* buffer = allocator_(NULL, color_bytes * sizeof(uint32_t));
-  if (buffer == NULL) {
-    return GIF_ALLOC_FAIL;
-  }
-
-  for (size_t i = 0; i < color_count; ++i) {
-    buffer[i] = read_color_un(begin);
-  }
-
-  details_->global_color_table = buffer;
-  return GIF_SUCCESS;
-}
-
 typedef enum gif_extension_type {
   GIF_GRAPHICS_CONTROL_EXTENSION = 0xF9,
   GIF_APPLICATION_EXTENSION = 0xFF,
@@ -355,7 +328,11 @@ gif_result_code gif_parse_impl(void** data)
   }
 
   if (details_->descriptor.packed.global_color_table_flag) {
-    gif_result_code code = read_global_color_table(&current, end);
+    gif_result_code code = read_color_table(&current,
+                                            end,
+                                            &details_->global_color_table,
+                                            details_->descriptor.packed.size,
+                                            allocator_);
     if (code != GIF_SUCCESS) {
       THROW(code, current);
     }
