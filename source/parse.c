@@ -111,6 +111,42 @@ static bool skip_block(uint8_t** current, uint8_t* end)
   }
 }
 
+enum { GIF_FRAME_VECTOR_GROWTH = 10U };
+
+static gif_result_code ensure_frame_data(size_t frame_index)
+{
+  gif_frame_vector* frame_vector = &details_->frame_vector;
+
+  /* Sanity check: ensure_frame_data should be called with monotonically
+   * non-decreasing indexes */
+  size_t capacity = frame_vector->capacity;
+  assert(frame_index <= capacity);
+
+  if (capacity == frame_index) {
+    size_t new_capacity = capacity + GIF_FRAME_VECTOR_GROWTH;
+    size_t byte_length = sizeof(gif_frame_data) * new_capacity;
+    gif_frame_data* frames_allocation =
+        allocator_(frame_vector->frames, byte_length);
+    if (frames_allocation == NULL) {
+      return frame_vector->frames == NULL ? GIF_ALLOC_FAIL : GIF_REALLOC_FAIL;
+    }
+
+    frame_vector->capacity = new_capacity;
+    frame_vector->frames = frames_allocation;
+  }
+
+  /* Same sanity check as above */
+  size_t size = frame_vector->size;
+  assert(frame_index == size || frame_index == size - 1);
+
+  if (frame_index == size) {
+    memset(&frame_vector->frames[size], 0, sizeof(gif_frame_data));
+    frame_vector->size = size + 1;
+  }
+
+  return GIF_SUCCESS;
+}
+
 static gif_result_code read_extension_block(void** data,
                                             uint8_t** current,
                                             uint8_t* end)

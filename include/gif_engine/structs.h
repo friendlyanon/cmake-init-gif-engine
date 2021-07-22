@@ -79,6 +79,12 @@ typedef struct gif_frame_data {
   uint8_t* first_subblock;
 } gif_frame_data;
 
+typedef struct gif_frame_vector {
+  gif_frame_data* frames;
+  size_t size;
+  size_t capacity;
+} gif_frame_vector;
+
 typedef struct gif_details {
   gif_descriptor descriptor;
 
@@ -86,8 +92,7 @@ typedef struct gif_details {
 
   uint16_t repeat_count;
 
-  gif_frame_data* frames;
-  size_t frames_size;
+  gif_frame_vector frame_vector;
 
   uint8_t* raw_data;
   size_t raw_data_size;
