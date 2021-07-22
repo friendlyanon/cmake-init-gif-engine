@@ -197,14 +197,14 @@ static gif_result_code read_application_extension(uint8_t** current,
 
   bool is_netscape_extension =
       memcmp(*current, netscape_identifier, GIF_APPLICATION_IDENTIFIER_SIZE)
-      != 0;
+      == 0;
   if (!is_netscape_extension) {
     return GIF_NOT_A_NETSCAPE_EXTENSION;
   }
   *current += GIF_APPLICATION_IDENTIFIER_SIZE;
 
   bool is_netscape_20_extension =
-      memcmp(*current, netscape_auth_code, GIF_APPLICATION_AUTH_CODE_SIZE) != 0;
+      memcmp(*current, netscape_auth_code, GIF_APPLICATION_AUTH_CODE_SIZE) == 0;
   if (!is_netscape_20_extension) {
     return GIF_NOT_A_NETSCAPE_20_EXTENSION;
   }
