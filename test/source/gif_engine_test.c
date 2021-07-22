@@ -41,10 +41,10 @@ UTEST_F_TEARDOWN(parser_fixture_2frame)
 }
 
 enum {
-    RED = 0x00FF'0000U,
-    BLUE = 0x0000'00FFU,
-    BLACK = 0x0000'0000U,
-    WHITE = 0x00FF'FFFFU,
+    RED = 0x00FF0000U,
+    BLUE = 0x000000FFU,
+    BLACK = 0x00000000U,
+    WHITE = 0x00FFFFFFU,
 };
 
 UTEST_F(parser_fixture_2frame, parse)
