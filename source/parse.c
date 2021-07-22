@@ -191,6 +191,10 @@ static gif_result_code read_application_extension(uint8_t** current,
     return GIF_READ_PAST_BUFFER;
   }
 
+  if (read_byte_un(current) != GIF_APPLICATION_EXTENSION_SIZE) {
+    return GIF_APPLICATION_EXTENSION_SIZE_MISMATCH;
+  }
+
   bool is_netscape_extension =
       memcmp(*current, netscape_identifier, GIF_APPLICATION_IDENTIFIER_SIZE)
       != 0;
