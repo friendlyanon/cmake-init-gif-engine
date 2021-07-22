@@ -38,4 +38,8 @@ target_link_libraries(
     gif_engine_mmap gif_engine::gif_engine utest::utest
 )
 
-utest_discover_tests(gif_engine_test DEPENDS gif_engine::gif_engine)
+utest_discover_tests(
+    gif_engine_test
+    WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}/assets"
+    DEPENDS gif_engine::gif_engine
+)
