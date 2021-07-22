@@ -50,10 +50,10 @@ static bool read_descriptor(uint8_t** begin, uint8_t* end)
 
   uint8_t packed_byte = read_byte_un(begin);
   gif_descriptor_packed* packed = &descriptor->packed;
-  packed->global_color_table_flag = (packed_byte & 0b10000000) != 0;
-  packed->color_resolution = (packed_byte & 0b01110000) >> 4;
-  packed->sort_flag = (packed_byte & 0b00001000) != 0;
-  packed->size = packed_byte & 0b00000111;
+  packed->global_color_table_flag = (packed_byte & 128) != 0;
+  packed->color_resolution = (packed_byte & 112) >> 4;
+  packed->sort_flag = (packed_byte & 8) != 0;
+  packed->size = packed_byte & 7;
 
   descriptor->background_color_index = read_byte_un(begin);
   descriptor->pixel_aspect_ratio = read_byte_un(begin);
@@ -158,9 +158,9 @@ static gif_result_code read_graphics_control_extension(void** data,
   gif_graphic_extension* graphic_extension =
       &details_->frame_vector.frames[frame_index].graphic_extension;
   gif_graphic_extension_packed* packed = &graphic_extension->packed;
-  packed->disposal_method = (packed_byte & 0b00011100) >> 2;
-  packed->user_input_flag = (packed_byte & 0b00000010) != 0;
-  packed->transparent_color_flag = packed_byte & 0b00000001;
+  packed->disposal_method = (packed_byte & 28) >> 2;
+  packed->user_input_flag = (packed_byte & 2) != 0;
+  packed->transparent_color_flag = packed_byte & 1;
 
   graphic_extension->delay = delay;
   graphic_extension->transparent_color_index = transparent_color_index;
@@ -315,10 +315,10 @@ static gif_result_code read_image_descriptor_block(void** data,
 
   uint8_t packed_byte = read_byte_un(current);
   gif_frame_descriptor_packed* packed = &descriptor->packed;
-  packed->local_color_table_flag = (packed_byte & 0b10000000) != 0;
-  packed->interlace_flag = (packed_byte & 0b01000000) != 0;
-  packed->sort_flag = (packed_byte & 0b00100000) != 0;
-  packed->size = packed_byte & 0b00000111;
+  packed->local_color_table_flag = (packed_byte & 128) != 0;
+  packed->interlace_flag = (packed_byte & 64) != 0;
+  packed->sort_flag = (packed_byte & 32) != 0;
+  packed->size = packed_byte & 7;
 
   if (packed->local_color_table_flag) {
     gif_result_code code = read_color_table(
