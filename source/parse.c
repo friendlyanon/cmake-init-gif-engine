@@ -192,6 +192,76 @@ static gif_result_code read_graphics_control_extension(void** data,
   return GIF_SUCCESS;
 }
 
+enum {
+    GIF_APPLICATION_EXTENSION_SIZE = 11U,
+    GIF_APPLICATION_IDENTIFIER_SIZE = 8U,
+    GIF_APPLICATION_AUTH_CODE_SIZE = 3U,
+    GIF_NETSCAPE_SUBBLOCK_SIZE = 3U,
+    GIF_NETSCAPE_SUBBLOCK_ID = 1U,
+};
+
+static uint8_t netscape_identifier[GIF_APPLICATION_IDENTIFIER_SIZE] = {
+    'N', 'E', 'T', 'S', 'C', 'A', 'P', 'E'};
+
+static uint8_t netscape_auth_code[GIF_APPLICATION_AUTH_CODE_SIZE] = {
+    '2', '.', '0'};
+
+static gif_result_code read_application_extension(uint8_t** current,
+                                                  uint8_t* end)
+{
+  /* The plus two comes from the length byte itself and the subblock length
+   * byte, which could potentially be the terminating null byte */
+  if ((size_t)(end - *current) < GIF_APPLICATION_EXTENSION_SIZE + 2U) {
+    return GIF_READ_PAST_BUFFER;
+  }
+
+  bool is_netscape_extension =
+      memcmp(*current, netscape_identifier, GIF_APPLICATION_IDENTIFIER_SIZE)
+      != 0;
+  if (!is_netscape_extension) {
+    return GIF_NOT_A_NETSCAPE_EXTENSION;
+  }
+  *current += GIF_APPLICATION_IDENTIFIER_SIZE;
+
+  bool is_netscape_20_extension =
+      memcmp(*current, netscape_auth_code, GIF_APPLICATION_AUTH_CODE_SIZE) != 0;
+  if (!is_netscape_20_extension) {
+    return GIF_NOT_A_NETSCAPE_20_EXTENSION;
+  }
+  *current += GIF_APPLICATION_AUTH_CODE_SIZE;
+
+  uint8_t subblock_length = read_byte_un(current);
+  if (subblock_length != GIF_NETSCAPE_SUBBLOCK_SIZE) {
+    return GIF_INCORRECT_NETSCAPE_SUBBLOCK_SIZE;
+  }
+
+  uint8_t subblock_id;
+  if (!read_byte(current, end, &subblock_id)) {
+    return GIF_READ_PAST_BUFFER;
+  }
+
+  if (subblock_id != GIF_NETSCAPE_SUBBLOCK_ID) {
+    return GIF_INCORRECT_NETSCAPE_SUBBLOCK_ID;
+  }
+
+  uint16_t repeat_count;
+  if (!read_le_short(current, end, &repeat_count)) {
+    return GIF_READ_PAST_BUFFER;
+  }
+
+  uint8_t terminator_byte;
+  if (!read_byte(current, end, &terminator_byte)) {
+    return GIF_READ_PAST_BUFFER;
+  }
+
+  if (terminator_byte != 0) {
+    return GIF_NETSCAPE_NULL_MISSING;
+  }
+
+  details_->repeat_count = repeat_count;
+  return GIF_SUCCESS;
+}
+
 static gif_result_code read_extension_block(
     void** data,
     uint8_t** current,
@@ -214,6 +284,13 @@ static gif_result_code read_extension_block(
 
       gif_result_code code =
           read_graphics_control_extension(data, current, end, frame_index);
+      if (code != GIF_SUCCESS) {
+        THROW(code, *current);
+      }
+      break;
+    }
+    case GIF_APPLICATION_EXTENSION: {
+      gif_result_code code = read_application_extension(current, end);
       if (code != GIF_SUCCESS) {
         THROW(code, *current);
       }
