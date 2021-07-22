@@ -154,7 +154,7 @@ bool gif_mmap_deallocate(gif_mmap_span* span)
     return false;
   }
 
-  HANDLE* cleanup_data = &span->cleanup_data;
+  HANDLE* cleanup_data = span->cleanup_data;
   for (size_t i = 0; i < CLEANUP_SIZE; ++i) {
     if (CloseHandle(cleanup_data[i]) == 0) {
       return false;
