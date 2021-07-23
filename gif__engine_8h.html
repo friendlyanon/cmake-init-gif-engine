@@ -66,8 +66,8 @@
         <section id="typedef-members">
           <h2><a href="#typedef-members">Typedefs</a></h2>
           <dl class="m-doc">
-            <dt id="ab74024ca273d97ce898f0c363e595979">
-              using <a href="#ab74024ca273d97ce898f0c363e595979" class="m-doc-self">gif_allocator</a> = void*(*)(size_t size)
+            <dt id="adebdc5ece010255aafbd17e93baa4c06">
+              using <a href="#adebdc5ece010255aafbd17e93baa4c06" class="m-doc-self">gif_allocator</a> = void*(*)(void*pointer, size_t size)
             </dt>
             <dd><span></span></dd>
             <dt id="ae3043d47758bf1da6556deb0213fa4b8">
@@ -83,17 +83,21 @@
               <span class="m-doc-wrap-bumper">auto <a href="#ad872f5f024716f43bbb1d6694a8f6bc4" class="m-doc-self">gif_parse</a>(</span><span class="m-doc-wrap">uint8_t* buffer,
               size_t buffer_size,
               <a href="structgif__details.html" class="m-doc">gif_<wbr />details</a>* details,
-              <a href="gif__engine_8h.html#ab74024ca273d97ce898f0c363e595979" class="m-doc">gif_<wbr />allocator</a> allocator) -&gt; <a href="structgif__result.html" class="m-doc">gif_<wbr />result</a></span>
+              <a href="gif__engine_8h.html#adebdc5ece010255aafbd17e93baa4c06" class="m-doc">gif_<wbr />allocator</a> allocator) -&gt; <a href="structgif__result.html" class="m-doc">gif_<wbr />result</a></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="aa0394b85f9f0cff1cba14f286839aad4">
+              <span class="m-doc-wrap-bumper">auto <a href="#aa0394b85f9f0cff1cba14f286839aad4" class="m-doc-self">gif_pop_last_position</a>(</span><span class="m-doc-wrap">void) -&gt; void*</span>
             </dt>
             <dd><span></span></dd>
             <dt id="a39edbe0abccbd6d8728db1f733f305ad">
               <span class="m-doc-wrap-bumper">auto <a href="#a39edbe0abccbd6d8728db1f733f305ad" class="m-doc-self">gif_decode</a>(</span><span class="m-doc-wrap"><a href="structgif__details.html" class="m-doc">gif_<wbr />details</a>* details,
-              <a href="gif__engine_8h.html#ab74024ca273d97ce898f0c363e595979" class="m-doc">gif_<wbr />allocator</a> allocator) -&gt; <a href="structgif__result.html" class="m-doc">gif_<wbr />result</a></span>
+              <a href="gif__engine_8h.html#adebdc5ece010255aafbd17e93baa4c06" class="m-doc">gif_<wbr />allocator</a> allocator) -&gt; <a href="structgif__result.html" class="m-doc">gif_<wbr />result</a></span>
             </dt>
             <dd><span></span></dd>
-            <dt id="ab0d5bfe74c3cde843870d7cb270149d8">
-              <span class="m-doc-wrap-bumper">auto <a href="#ab0d5bfe74c3cde843870d7cb270149d8" class="m-doc-self">gif_free_details</a>(</span><span class="m-doc-wrap"><a href="structgif__details.html" class="m-doc">gif_<wbr />details</a>* details,
-              <a href="gif__engine_8h.html#ae3043d47758bf1da6556deb0213fa4b8" class="m-doc">gif_<wbr />deallocator</a> deallocator) -&gt; <a href="structgif__result.html" class="m-doc">gif_<wbr />result</a></span>
+            <dt id="abd6964717c2a34b645263477e9de4712">
+              <span class="m-doc-wrap-bumper">void <a href="#abd6964717c2a34b645263477e9de4712" class="m-doc-self">gif_free_details</a>(</span><span class="m-doc-wrap"><a href="structgif__details.html" class="m-doc">gif_<wbr />details</a>* details,
+              <a href="gif__engine_8h.html#ae3043d47758bf1da6556deb0213fa4b8" class="m-doc">gif_<wbr />deallocator</a> deallocator)</span>
             </dt>
             <dd><span></span></dd>
           </dl>

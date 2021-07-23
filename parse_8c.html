@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>source/parse.c file | gif_engine</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
+  <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
+  <link rel="icon" href="favicon-dark.png" type="image/png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#22272e" />
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <a href="index.html" id="m-navbar-brand" class="m-col-t-8 m-col-m-none m-left-m">gif_engine</a>
+      <div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
+        <a href="#search" class="m-doc-search-icon" title="Search" onclick="return showSearch()"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+          <path id="m-doc-search-icon-path" d="m6 0c-3.31 0-6 2.69-6 6 0 3.31 2.69 6 6 6 1.49 0 2.85-0.541 3.89-1.44-0.0164 0.338 0.147 0.759 0.5 1.15l3.22 3.79c0.552 0.614 1.45 0.665 2 0.115 0.55-0.55 0.499-1.45-0.115-2l-3.79-3.22c-0.392-0.353-0.812-0.515-1.15-0.5 0.895-1.05 1.44-2.41 1.44-3.89 0-3.31-2.69-6-6-6zm0 1.56a4.44 4.44 0 0 1 4.44 4.44 4.44 4.44 0 0 1-4.44 4.44 4.44 4.44 0 0 1-4.44-4.44 4.44 4.44 0 0 1 4.44-4.44z"/>
+        </svg></a>
+        <a id="m-navbar-show" href="#navigation" title="Show navigation"></a>
+        <a id="m-navbar-hide" href="#" title="Hide navigation"></a>
+      </div>
+      <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
+        <div class="m-row">
+          <ol class="m-col-t-6 m-col-m-none">
+            <li>
+              <a href="pages.html">Pages</a>
+              <ol>
+                <li><a href="about.html">About</a></li>
+              </ol>
+            </li>
+          </ol>
+          <ol class="m-col-t-6 m-col-m-none" start="2">
+            <li><a href="annotated.html">Classes</a></li>
+            <li><a href="files.html">Files</a></li>
+            <li class="m-show-m"><a href="#search" class="m-doc-search-icon" title="Search" onclick="return showSearch()"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+              <use href="#m-doc-search-icon-path" />
+            </svg></a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main><article>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <h1>
+          <span class="m-breadcrumb"><a href="dir_b2f33c71d4aa5e7af42a1ca61ff5af1b.html">source</a>/</span>parse.c <span class="m-thin">file</span>
+        </h1>
+        <p><span></span></p>
+        <div class="m-block m-default">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#enum-members">Enums</a></li>
+                <li><a href="#typedef-members">Typedefs</a></li>
+                <li><a href="#func-members">Functions</a></li>
+                <li><a href="#var-members">Variables</a></li>
+                <li><a href="#define-members">Defines</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <section id="enum-members">
+          <h2><a href="#enum-members">Enums</a></h2>
+          <dl class="m-doc">
+            <dt id="a06fc87d81c62e9abb8790b6e5713c55b">
+              <span class="m-doc-wrap-bumper">enum <a href="#a06fc87d81c62e9abb8790b6e5713c55b" class="m-doc-self">(anonymous)</a> { </span><span class="m-doc-wrap"><a href="#a06fc87d81c62e9abb8790b6e5713c55ba6fb8995186c164b2a068e1bf2a74d36a" class="m-doc">LOGICAL_SCREEN_DESCRIPTOR_SIZE</a> = 7U }</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a58b143cb137536c5913cfe55ade6f935">
+              <span class="m-doc-wrap-bumper">enum <a href="#a58b143cb137536c5913cfe55ade6f935" class="m-doc-self">gif_extension_type</a> { </span><span class="m-doc-wrap"><a href="#a58b143cb137536c5913cfe55ade6f935a17d35461a6c716a8c4b574ecc2599405" class="m-doc">GIF_GRAPHICS_CONTROL_EXTENSION</a> = 0xF9,
+              <a href="#a58b143cb137536c5913cfe55ade6f935acd0c4891052cbe5ab395c650ed2ee0b6" class="m-doc">GIF_APPLICATION_EXTENSION</a> = 0xFF,
+              <a href="#a58b143cb137536c5913cfe55ade6f935a2defd30bab85b1c17914b9ec13ee25ce" class="m-doc">GIF_COMMENT_EXTENSION</a> = 0xFE,
+              <a href="#a58b143cb137536c5913cfe55ade6f935ac113a8d04671fabc2f65edc3a5937d41" class="m-doc">GIF_TEXT_EXTENSION</a> = 0x01 }</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="adf764cbdea00d65edcd07bb9953ad2b7">
+              <span class="m-doc-wrap-bumper">enum <a href="#adf764cbdea00d65edcd07bb9953ad2b7" class="m-doc-self">(anonymous)</a> { </span><span class="m-doc-wrap"><a href="#adf764cbdea00d65edcd07bb9953ad2b7a17e8cc4fb4353f9a742aad8ec5637ec4" class="m-doc">GIF_FRAME_VECTOR_GROWTH</a> = 10U }</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a99fb83031ce9923c84392b4e92f956b5">
+              <span class="m-doc-wrap-bumper">enum <a href="#a99fb83031ce9923c84392b4e92f956b5" class="m-doc-self">(anonymous)</a> { </span><span class="m-doc-wrap"><a href="#a99fb83031ce9923c84392b4e92f956b5a6bb53012483e1f106805fd883164c8f8" class="m-doc">GIF_GRAPHICS_CONTROL_EXTENSION_SIZE</a> = 4U }</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="abc6126af1d45847bc59afa0aa3216b04">
+              <span class="m-doc-wrap-bumper">enum <a href="#abc6126af1d45847bc59afa0aa3216b04" class="m-doc-self">(anonymous)</a> { </span><span class="m-doc-wrap"><a href="#abc6126af1d45847bc59afa0aa3216b04ade88c8ed6c128a5462b9daf59bfac42c" class="m-doc">GIF_APPLICATION_EXTENSION_SIZE</a> = 11U,
+              <a href="#abc6126af1d45847bc59afa0aa3216b04ae7c938c01b78b9c97f02a650648faae6" class="m-doc">GIF_APPLICATION_IDENTIFIER_SIZE</a> = 8U,
+              <a href="#abc6126af1d45847bc59afa0aa3216b04ac7ff1386fec855513d80ff7f846202dd" class="m-doc">GIF_APPLICATION_AUTH_CODE_SIZE</a> = 3U,
+              <a href="#abc6126af1d45847bc59afa0aa3216b04a2d1b4c4a7b5b29ffe5f8ff7e9c81f033" class="m-doc">GIF_NETSCAPE_SUBBLOCK_SIZE</a> = 3U,
+              <a href="#abc6126af1d45847bc59afa0aa3216b04a283d4140c2f8d57dc1c9639682d6462d" class="m-doc">GIF_NETSCAPE_SUBBLOCK_ID</a> = 1U }</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="adc29c2ff13d900c2f185ee95427fb06c">
+              <span class="m-doc-wrap-bumper">enum <a href="#adc29c2ff13d900c2f185ee95427fb06c" class="m-doc-self">(anonymous)</a> { </span><span class="m-doc-wrap"><a href="#adc29c2ff13d900c2f185ee95427fb06ca6b8cee7e6d8d25c6965c4c31f82e6832" class="m-doc">GIF_IMAGE_DESCRIPTOR_SIZE</a> = 9U }</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a36e3aae2a0bb2ebb326f06300003dee2">
+              <span class="m-doc-wrap-bumper">enum <a href="#a36e3aae2a0bb2ebb326f06300003dee2" class="m-doc-self">gif_block_type</a> { </span><span class="m-doc-wrap"><a href="#a36e3aae2a0bb2ebb326f06300003dee2a4776e4cf2601eb3fa1013555d6a9171c" class="m-doc">GIF_EXTENSION_BLOCK</a> = 0x21,
+              <a href="#a36e3aae2a0bb2ebb326f06300003dee2ae2f9d17c2f1e36ccc4f0addc1e49954d" class="m-doc">GIF_IMAGE_DESCRIPTOR_BLOCK</a> = 0x2C,
+              <a href="#a36e3aae2a0bb2ebb326f06300003dee2abbb96b5a630ab5ff2260868699fa0d44" class="m-doc">GIF_TAIL_BLOCK</a> = 0x3B }</span>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="typedef-members">
+          <h2><a href="#typedef-members">Typedefs</a></h2>
+          <dl class="m-doc">
+            <dt id="a9b9de8cbd8ebda98ad40dee90312e5d7">
+              using <a href="#a9b9de8cbd8ebda98ad40dee90312e5d7" class="m-doc-self">gif_extension_type</a> = enum <a href="parse_8c.html#a58b143cb137536c5913cfe55ade6f935" class="m-doc">gif_<wbr />extension_<wbr />type</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a0b13181ae7931b8cdee3eaddb7da301b">
+              using <a href="#a0b13181ae7931b8cdee3eaddb7da301b" class="m-doc-self">gif_block_type</a> = enum <a href="parse_8c.html#a36e3aae2a0bb2ebb326f06300003dee2" class="m-doc">gif_<wbr />block_<wbr />type</a>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="func-members">
+          <h2><a href="#func-members">Functions</a></h2>
+          <dl class="m-doc">
+            <dt id="a674be315b0d1eb4f381b0830b623eee7">
+              <span class="m-doc-wrap-bumper">void <a href="#a674be315b0d1eb4f381b0830b623eee7" class="m-doc-self">gif_parse_detail_set_globals</a>(</span><span class="m-doc-wrap">uint8_t* buffer,
+              size_t buffer_size,
+              <a href="structgif__details.html" class="m-doc">gif_<wbr />details</a>* details,
+              <a href="gif__engine_8h.html#adebdc5ece010255aafbd17e93baa4c06" class="m-doc">gif_<wbr />allocator</a> allocator)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="aceceb9dbe4d4386d0a855b99131a9851">
+              <span class="m-doc-wrap-bumper">static auto <a href="#aceceb9dbe4d4386d0a855b99131a9851" class="m-doc-self">is_gif_file</a>(</span><span class="m-doc-wrap">uint8_t** begin,
+              uint8_t* end) -&gt; <a href="buffer__ops_8h.html#a8fbd6dceec7bf13cba06c903c025429b" class="m-doc">compare_<wbr />result</a></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="add1aed146b8e93676dc5e39868ba1b22">
+              <span class="m-doc-wrap-bumper">static auto <a href="#add1aed146b8e93676dc5e39868ba1b22" class="m-doc-self">is_gif_version_supported</a>(</span><span class="m-doc-wrap">uint8_t** begin,
+              uint8_t* end) -&gt; <a href="buffer__ops_8h.html#a8fbd6dceec7bf13cba06c903c025429b" class="m-doc">compare_<wbr />result</a></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="ad822aa03727160a0866fc157ce05fa9f">
+              <span class="m-doc-wrap-bumper">static auto <a href="#ad822aa03727160a0866fc157ce05fa9f" class="m-doc-self">read_descriptor</a>(</span><span class="m-doc-wrap">uint8_t** begin,
+              uint8_t* end) -&gt; bool</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="abcec00de9634a42f54c29e330050d51b">
+              <span class="m-doc-wrap-bumper">static auto <a href="#abcec00de9634a42f54c29e330050d51b" class="m-doc-self">skip_block</a>(</span><span class="m-doc-wrap">uint8_t** current,
+              uint8_t* end) -&gt; bool</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="adaf77ff4570c4f03fedd8e7a60e6926c">
+              <span class="m-doc-wrap-bumper">static auto <a href="#adaf77ff4570c4f03fedd8e7a60e6926c" class="m-doc-self">ensure_frame_data</a>(</span><span class="m-doc-wrap">void** data,
+              size_t frame_index) -&gt; <a href="error_8h.html#a4e23027c2fedeb9dfec028d3978861e1" class="m-doc">gif_<wbr />result_<wbr />code</a></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a57e4eb95b87bb6da6b4db03fcbcca608">
+              <span class="m-doc-wrap-bumper">static auto <a href="#a57e4eb95b87bb6da6b4db03fcbcca608" class="m-doc-self">read_graphics_control_extension</a>(</span><span class="m-doc-wrap">void** data,
+              uint8_t** current,
+              uint8_t* end,
+              size_t frame_index) -&gt; <a href="error_8h.html#a4e23027c2fedeb9dfec028d3978861e1" class="m-doc">gif_<wbr />result_<wbr />code</a></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a58a8af6b48fc73faeed737f57e9294fe">
+              <span class="m-doc-wrap-bumper">static auto <a href="#a58a8af6b48fc73faeed737f57e9294fe" class="m-doc-self">read_application_extension</a>(</span><span class="m-doc-wrap">uint8_t** current,
+              uint8_t* end) -&gt; <a href="error_8h.html#a4e23027c2fedeb9dfec028d3978861e1" class="m-doc">gif_<wbr />result_<wbr />code</a></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a54b2ba2ad41281d993113f76639dcb46">
+              <span class="m-doc-wrap-bumper">static auto <a href="#a54b2ba2ad41281d993113f76639dcb46" class="m-doc-self">read_extension_block</a>(</span><span class="m-doc-wrap">void** data,
+              uint8_t** current,
+              uint8_t* end,
+              size_t frame_index,
+              bool* seen_graphics_control_extension) -&gt; <a href="error_8h.html#a4e23027c2fedeb9dfec028d3978861e1" class="m-doc">gif_<wbr />result_<wbr />code</a></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="ae10b4569eab9b39b9a2473ac03c500e1">
+              <span class="m-doc-wrap-bumper">static auto <a href="#ae10b4569eab9b39b9a2473ac03c500e1" class="m-doc-self">read_image_descriptor_block</a>(</span><span class="m-doc-wrap">void** data,
+              uint8_t** current,
+              uint8_t* end,
+              size_t frame_index) -&gt; <a href="error_8h.html#a4e23027c2fedeb9dfec028d3978861e1" class="m-doc">gif_<wbr />result_<wbr />code</a></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a9567a3d450cd41073194a42f89722b56">
+              <span class="m-doc-wrap-bumper">auto <a href="#a9567a3d450cd41073194a42f89722b56" class="m-doc-self">gif_parse_impl</a>(</span><span class="m-doc-wrap">void** data) -&gt; <a href="error_8h.html#a4e23027c2fedeb9dfec028d3978861e1" class="m-doc">gif_<wbr />result_<wbr />code</a></span>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="var-members">
+          <h2><a href="#var-members">Variables</a></h2>
+          <dl class="m-doc">
+            <dt id="a322d1ba3f8e09141839a4de82e090247">
+              static uint8_t* <a href="#a322d1ba3f8e09141839a4de82e090247" class="m-doc-self">buffer_</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a90885179571d53ea75787cd50737478c">
+              static size_t <a href="#a90885179571d53ea75787cd50737478c" class="m-doc-self">buffer_size_</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a88ab2f1e244b29a262def2f5f70ba544">
+              static <a href="structgif__details.html" class="m-doc">gif_<wbr />details</a>* <a href="#a88ab2f1e244b29a262def2f5f70ba544" class="m-doc-self">details_</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a4d9d3cb45c42f90b82651f54e8bc1362">
+              static <a href="gif__engine_8h.html#adebdc5ece010255aafbd17e93baa4c06" class="m-doc">gif_<wbr />allocator</a> <a href="#a4d9d3cb45c42f90b82651f54e8bc1362" class="m-doc-self">allocator_</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a20e210b7ffe557b479b27071a92b0102">
+              static uint8_t <a href="#a20e210b7ffe557b479b27071a92b0102" class="m-doc-self">magic</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a1596aa76704be32a035b45397ac41359">
+              static uint8_t <a href="#a1596aa76704be32a035b45397ac41359" class="m-doc-self">gif_version</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a3d2501ed279542d25b15702709aa36c6">
+              static uint8_t <a href="#a3d2501ed279542d25b15702709aa36c6" class="m-doc-self">netscape_identifier</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="acfa85a28ce0298f795ff9aae943e5ce9">
+              static uint8_t <a href="#acfa85a28ce0298f795ff9aae943e5ce9" class="m-doc-self">netscape_auth_code</a>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="define-members">
+          <h2><a href="#define-members">Defines</a></h2>
+          <dl class="m-doc">
+            <dt id="a776957671ba631a6be74cd66664c43c4">
+              <span class="m-doc-wrap-bumper">#define <a href="#a776957671ba631a6be74cd66664c43c4" class="m-doc-self">CONST_CHECK</a>(</span><span class="m-doc-wrap">predicate,
+              fail_code)</span>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+      </div>
+    </div>
+  </div>
+</article></main>
+<div class="m-doc-search" id="search">
+  <a href="#!" onclick="return hideSearch()"></a>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-m-8 m-push-m-2">
+        <div class="m-doc-search-header m-text m-small">
+          <div><span class="m-label m-default">Tab</span> / <span class="m-label m-default">T</span> to search, <span class="m-label m-default">Esc</span> to close</div>
+          <div id="search-symbolcount">&hellip;</div>
+        </div>
+        <div class="m-doc-search-content">
+          <form>
+            <input type="search" name="q" id="search-input" placeholder="Loading &hellip;" disabled="disabled" autofocus="autofocus" autocomplete="off" spellcheck="false" />
+          </form>
+          <noscript class="m-text m-danger m-text-center">Unlike everything else in the docs, the search functionality <em>requires</em> JavaScript.</noscript>
+          <div id="search-help" class="m-text m-dim m-text-center">
+            <p class="m-noindent">Search for symbols, directories, files, pages or
+            modules. You can omit any prefix from the symbol or file path; adding a
+            <code>:</code> or <code>/</code> suffix lists all members of given symbol or
+            directory.</p>
+            <p class="m-noindent">Use <span class="m-label m-dim">&darr;</span>
+            / <span class="m-label m-dim">&uarr;</span> to navigate through the list,
+            <span class="m-label m-dim">Enter</span> to go.
+            <span class="m-label m-dim">Tab</span> autocompletes common prefix, you can
+            copy a link to the result using <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">L</span> while <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">M</span> produces a Markdown link.</p>
+          </div>
+          <div id="search-notfound" class="m-text m-warning m-text-center">Sorry, nothing was found.</div>
+          <ul id="search-results"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="search-v1.js"></script>
+<script src="searchdata-v1.js" async="async"></script>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <p>gif_engine. Created with <a href="https://doxygen.org/">Doxygen</a> 1.8.17 and <a href="https://mcss.mosra.cz/">m.css</a>.</p>
+      </div>
+    </div>
+  </div>
+</nav></footer>
+</body>
+</html>
