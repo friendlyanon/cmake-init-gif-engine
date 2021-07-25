@@ -195,20 +195,16 @@ static gif_result_code read_application_extension(uint8_t** current,
     return GIF_APPLICATION_EXTENSION_SIZE_MISMATCH;
   }
 
-  bool is_netscape_extension =
-      memcmp(*current, netscape_identifier, GIF_APPLICATION_IDENTIFIER_SIZE)
-      == 0;
-  if (!is_netscape_extension) {
-    return GIF_NOT_A_NETSCAPE_EXTENSION;
-  }
-  *current += GIF_APPLICATION_IDENTIFIER_SIZE;
+#define CONST_CHECK_UN(buffer, code) \
+  do { \
+    if (memcmp(*current, buffer, sizeof(buffer)) != 0) { \
+      return code; \
+    } \
+    *current += sizeof(buffer); \
+  } while (0)
 
-  bool is_netscape_20_extension =
-      memcmp(*current, netscape_auth_code, GIF_APPLICATION_AUTH_CODE_SIZE) == 0;
-  if (!is_netscape_20_extension) {
-    return GIF_NOT_A_NETSCAPE_20_EXTENSION;
-  }
-  *current += GIF_APPLICATION_AUTH_CODE_SIZE;
+  CONST_CHECK_UN(netscape_identifier, GIF_NOT_A_NETSCAPE_EXTENSION);
+  CONST_CHECK_UN(netscape_auth_code, GIF_NOT_A_NETSCAPE_20_EXTENSION);
 
   uint8_t subblock_length = read_byte_un(current);
   if (subblock_length != GIF_NETSCAPE_SUBBLOCK_SIZE) {
