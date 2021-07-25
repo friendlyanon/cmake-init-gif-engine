@@ -1,6 +1,7 @@
 #include <gif_engine/gif_engine.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdlib.h>
 #include <string.h>
 #include <utest.h>
 
@@ -31,10 +32,9 @@ UTEST_F_SETUP(parser_fixture_2frame)
 UTEST_F_TEARDOWN(parser_fixture_2frame)
 {
   /* Arrange */
-  bool cleanup_was_successful;
 
   /* Act */
-  cleanup_was_successful = gif_mmap_deallocate(&utest_fixture->span);
+  bool cleanup_was_successful = gif_mmap_deallocate(&utest_fixture->span);
 
   /* Assert */
   ASSERT_TRUE(cleanup_was_successful);
@@ -142,6 +142,62 @@ UTEST_F(parser_fixture_2frame, parse)
 
   /* Cleanup */
   gif_free_details(&details, &free);
+}
+
+struct parser_fixture_11frame {
+  gif_mmap_span span;
+};
+
+UTEST_F_SETUP(parser_fixture_11frame)
+{
+  /* Arrange */
+  const char* file = "11frame.gif";
+
+  /* Act */
+  gif_mmap_span span = gif_mmap_allocate(file);
+  if (span.pointer == NULL) {
+    gif_mmap_print_last_error_to_stderr();
+  }
+
+  utest_fixture->span = span;
+
+  /* Assert */
+  ASSERT_NE(span.pointer, NULL);
+  ASSERT_EQ(span.size, 238);
+}
+
+UTEST_F_TEARDOWN(parser_fixture_11frame)
+{
+  /* Arrange */
+
+  /* Act */
+  bool cleanup_was_successful = gif_mmap_deallocate(&utest_fixture->span);
+
+  /* Assert */
+  ASSERT_TRUE(cleanup_was_successful);
+}
+
+static void* fake_realloc(void* allocation, size_t size)
+{
+  /* Trigger the realloc failure path when the frame data vector resizes */
+  return allocation == NULL ? malloc(size) : NULL;
+}
+
+UTEST_F(parser_fixture_11frame, realloc_fail)
+{
+  /* Arrange */
+  gif_details details;
+
+  /* Act */
+  gif_result parse_result = gif_parse(utest_fixture->span.pointer,
+                                      utest_fixture->span.size,
+                                      &details,
+                                      &fake_realloc);
+  /* We can free early here, because this test only checks the return code */
+  gif_free_details(&details, &free);
+
+  /* Assert */
+  ASSERT_EQ(parse_result.code, GIF_REALLOC_FAIL);
 }
 
 UTEST_MAIN()
