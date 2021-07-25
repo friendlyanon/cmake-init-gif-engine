@@ -2,6 +2,6 @@
 builtin = clear,rare,en-GB_to_en-US,names,informal,code
 check-filenames =
 check-hidden =
-skip = */.git,*/build,*/.codespellrc
+skip = */.git,*/build,*/.codespellrc,*/fuzz/corpus
 quiet-level = 2
-ignore-regex = ^#include <(?:stdio)\.h>$
+ignore-regex = ^#include <(?:stdio)\.h>$|DEPENDEES

@@ -1,0 +1,14 @@
+cmake_minimum_required(VERSION 3.14)
+
+project(gif_engineFuzz@fuzzer@ LANGUAGES C)
+
+find_package(gif_engine REQUIRED)
+
+add_executable(fuzzer_@fuzzer@ main.c)
+target_link_libraries(fuzzer_@fuzzer@ PRIVATE gif_engine::gif_engine)
+
+add_custom_target(
+    echo
+    COMMAND "${CMAKE_COMMAND}" -E echo Exe: "$<TARGET_FILE:fuzzer_@fuzzer@>"
+    VERBATIM
+)

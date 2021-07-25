@@ -32,6 +32,53 @@ jobs:
       if: always()
       run: cmake -P cmake/spell.cmake
 
+  fuzz:
+    needs: [lint]
+
+    strategy:
+      matrix:
+        fuzzer: [parser]
+
+    runs-on: ubuntu-latest
+
+    if: github.repository_owner == 'friendlyanon'
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Install Ninja
+      uses: seanmiddleditch/gha-setup-ninja@v3
+      with: { version: "1.10.2" }
+
+    - name: Install rclone
+      run: |
+        curl https://rclone.org/install.sh | sudo bash
+        mkdir -p ~/.config/rclone
+        cat << 'EOF' > ~/.config/rclone/rclone.conf
+        [corpus]
+        type = tardigrade
+        access_grant = ${{ secrets.STORJ_ACCESS_GRANT }}
+        EOF
+
+    - name: Fetch corpus data from storage
+      run: fuzz/corpus-download.sh "${{ matrix.fuzzer }}"
+
+    - name: Configure
+      run: cmake -S fuzz -B build -G Ninja -D CMAKE_C_COMPILER=clang-11
+
+    - name: Fuzz
+      # Run via script, so we have a tty to echo the build output
+      shell: script -q -e -c "bash --noprofile --norc -eo pipefail {0}"
+      run: "cmake --build build --target ${{ matrix.fuzzer }} \
+        | tee /dev/tty \
+        | grep -oPe '^Exe: \\K(.+)' \
+        | { read -r exe; \"$exe\" -max_len=512 -max_total_time=120 \
+        -print_corpus_stats=1 -print_final_stats=1 fuzz/corpus test/assets; }"
+
+    - name: Sync corpus back to storage
+      if: always()
+      run: fuzz/corpus-upload.sh "${{ matrix.fuzzer }}"
+
   coverage:
     needs: [lint]
 
@@ -146,7 +193,7 @@ jobs:
 
   docs:
     # Deploy docs only when builds succeed
-    needs: [sanitize, test]
+    needs: [sanitize, fuzz, test]
 
     runs-on: ubuntu-latest
 
