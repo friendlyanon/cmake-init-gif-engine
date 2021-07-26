@@ -31,15 +31,19 @@ gif_mmap_span gif_mmap_allocate(const char* path_to_file)
     goto cleanup_file_descriptor;
   }
 
-  void* mapping = mmap(
-      NULL, stat_object.st_size, PROT_READ, MAP_SHARED, file_descriptor, 0);
+  void* mapping = mmap(NULL,
+                       (size_t)stat_object.st_size,
+                       PROT_READ,
+                       MAP_SHARED,
+                       file_descriptor,
+                       0);
   if (mapping == MAP_FAILED) {
     failed_function_name = "mmap";
     goto cleanup_file_descriptor;
   }
 
   pointer = mapping;
-  size = stat_object.st_size;
+  size = (size_t)stat_object.st_size;
   memcpy(&cleanup_data, &file_descriptor, sizeof(int));
   goto exit_allocate;
 

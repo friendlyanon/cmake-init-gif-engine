@@ -19,7 +19,7 @@ compare_result buffer_is_eq(uint8_t** begin,
 
 bool read_byte(uint8_t** begin, uint8_t* end, uint8_t* destination)
 {
-  if (end - *begin < 1) {
+  if ((size_t)(end - *begin) < 1U) {
     return false;
   }
 
@@ -38,7 +38,7 @@ uint8_t read_byte_un(uint8_t** buffer)
 
 bool read_le_short(uint8_t** begin, uint8_t* end, uint16_t* destination)
 {
-  if (end - *begin < 2) {
+  if ((size_t)(end - *begin) < 2U) {
     return false;
   }
 
@@ -48,9 +48,8 @@ bool read_le_short(uint8_t** begin, uint8_t* end, uint16_t* destination)
 
 uint16_t read_le_short_un(uint8_t** buffer)
 {
-  uint16_t result;
   uint8_t* begin = *buffer;
-  result = begin[0] | begin[1] << 8;
+  uint16_t result = (uint16_t)((uint16_t)begin[0] | (uint16_t)begin[1] << 8U);
   *buffer += 2;
   return result;
 }
@@ -81,7 +80,8 @@ uint32_t read_color_un(uint8_t** buffer)
   uint8_t color_buffer[3];
   memcpy(color_buffer, *buffer, 3);
   *buffer += 3;
-  return color_buffer[0] << 16 | color_buffer[1] << 8 | color_buffer[2];
+  return (uint32_t)color_buffer[0] << 16U | (uint32_t)color_buffer[1] << 8U
+      | (uint32_t)color_buffer[2];
 }
 
 static size_t size_to_count(uint8_t size)

@@ -26,7 +26,7 @@ UTEST_F_SETUP(parser_fixture_2frame)
 
   /* Assert */
   ASSERT_NE(span.pointer, NULL);
-  ASSERT_EQ(span.size, 199);
+  ASSERT_EQ(span.size, 199U);
 }
 
 UTEST_F_TEARDOWN(parser_fixture_2frame)
@@ -40,12 +40,10 @@ UTEST_F_TEARDOWN(parser_fixture_2frame)
   ASSERT_TRUE(cleanup_was_successful);
 }
 
-enum {
-    RED = 0x00FF0000U,
-    BLUE = 0x000000FFU,
-    BLACK = 0x00000000U,
-    WHITE = 0x00FFFFFFU,
-};
+#define RED 0x00FF0000U
+#define BLUE 0x000000FFU
+#define BLACK 0x00000000U
+#define WHITE 0x00FFFFFFU
 
 UTEST_F(parser_fixture_2frame, parse)
 {
@@ -62,7 +60,7 @@ UTEST_F(parser_fixture_2frame, parse)
 
   /* Assert */
   ASSERT_EQ(parse_result.code, GIF_SUCCESS);
-  ASSERT_EQ(leftover_bytes, 1);
+  ASSERT_EQ(leftover_bytes, 1U);
 
   ASSERT_EQ(details.descriptor.canvas_width, 2);
   ASSERT_EQ(details.descriptor.canvas_height, 1);
@@ -84,7 +82,7 @@ UTEST_F(parser_fixture_2frame, parse)
 
   gif_frame_vector frame_vector = details.frame_vector;
   ASSERT_NE(frame_vector.frames, NULL);
-  ASSERT_EQ(frame_vector.size, 2);
+  ASSERT_EQ(frame_vector.size, 2U);
 
   gif_frame_data frame1 = frame_vector.frames[0];
   gif_graphic_extension extension1 = frame1.graphic_extension;
@@ -108,7 +106,7 @@ UTEST_F(parser_fixture_2frame, parse)
 
   ASSERT_EQ(frame1.local_color_table, NULL);
   ASSERT_EQ(frame1.min_code_size, 0x88);
-  ASSERT_EQ(frame1.data_length, 1);
+  ASSERT_EQ(frame1.data_length, 1U);
 
   gif_frame_data frame2 = frame_vector.frames[1];
   gif_graphic_extension extension2 = frame2.graphic_extension;
@@ -138,7 +136,7 @@ UTEST_F(parser_fixture_2frame, parse)
   ASSERT_EQ(local_color_table[3], BLACK);
 
   ASSERT_EQ(frame2.min_code_size, 0x11);
-  ASSERT_EQ(frame2.data_length, 2);
+  ASSERT_EQ(frame2.data_length, 2U);
 
   /* Cleanup */
   gif_free_details(&details, &free);
@@ -163,7 +161,7 @@ UTEST_F_SETUP(parser_fixture_11frame)
 
   /* Assert */
   ASSERT_NE(span.pointer, NULL);
-  ASSERT_EQ(span.size, 238);
+  ASSERT_EQ(span.size, 238U);
 }
 
 UTEST_F_TEARDOWN(parser_fixture_11frame)

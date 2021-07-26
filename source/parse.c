@@ -36,11 +36,11 @@ static compare_result is_gif_version_supported(uint8_t** begin, uint8_t* end)
   return buffer_is_eq(begin, end, gif_version, sizeof(gif_version));
 }
 
-enum { LOGICAL_SCREEN_DESCRIPTOR_SIZE = 7U };
+#define LOGICAL_SCREEN_DESCRIPTOR_SIZE 7U
 
 static bool read_descriptor(uint8_t** begin, uint8_t* end)
 {
-  if (end - *begin < LOGICAL_SCREEN_DESCRIPTOR_SIZE) {
+  if ((size_t)(end - *begin) < LOGICAL_SCREEN_DESCRIPTOR_SIZE) {
     return false;
   }
 
@@ -50,10 +50,10 @@ static bool read_descriptor(uint8_t** begin, uint8_t* end)
 
   uint8_t packed_byte = read_byte_un(begin);
   gif_descriptor_packed* packed = &descriptor->packed;
-  packed->global_color_table_flag = (packed_byte & 128) != 0;
-  packed->color_resolution = (packed_byte & 112) >> 4;
-  packed->sort_flag = (packed_byte & 8) != 0;
-  packed->size = packed_byte & 7;
+  packed->global_color_table_flag = (packed_byte & 128U) != 0;
+  packed->color_resolution = (packed_byte & 112U) >> 4U;
+  packed->sort_flag = (packed_byte & 8U) != 0;
+  packed->size = packed_byte & 7U;
 
   descriptor->background_color_index = read_byte_un(begin);
   descriptor->pixel_aspect_ratio = read_byte_un(begin);
@@ -84,7 +84,7 @@ static bool skip_block(uint8_t** current, uint8_t* end)
   }
 }
 
-enum { GIF_FRAME_VECTOR_GROWTH = 10U };
+#define GIF_FRAME_VECTOR_GROWTH 10U
 
 static gif_result_code ensure_frame_data(void** data, size_t frame_index)
 {
@@ -125,7 +125,7 @@ static gif_result_code ensure_frame_data(void** data, size_t frame_index)
   return GIF_SUCCESS;
 }
 
-enum { GIF_GRAPHICS_CONTROL_EXTENSION_SIZE = 4U };
+#define GIF_GRAPHICS_CONTROL_EXTENSION_SIZE 4U
 
 static gif_result_code read_graphics_control_extension(void** data,
                                                        uint8_t** current,
@@ -158,9 +158,9 @@ static gif_result_code read_graphics_control_extension(void** data,
   gif_graphic_extension* graphic_extension =
       &details_->frame_vector.frames[frame_index].graphic_extension;
   gif_graphic_extension_packed* packed = &graphic_extension->packed;
-  packed->disposal_method = (packed_byte & 28) >> 2;
-  packed->user_input_flag = (packed_byte & 2) != 0;
-  packed->transparent_color_flag = packed_byte & 1;
+  packed->disposal_method = (packed_byte & 28U) >> 2U;
+  packed->user_input_flag = (packed_byte & 2U) != 0;
+  packed->transparent_color_flag = packed_byte & 1U;
 
   graphic_extension->delay = delay;
   graphic_extension->transparent_color_index = transparent_color_index;
@@ -168,19 +168,19 @@ static gif_result_code read_graphics_control_extension(void** data,
   return GIF_SUCCESS;
 }
 
-enum {
-    GIF_APPLICATION_EXTENSION_SIZE = 11U,
-    GIF_APPLICATION_IDENTIFIER_SIZE = 8U,
-    GIF_APPLICATION_AUTH_CODE_SIZE = 3U,
-    GIF_NETSCAPE_SUBBLOCK_SIZE = 3U,
-    GIF_NETSCAPE_SUBBLOCK_ID = 1U,
-};
+static uint8_t netscape_identifier[] = {'N', 'E', 'T', 'S', 'C', 'A', 'P', 'E'};
 
-static uint8_t netscape_identifier[GIF_APPLICATION_IDENTIFIER_SIZE] = {
-    'N', 'E', 'T', 'S', 'C', 'A', 'P', 'E'};
+_Static_assert(sizeof(netscape_identifier) == 8U,
+               "The application identifier must be 8 bytes long");
 
-static uint8_t netscape_auth_code[GIF_APPLICATION_AUTH_CODE_SIZE] = {
-    '2', '.', '0'};
+static uint8_t netscape_auth_code[] = {'2', '.', '0'};
+
+_Static_assert(sizeof(netscape_auth_code) == 3U,
+               "The application auth code must be 3 bytes long");
+
+#define GIF_APPLICATION_EXTENSION_SIZE 11U
+#define GIF_NETSCAPE_SUBBLOCK_SIZE 3U
+#define GIF_NETSCAPE_SUBBLOCK_ID 1U
 
 static gif_result_code read_application_extension(uint8_t** current,
                                                   uint8_t* end)
@@ -286,7 +286,7 @@ static gif_result_code read_extension_block(
   return GIF_SUCCESS;
 }
 
-enum { GIF_IMAGE_DESCRIPTOR_SIZE = 9U };
+#define GIF_IMAGE_DESCRIPTOR_SIZE 9U
 
 static gif_result_code read_image_descriptor_block(void** data,
                                                    uint8_t** current,
@@ -311,10 +311,10 @@ static gif_result_code read_image_descriptor_block(void** data,
 
   uint8_t packed_byte = read_byte_un(current);
   gif_frame_descriptor_packed* packed = &descriptor->packed;
-  packed->local_color_table_flag = (packed_byte & 128) != 0;
-  packed->interlace_flag = (packed_byte & 64) != 0;
-  packed->sort_flag = (packed_byte & 32) != 0;
-  packed->size = packed_byte & 7;
+  packed->local_color_table_flag = (packed_byte & 128U) != 0;
+  packed->interlace_flag = (packed_byte & 64U) != 0;
+  packed->sort_flag = (packed_byte & 32U) != 0;
+  packed->size = packed_byte & 7U;
 
   if (packed->local_color_table_flag) {
     gif_result_code code = read_color_table(
@@ -436,7 +436,7 @@ gif_result_code gif_parse_impl(void** data)
                  "void* should have a size greater than or equal to size_t");
 
 tail_block:
-  leftover_bytes = end - current;
+  leftover_bytes = (size_t)(end - current);
   memcpy(data, &leftover_bytes, sizeof(size_t));
 
   return GIF_SUCCESS;
