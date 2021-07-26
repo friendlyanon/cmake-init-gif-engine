@@ -431,13 +431,13 @@ gif_result_code gif_parse_impl(void** data)
     }
   }
 
-  size_t leftover_bytes;
-  _Static_assert(sizeof(void*) >= sizeof(size_t),
-                 "void* should have a size greater than or equal to size_t");
-
 tail_block:
-  leftover_bytes = (size_t)(end - current);
-  memcpy(data, &leftover_bytes, sizeof(size_t));
+  do {
+    _Static_assert(sizeof(void*) >= sizeof(size_t),
+                   "void* should have a size greater than or equal to size_t");
+    size_t leftover_bytes = (size_t)(end - current);
+    memcpy(data, &leftover_bytes, sizeof(size_t));
+  } while (0);
 
   return GIF_SUCCESS;
 }
