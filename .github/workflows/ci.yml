@@ -69,7 +69,7 @@ jobs:
 
     - name: Fuzz
       # Run via script, so we have a tty to echo the build output
-      shell: script -q -e -c "bash --noprofile --norc -eo pipefail {0}"
+      shell: script -qec "bash --noprofile --norc -eo pipefail {0}" /dev/null
       run: "cmake --build build --target ${{ matrix.fuzzer }} \
         | tee /dev/tty \
         | grep -oPe '^Exe: \\K(.+)' \
