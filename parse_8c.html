@@ -69,35 +69,11 @@
         <section id="enum-members">
           <h2><a href="#enum-members">Enums</a></h2>
           <dl class="m-doc">
-            <dt id="a06fc87d81c62e9abb8790b6e5713c55b">
-              <span class="m-doc-wrap-bumper">enum <a href="#a06fc87d81c62e9abb8790b6e5713c55b" class="m-doc-self">(anonymous)</a> { </span><span class="m-doc-wrap"><a href="#a06fc87d81c62e9abb8790b6e5713c55ba6fb8995186c164b2a068e1bf2a74d36a" class="m-doc">LOGICAL_SCREEN_DESCRIPTOR_SIZE</a> = 7U }</span>
-            </dt>
-            <dd><span></span></dd>
             <dt id="a58b143cb137536c5913cfe55ade6f935">
               <span class="m-doc-wrap-bumper">enum <a href="#a58b143cb137536c5913cfe55ade6f935" class="m-doc-self">gif_extension_type</a> { </span><span class="m-doc-wrap"><a href="#a58b143cb137536c5913cfe55ade6f935a17d35461a6c716a8c4b574ecc2599405" class="m-doc">GIF_GRAPHICS_CONTROL_EXTENSION</a> = 0xF9,
               <a href="#a58b143cb137536c5913cfe55ade6f935acd0c4891052cbe5ab395c650ed2ee0b6" class="m-doc">GIF_APPLICATION_EXTENSION</a> = 0xFF,
               <a href="#a58b143cb137536c5913cfe55ade6f935a2defd30bab85b1c17914b9ec13ee25ce" class="m-doc">GIF_COMMENT_EXTENSION</a> = 0xFE,
               <a href="#a58b143cb137536c5913cfe55ade6f935ac113a8d04671fabc2f65edc3a5937d41" class="m-doc">GIF_TEXT_EXTENSION</a> = 0x01 }</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="adf764cbdea00d65edcd07bb9953ad2b7">
-              <span class="m-doc-wrap-bumper">enum <a href="#adf764cbdea00d65edcd07bb9953ad2b7" class="m-doc-self">(anonymous)</a> { </span><span class="m-doc-wrap"><a href="#adf764cbdea00d65edcd07bb9953ad2b7a17e8cc4fb4353f9a742aad8ec5637ec4" class="m-doc">GIF_FRAME_VECTOR_GROWTH</a> = 10U }</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a99fb83031ce9923c84392b4e92f956b5">
-              <span class="m-doc-wrap-bumper">enum <a href="#a99fb83031ce9923c84392b4e92f956b5" class="m-doc-self">(anonymous)</a> { </span><span class="m-doc-wrap"><a href="#a99fb83031ce9923c84392b4e92f956b5a6bb53012483e1f106805fd883164c8f8" class="m-doc">GIF_GRAPHICS_CONTROL_EXTENSION_SIZE</a> = 4U }</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="abc6126af1d45847bc59afa0aa3216b04">
-              <span class="m-doc-wrap-bumper">enum <a href="#abc6126af1d45847bc59afa0aa3216b04" class="m-doc-self">(anonymous)</a> { </span><span class="m-doc-wrap"><a href="#abc6126af1d45847bc59afa0aa3216b04ade88c8ed6c128a5462b9daf59bfac42c" class="m-doc">GIF_APPLICATION_EXTENSION_SIZE</a> = 11U,
-              <a href="#abc6126af1d45847bc59afa0aa3216b04ae7c938c01b78b9c97f02a650648faae6" class="m-doc">GIF_APPLICATION_IDENTIFIER_SIZE</a> = 8U,
-              <a href="#abc6126af1d45847bc59afa0aa3216b04ac7ff1386fec855513d80ff7f846202dd" class="m-doc">GIF_APPLICATION_AUTH_CODE_SIZE</a> = 3U,
-              <a href="#abc6126af1d45847bc59afa0aa3216b04a2d1b4c4a7b5b29ffe5f8ff7e9c81f033" class="m-doc">GIF_NETSCAPE_SUBBLOCK_SIZE</a> = 3U,
-              <a href="#abc6126af1d45847bc59afa0aa3216b04a283d4140c2f8d57dc1c9639682d6462d" class="m-doc">GIF_NETSCAPE_SUBBLOCK_ID</a> = 1U }</span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="adc29c2ff13d900c2f185ee95427fb06c">
-              <span class="m-doc-wrap-bumper">enum <a href="#adc29c2ff13d900c2f185ee95427fb06c" class="m-doc-self">(anonymous)</a> { </span><span class="m-doc-wrap"><a href="#adc29c2ff13d900c2f185ee95427fb06ca6b8cee7e6d8d25c6965c4c31f82e6832" class="m-doc">GIF_IMAGE_DESCRIPTOR_SIZE</a> = 9U }</span>
             </dt>
             <dd><span></span></dd>
             <dt id="a36e3aae2a0bb2ebb326f06300003dee2">
@@ -163,6 +139,16 @@
               size_t frame_index) -&gt; <a href="error_8h.html#a4e23027c2fedeb9dfec028d3978861e1" class="m-doc">gif_<wbr />result_<wbr />code</a></span>
             </dt>
             <dd><span></span></dd>
+            <dt id="a0255fc616ac2e82ce15a60ea7b12dcf4">
+              <span class="m-doc-wrap-bumper"><a href="#a0255fc616ac2e82ce15a60ea7b12dcf4" class="m-doc-self">_Static_assert</a>(</span><span class="m-doc-wrap">sizeof(netscape_identifier) = =8U,
+              &quot;The application identifier must be 8 bytes long&quot;)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="ab6248cb57bc03c07a3078e38176e327d">
+              <span class="m-doc-wrap-bumper"><a href="#ab6248cb57bc03c07a3078e38176e327d" class="m-doc-self">_Static_assert</a>(</span><span class="m-doc-wrap">sizeof(netscape_auth_code) = =3U,
+              &quot;The application auth code must be 3 bytes long&quot;)</span>
+            </dt>
+            <dd><span></span></dd>
             <dt id="a58a8af6b48fc73faeed737f57e9294fe">
               <span class="m-doc-wrap-bumper">static auto <a href="#a58a8af6b48fc73faeed737f57e9294fe" class="m-doc-self">read_application_extension</a>(</span><span class="m-doc-wrap">uint8_t** current,
               uint8_t* end) -&gt; <a href="error_8h.html#a4e23027c2fedeb9dfec028d3978861e1" class="m-doc">gif_<wbr />result_<wbr />code</a></span>
@@ -216,12 +202,12 @@
               static uint8_t <a href="#a1596aa76704be32a035b45397ac41359" class="m-doc-self">gif_version</a>
             </dt>
             <dd><span></span></dd>
-            <dt id="a3d2501ed279542d25b15702709aa36c6">
-              static uint8_t <a href="#a3d2501ed279542d25b15702709aa36c6" class="m-doc-self">netscape_identifier</a>
+            <dt id="a950b3c263b34d3f5195b07afef01d794">
+              static uint8_t <a href="#a950b3c263b34d3f5195b07afef01d794" class="m-doc-self">netscape_identifier</a>
             </dt>
             <dd><span></span></dd>
-            <dt id="acfa85a28ce0298f795ff9aae943e5ce9">
-              static uint8_t <a href="#acfa85a28ce0298f795ff9aae943e5ce9" class="m-doc-self">netscape_auth_code</a>
+            <dt id="ab31e54a9c1859fa16beb58ac59c960df">
+              static uint8_t <a href="#ab31e54a9c1859fa16beb58ac59c960df" class="m-doc-self">netscape_auth_code</a>
             </dt>
             <dd><span></span></dd>
           </dl>
@@ -229,9 +215,37 @@
         <section id="define-members">
           <h2><a href="#define-members">Defines</a></h2>
           <dl class="m-doc">
+            <dt id="a2233537b05c3bb865b031528bb4474c2">
+              <span class="m-doc-wrap-bumper">#define <a href="#a2233537b05c3bb865b031528bb4474c2" class="m-doc-self">LOGICAL_SCREEN_DESCRIPTOR_SIZE</a></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a3e9be9af8b2228ece24ec643c8853ffe">
+              <span class="m-doc-wrap-bumper">#define <a href="#a3e9be9af8b2228ece24ec643c8853ffe" class="m-doc-self">GIF_FRAME_VECTOR_GROWTH</a></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="abc1eebd1a85c3aa6da3e856eb6d1d8e5">
+              <span class="m-doc-wrap-bumper">#define <a href="#abc1eebd1a85c3aa6da3e856eb6d1d8e5" class="m-doc-self">GIF_GRAPHICS_CONTROL_EXTENSION_SIZE</a></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="ac66f5e4cbf1d8524d3997c34c8454f33">
+              <span class="m-doc-wrap-bumper">#define <a href="#ac66f5e4cbf1d8524d3997c34c8454f33" class="m-doc-self">GIF_APPLICATION_EXTENSION_SIZE</a></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a563e6e01909c45f678b08c760d6c13b6">
+              <span class="m-doc-wrap-bumper">#define <a href="#a563e6e01909c45f678b08c760d6c13b6" class="m-doc-self">GIF_NETSCAPE_SUBBLOCK_SIZE</a></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a63199a0b7c251eba2336bb0f9ed4702c">
+              <span class="m-doc-wrap-bumper">#define <a href="#a63199a0b7c251eba2336bb0f9ed4702c" class="m-doc-self">GIF_NETSCAPE_SUBBLOCK_ID</a></span>
+            </dt>
+            <dd><span></span></dd>
             <dt id="aa3728a87f0f3e758585c4993ef82617a">
               <span class="m-doc-wrap-bumper">#define <a href="#aa3728a87f0f3e758585c4993ef82617a" class="m-doc-self">CONST_CHECK_UN</a>(</span><span class="m-doc-wrap">buffer,
               code)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a3965a21252006f55af9229b640d3daf0">
+              <span class="m-doc-wrap-bumper">#define <a href="#a3965a21252006f55af9229b640d3daf0" class="m-doc-self">GIF_IMAGE_DESCRIPTOR_SIZE</a></span>
             </dt>
             <dd><span></span></dd>
             <dt id="a776957671ba631a6be74cd66664c43c4">
