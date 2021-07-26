@@ -80,6 +80,14 @@ jobs:
       if: always()
       run: fuzz/corpus-upload.sh "${{ matrix.fuzzer }}"
 
+    - name: Make a corpus artifact
+      uses: actions/upload-artifact@v2
+      if: always()
+      with:
+        name: ${{ matrix.fuzzer }} corpus - ${{ github.sha }}
+        path: fuzz/corpus/${{ matrix.fuzzer }}.zip
+        if-no-files-found: ignore
+
   coverage:
     needs: [lint]
 
