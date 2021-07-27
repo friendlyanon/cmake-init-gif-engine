@@ -1,10 +1,25 @@
 cmake_minimum_required(VERSION 3.14)
 
+project(gif_engineFuzzSuperbuild LANGUAGES NONE)
+
 if(NOT CMAKE_VERSION VERSION_LESS "3.19")
   cmake_policy(SET CMP0114 NEW)
+  macro(ensure_dependencies)
+  endmacro()
+else()
+  macro(ensure_dependencies p)
+    foreach(step IN ITEMS configure build install)
+      if(NOT TARGET "${p}-${step}")
+        ExternalProject_Add_StepTargets("${p}" "${step}")
+      endif()
+      if(step STREQUAL "install")
+        ExternalProject_Add_StepDependencies("${p}" install "${p}-build")
+      elseif(step STREQUAL "build")
+        ExternalProject_Add_StepDependencies("${p}" build "${p}-configure")
+      endif()
+    endforeach()
+  endmacro()
 endif()
-
-project(gif_engineFuzzSuperbuild LANGUAGES NONE)
 
 include(ExternalProject)
 
@@ -31,6 +46,8 @@ ExternalProject_Add(
     EXCLUDE_FROM_ALL YES
 )
 
+ensure_dependencies(gif-engine)
+
 foreach(fuzzer IN ITEMS parser)
   set(src "${PROJECT_BINARY_DIR}/${fuzzer}-src")
   configure_file("${fuzzer}.c" "${src}/main.c" COPYONLY)
@@ -51,6 +68,7 @@ foreach(fuzzer IN ITEMS parser)
       STEP_TARGETS build
       DEPENDS gif-engine-install
   )
+  ensure_dependencies("${fuzzer}")
   ExternalProject_Add_Step(
       "${fuzzer}" echo
       COMMAND "${CMAKE_COMMAND}" --build <BINARY_DIR> --target echo
