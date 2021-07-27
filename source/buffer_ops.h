@@ -59,12 +59,6 @@ uint16_t read_le_short_un(uint8_t** buffer);
 bool skip_bytes(uint8_t** begin, uint8_t* end, size_t count);
 
 /**
- * Reads \c count number of bytes into \c buffer with bounds checking. This
- * function will advance the pointer pointed to by \c begin by <tt>count</tt>.
- */
-bool read_bytes(uint8_t** begin, uint8_t* end, uint8_t* buffer, size_t count);
-
-/**
  * Reads a 3 byte color in the RGB format. This function will advance the
  * pointer pointed to by \c begin by 3.
  *

@@ -64,17 +64,6 @@ bool skip_bytes(uint8_t** begin, uint8_t* end, size_t count)
   return true;
 }
 
-bool read_bytes(uint8_t** begin, uint8_t* end, uint8_t* buffer, size_t count)
-{
-  if ((size_t)(end - *begin) < count) {
-    return false;
-  }
-
-  memcpy(buffer, *begin, count);
-  *begin += count;
-  return true;
-}
-
 uint32_t read_color_un(uint8_t** buffer)
 {
   uint8_t color_buffer[3];
