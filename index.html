@@ -50,7 +50,7 @@
         <h1>
           gif_engine
         </h1>
-<p>This is the gif_engine project.</p><section id="autotoc_md1"><h2><a href="#autotoc_md1">Building and installing</a></h2><p>See the BUILDING document.</p></section><section id="autotoc_md2"><h2><a href="#autotoc_md2">Contributing</a></h2><p>See the CONTRIBUTING document.</p></section><section id="autotoc_md3"><h2><a href="#autotoc_md3">Licensing</a></h2></section>
+<p>This project is an example project generated with <a href="https://github.com/friendlyanon/cmake-init">cmake-init</a> with the purpose of showing off how to add fuzz testing to a project using a superbuild structure.</p><section id="autotoc_md1"><h2><a href="#autotoc_md1">Building and installing</a></h2><p>See the BUILDING document.</p><section id="autotoc_md2"><h3><a href="#autotoc_md2">Fuzzing</a></h3><p>To fuzz the project configure the <code>fuzz</code> directory instead of the project root. This directory contains a superbuild lists file, which connects the library and fuzzer projects. The superbuild lists file expects you to pass the <code>CMAKE_C_COMPILER</code> variable.</p><section id="autotoc_md3"><h4><a href="#autotoc_md3">CI</a></h4><p>The <a href=".github/workflows/ci.yml#L36">CI workflow</a> shows exactly how to build and run the fuzzer executable. It also shows how to use persistently stored corpus data to drive the fuzzing process.</p></section></section></section>
       </div>
     </div>
   </div>

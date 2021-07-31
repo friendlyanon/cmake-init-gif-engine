@@ -70,10 +70,10 @@
               <span class="m-doc-wrap-bumper">void <a href="#aab071a55eba7d86b9d681074436ffd15" class="m-doc-self">gif_set_last_position</a>(</span><span class="m-doc-wrap">void* position)</span>
             </dt>
             <dd><span></span></dd>
-            <dt id="aa0394b85f9f0cff1cba14f286839aad4">
-              <span class="m-doc-wrap-bumper">auto <a href="#aa0394b85f9f0cff1cba14f286839aad4" class="m-doc-self">gif_pop_last_position</a>(</span><span class="m-doc-wrap">void) -&gt; void*</span>
+            <dt>
+              <span class="m-doc-wrap-bumper">auto <a href="#aa0394b85f9f0cff1cba14f286839aad4" class="m-doc">gif_pop_last_position</a>(</span><span class="m-doc-wrap">void) -&gt; void*</span>
             </dt>
-            <dd><span></span></dd>
+            <dd>Returns the last position that was read in the buffer.</dd>
           </dl>
         </section>
         <section id="var-members">
@@ -84,6 +84,16 @@
             </dt>
             <dd><span></span></dd>
           </dl>
+        </section>
+        <section>
+          <h2>Function documentation</h2>
+          <section class="m-doc-details" id="aa0394b85f9f0cff1cba14f286839aad4"><div>
+            <h3>
+              <span class="m-doc-wrap-bumper">void* </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aa0394b85f9f0cff1cba14f286839aad4" class="m-doc-self">gif_pop_last_position</a>(</span><span class="m-doc-wrap">void)</span></span>
+            </h3>
+            <p>Returns the last position that was read in the buffer.</p>
+<p>This function will pop an internal slot, which holds a pointer pointing into the memory region provided as an argument to <a href="gif__engine_8h.html#ad872f5f024716f43bbb1d6694a8f6bc4" class="m-doc">gif_<wbr />parse</a>. If that function didn&#x27;t return <a href="error_8h.html#a4e23027c2fedeb9dfec028d3978861e1ae33cf82923226aa3465d4cc1503559e6" class="m-doc">GIF_<wbr />SUCCESS</a>, then this function can be used to inspect the cause of the failure.</p><p>This function is not thread-safe.</p>
+          </div></section>
         </section>
       </div>
     </div>
