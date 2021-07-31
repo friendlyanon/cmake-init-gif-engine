@@ -4,4 +4,4 @@ check-filenames =
 check-hidden =
 skip = */.git,*/build,*/.codespellrc,*/fuzz/corpus
 quiet-level = 2
-ignore-regex = ^#include <(?:stdio)\.h>$|DEPENDEES
+ignore-regex = ^#include <(?:stdio)\.h>$|DEPENDEES|\\endcode
