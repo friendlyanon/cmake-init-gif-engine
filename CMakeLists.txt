@@ -63,7 +63,9 @@ target_compile_features(gif_engine_gif_engine PUBLIC c_std_11)
 
 # ---- Install rules ----
 
-include(cmake/install-rules.cmake)
+if(NOT CMAKE_SKIP_INSTALL_RULES)
+  include(cmake/install-rules.cmake)
+endif()
 
 # ---- Developer mode ----
 
