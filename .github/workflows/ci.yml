@@ -3,12 +3,12 @@ name: Continuous Integration
 on:
   push:
     branches:
-    - master
+    - develop
     - feature/*
 
   pull_request:
     branches:
-    - master
+    - develop
 
 env:
   VCPKG_COMMIT: 4990d2b9510876531eb7e73eeba09210178e804f
