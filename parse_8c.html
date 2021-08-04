@@ -162,6 +162,14 @@
               bool* seen_graphics_control_extension) -&gt; <a href="error_8h.html#a4e23027c2fedeb9dfec028d3978861e1" class="m-doc">gif_<wbr />result_<wbr />code</a></span>
             </dt>
             <dd><span></span></dd>
+            <dt id="a86dfd7f6bee7bbe90f36ed7c6b8af2aa">
+              <span class="m-doc-wrap-bumper">static auto <a href="#a86dfd7f6bee7bbe90f36ed7c6b8af2aa" class="m-doc-self">is_frame_size_invalid</a>(</span><span class="m-doc-wrap"><a href="structgif__frame__descriptor.html" class="m-doc">gif_<wbr />frame_<wbr />descriptor</a>* descriptor) -&gt; bool</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a8f072408a04af38886002207f1bc5249">
+              <span class="m-doc-wrap-bumper">static auto <a href="#a8f072408a04af38886002207f1bc5249" class="m-doc-self">is_frame_out_of_bounds</a>(</span><span class="m-doc-wrap"><a href="structgif__frame__descriptor.html" class="m-doc">gif_<wbr />frame_<wbr />descriptor</a>* descriptor) -&gt; bool</span>
+            </dt>
+            <dd><span></span></dd>
             <dt id="ae10b4569eab9b39b9a2473ac03c500e1">
               <span class="m-doc-wrap-bumper">static auto <a href="#ae10b4569eab9b39b9a2473ac03c500e1" class="m-doc-self">read_image_descriptor_block</a>(</span><span class="m-doc-wrap">void** data,
               uint8_t** current,
@@ -246,6 +254,11 @@
             <dd><span></span></dd>
             <dt id="a3965a21252006f55af9229b640d3daf0">
               <span class="m-doc-wrap-bumper">#define <a href="#a3965a21252006f55af9229b640d3daf0" class="m-doc-self">GIF_IMAGE_DESCRIPTOR_SIZE</a></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="ad1364a24b5a58b23edd947626c53f843">
+              <span class="m-doc-wrap-bumper">#define <a href="#ad1364a24b5a58b23edd947626c53f843" class="m-doc-self">FRAME_CHECK</a>(</span><span class="m-doc-wrap">predicate,
+              code)</span>
             </dt>
             <dd><span></span></dd>
             <dt id="a776957671ba631a6be74cd66664c43c4">
