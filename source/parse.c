@@ -373,6 +373,10 @@ static gif_result_code read_image_descriptor_block(void** data,
     data_length += subblock_size;
   }
 
+  if (data_length == 0) {
+    return GIF_FRAME_DATA_EMPTY;
+  }
+
   frame_data->min_code_size = min_code_size;
   frame_data->first_subblock = first_subblock;
   frame_data->data_length = data_length;

@@ -29,6 +29,8 @@ typedef enum gif_result_code {
 
   GIF_FRAME_SIZE_INVALID,
   GIF_FRAME_OUT_OF_BOUNDS,
+
+  GIF_FRAME_DATA_EMPTY,
 } gif_result_code;
 
 typedef struct gif_result {
