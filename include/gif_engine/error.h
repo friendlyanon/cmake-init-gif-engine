@@ -26,6 +26,9 @@ typedef enum gif_result_code {
   GIF_NETSCAPE_NULL_MISSING,
 
   GIF_IMAGE_DESCRIPTOR_MISSING,
+
+  GIF_FRAME_SIZE_INVALID,
+  GIF_FRAME_OUT_OF_BOUNDS,
 } gif_result_code;
 
 typedef struct gif_result {

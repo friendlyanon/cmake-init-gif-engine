@@ -286,6 +286,23 @@ static gif_result_code read_extension_block(
   return GIF_SUCCESS;
 }
 
+static bool is_frame_size_invalid(gif_frame_descriptor* descriptor)
+{
+  return (uint32_t)descriptor->width + (uint32_t)descriptor->left > 0xFFFFU
+      || (uint32_t)descriptor->height + (uint32_t)descriptor->top > 0xFFFFU
+      /* Although the GIF specification doesn't say anything about 0 sized
+       * frames, those are rejected on the basis of not being useful */
+      || descriptor->width == 0 || descriptor->height == 0;
+}
+
+static bool is_frame_out_of_bounds(gif_frame_descriptor* descriptor)
+{
+  return descriptor->width + descriptor->left
+      > details_->descriptor.canvas_width
+      || descriptor->height + descriptor->top
+      > details_->descriptor.canvas_height;
+}
+
 #define GIF_IMAGE_DESCRIPTOR_SIZE 9U
 
 static gif_result_code read_image_descriptor_block(void** data,
@@ -308,6 +325,17 @@ static gif_result_code read_image_descriptor_block(void** data,
   descriptor->top = read_le_short_un(current);
   descriptor->width = read_le_short_un(current);
   descriptor->height = read_le_short_un(current);
+
+#define FRAME_CHECK(predicate, code) \
+  do { \
+    if (predicate(descriptor)) { \
+      memcpy(&frame_index, data, sizeof(size_t)); \
+      return code; \
+    } \
+  } while (0)
+
+  FRAME_CHECK(is_frame_size_invalid, GIF_FRAME_SIZE_INVALID);
+  FRAME_CHECK(is_frame_out_of_bounds, GIF_FRAME_OUT_OF_BOUNDS);
 
   uint8_t packed_byte = read_byte_un(current);
   gif_frame_descriptor_packed* packed = &descriptor->packed;
