@@ -6,7 +6,7 @@
 typedef struct gif_mmap_span {
   void* pointer;
   size_t size;
-  void* cleanup_data;
+  void* cleanup_data[2];
 } gif_mmap_span;
 
 /**

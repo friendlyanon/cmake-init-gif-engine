@@ -9,8 +9,6 @@
 
 static const char* failed_function_name = NULL;
 
-enum { CLEANUP_SIZE = 2 };
-
 static bool create_file(HANDLE* result_handle, const char* path_to_file)
 {
   HANDLE handle = CreateFileA(path_to_file,
@@ -54,37 +52,18 @@ static bool map_view_of_file(void** pointer, HANDLE mapping_handle)
   return true;
 }
 
-static bool allocate_cleanup_data(HANDLE** cleanup_data)
-{
-  HANDLE heap = GetProcessHeap();
-  if (heap == NULL) {
-    failed_function_name = "GetProcessHeap";
-    return false;
-  }
-
-  void* pointer = HeapAlloc(heap, 0, sizeof(HANDLE) * CLEANUP_SIZE);
-  if (pointer == NULL) {
-    failed_function_name = "HeapAlloc";
-    return false;
-  }
-
-  *cleanup_data = pointer;
-  return true;
-}
-
 gif_mmap_span gif_mmap_allocate(const char* path_to_file)
 {
   void* pointer = NULL;
   size_t size = 0;
-  HANDLE* cleanup_data = NULL;
   failed_function_name = NULL;
 
-  HANDLE file_handle;
+  HANDLE file_handle = INVALID_HANDLE_VALUE;
+  HANDLE mapping_handle = INVALID_HANDLE_VALUE;
   if (!create_file(&file_handle, path_to_file)) {
     goto exit_allocate;
   }
 
-  HANDLE mapping_handle;
   if (!create_file_mapping(&mapping_handle, file_handle)) {
     goto cleanup_file_handle;
   }
@@ -93,19 +72,8 @@ gif_mmap_span gif_mmap_allocate(const char* path_to_file)
     goto cleanup_mapping_handle;
   }
 
-  if (!allocate_cleanup_data(&cleanup_data)) {
-    goto cleanup_file_view;
-  }
-
-  cleanup_data[0] = mapping_handle;
-  cleanup_data[1] = file_handle;
-
   size = GetFileSize(file_handle, NULL);
   goto exit_allocate;
-
-cleanup_file_view:
-  UnmapViewOfFile(pointer);
-  pointer = NULL;
 
 cleanup_mapping_handle:
   CloseHandle(mapping_handle);
@@ -117,7 +85,7 @@ exit_allocate:
   return (gif_mmap_span) {
       .pointer = pointer,
       .size = size,
-      .cleanup_data = cleanup_data,
+      .cleanup_data = {mapping_handle, file_handle},
   };
 }
 
@@ -148,6 +116,8 @@ void gif_mmap_print_last_error_to_stderr(void)
   LocalFree(error_message);
 }
 
+#define ARRAY_LENGTH(array) (sizeof(array) / sizeof(*array))
+
 bool gif_mmap_deallocate(gif_mmap_span* span)
 {
   if (UnmapViewOfFile(span->pointer) == 0) {
@@ -155,16 +125,12 @@ bool gif_mmap_deallocate(gif_mmap_span* span)
   }
 
   HANDLE* cleanup_data = span->cleanup_data;
-  for (size_t i = 0; i < CLEANUP_SIZE; ++i) {
-    if (CloseHandle(cleanup_data[i]) == 0) {
+  for (size_t i = 0; i < ARRAY_LENGTH(span->cleanup_data); ++i) {
+    HANDLE handle = cleanup_data[i];
+    if (handle != INVALID_HANDLE_VALUE && CloseHandle(handle) == 0) {
       return false;
     }
   }
 
-  HANDLE heap = GetProcessHeap();
-  if (heap == NULL) {
-    return false;
-  }
-
-  return HeapFree(heap, 0, cleanup_data) != 0;
+  return true;
 }

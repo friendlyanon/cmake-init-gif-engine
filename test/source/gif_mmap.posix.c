@@ -54,7 +54,7 @@ exit_allocate:
   return (gif_mmap_span) {
       .pointer = pointer,
       .size = size,
-      .cleanup_data = cleanup_data,
+      .cleanup_data = {cleanup_data, NULL},
   };
 }
 
@@ -80,6 +80,6 @@ bool gif_mmap_deallocate(gif_mmap_span* span)
   }
 
   int file_descriptor;
-  memcpy(&file_descriptor, &span->cleanup_data, sizeof(int));
+  memcpy(&file_descriptor, span->cleanup_data, sizeof(int));
   return close(file_descriptor) == 0;
 }
