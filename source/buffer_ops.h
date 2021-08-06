@@ -1,5 +1,6 @@
 #pragma once
 
+#include <assert.h>
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -11,6 +12,15 @@ typedef enum compare_result {
   CMP_EQ,
   CMP_NEQ,
 } compare_result;
+
+/**
+ * Sanity check macro that checks the \c begin and \c end iterators' validity
+ * in debug mode. The \c begin iterator must not be greater than the \c end
+ * iterator in the GIF functions. The buffer sizes should not be zero when
+ * passed to the API functions.
+ */
+#define ITER_CHECK(begin, end) \
+  assert(begin <= end && "Begin must not be greater than end")
 
 /**
  * A memcmp wrapper to compare \c begin and \c data until \c data_size length
