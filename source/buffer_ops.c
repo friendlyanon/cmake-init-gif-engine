@@ -4,7 +4,7 @@
 #include <string.h>
 
 compare_result buffer_is_eq(uint8_t** begin,
-                            uint8_t* end,
+                            const uint8_t* end,
                             uint8_t* data,
                             size_t data_size)
 {
@@ -19,7 +19,7 @@ compare_result buffer_is_eq(uint8_t** begin,
   return result == 0 ? CMP_EQ : CMP_NEQ;
 }
 
-bool read_byte(uint8_t** begin, uint8_t* end, uint8_t* destination)
+bool read_byte(uint8_t** begin, const uint8_t* end, uint8_t* destination)
 {
   ITER_CHECK(*begin, end);
 
@@ -40,7 +40,7 @@ uint8_t read_byte_un(uint8_t** buffer)
   return result;
 }
 
-bool read_le_short(uint8_t** begin, uint8_t* end, uint16_t* destination)
+bool read_le_short(uint8_t** begin, const uint8_t* end, uint16_t* destination)
 {
   ITER_CHECK(*begin, end);
 
@@ -60,7 +60,7 @@ uint16_t read_le_short_un(uint8_t** buffer)
   return result;
 }
 
-bool skip_bytes(uint8_t** begin, uint8_t* end, size_t count)
+bool skip_bytes(uint8_t** begin, const uint8_t* end, size_t count)
 {
   ITER_CHECK(*begin, end);
 
@@ -88,7 +88,7 @@ static size_t size_to_count(uint8_t size)
 }
 
 gif_result_code read_color_table(uint8_t** begin,
-                                 uint8_t* end,
+                                 const uint8_t* end,
                                  uint32_t** destination,
                                  uint8_t size,
                                  gif_allocator allocator)

@@ -24,7 +24,7 @@ void gif_parse_detail_set_globals(uint8_t* buffer,
 
 static uint8_t magic[] = {'G', 'I', 'F'};
 
-static compare_result is_gif_file(uint8_t** begin, uint8_t* end)
+static compare_result is_gif_file(uint8_t** begin, const uint8_t* end)
 {
   ITER_CHECK(*begin, end);
 
@@ -33,7 +33,8 @@ static compare_result is_gif_file(uint8_t** begin, uint8_t* end)
 
 static uint8_t gif_version[] = {'8', '9', 'a'};
 
-static compare_result is_gif_version_supported(uint8_t** begin, uint8_t* end)
+static compare_result is_gif_version_supported(uint8_t** begin,
+                                               const uint8_t* end)
 {
   ITER_CHECK(*begin, end);
 
@@ -42,7 +43,7 @@ static compare_result is_gif_version_supported(uint8_t** begin, uint8_t* end)
 
 #define LOGICAL_SCREEN_DESCRIPTOR_SIZE 7U
 
-static bool read_descriptor(uint8_t** begin, uint8_t* end)
+static bool read_descriptor(uint8_t** begin, const uint8_t* end)
 {
   ITER_CHECK(*begin, end);
 
@@ -74,7 +75,7 @@ typedef enum gif_extension_type {
   GIF_TEXT_EXTENSION = 0x01,
 } gif_extension_type;
 
-static bool skip_block(uint8_t** current, uint8_t* end)
+static bool skip_block(uint8_t** current, const uint8_t* end)
 {
   ITER_CHECK(*current, end);
 
@@ -137,7 +138,7 @@ static gif_result_code ensure_frame_data(void** data, size_t frame_index)
 
 static gif_result_code read_graphics_control_extension(void** data,
                                                        uint8_t** current,
-                                                       uint8_t* end,
+                                                       const uint8_t* end,
                                                        size_t frame_index)
 {
   ITER_CHECK(*current, end);
@@ -193,7 +194,7 @@ _Static_assert(sizeof(netscape_auth_code) == 3U,
 #define GIF_NETSCAPE_SUBBLOCK_ID 1U
 
 static gif_result_code read_application_extension(uint8_t** current,
-                                                  uint8_t* end)
+                                                  const uint8_t* end)
 {
   ITER_CHECK(*current, end);
 
@@ -253,7 +254,7 @@ static gif_result_code read_application_extension(uint8_t** current,
 static gif_result_code read_extension_block(
     void** data,
     uint8_t** current,
-    uint8_t* end,
+    const uint8_t* end,
     size_t frame_index,
     bool* seen_graphics_control_extension)
 {
@@ -321,7 +322,7 @@ static bool is_frame_out_of_bounds(gif_frame_descriptor* descriptor)
 
 static gif_result_code read_image_descriptor_block(void** data,
                                                    uint8_t** current,
-                                                   uint8_t* end,
+                                                   const uint8_t* end,
                                                    size_t frame_index)
 {
   ITER_CHECK(*current, end);
@@ -407,7 +408,7 @@ typedef enum gif_block_type {
 gif_result_code gif_parse_impl(void** data)
 {
   uint8_t* current = buffer_;
-  uint8_t* end = buffer_ + buffer_size_;
+  const uint8_t* end = buffer_ + buffer_size_;
   ITER_CHECK(current, end);
 
 #define CONST_CHECK(predicate, fail_code) \

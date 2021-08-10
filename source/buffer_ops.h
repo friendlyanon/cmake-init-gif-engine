@@ -30,7 +30,7 @@ typedef enum compare_result {
  * @return Result of the equality comparison or an indication of OOB
  */
 compare_result buffer_is_eq(uint8_t** begin,
-                            uint8_t* end,
+                            const uint8_t* end,
                             uint8_t* data,
                             size_t data_size);
 
@@ -40,7 +40,7 @@ compare_result buffer_is_eq(uint8_t** begin,
  *
  * @return \c true if the read isn't OOB, otherwise \c false
  */
-bool read_byte(uint8_t** begin, uint8_t* end, uint8_t* destination);
+bool read_byte(uint8_t** begin, const uint8_t* end, uint8_t* destination);
 
 /**
  * Reads a 8 bit number without bounds checking. This function will advance the
@@ -54,7 +54,7 @@ uint8_t read_byte_un(uint8_t** buffer);
  *
  * @return \c true if the read isn't OOB, otherwise \c false
  */
-bool read_le_short(uint8_t** begin, uint8_t* end, uint16_t* destination);
+bool read_le_short(uint8_t** begin, const uint8_t* end, uint16_t* destination);
 
 /**
  * Reads a 16 bit little-endian number without bounds checking. This function
@@ -66,7 +66,7 @@ uint16_t read_le_short_un(uint8_t** buffer);
  * Skips \c count number of bytes with bounds checking. This function will
  * advance the pointer pointed to by \c begin by <tt>count</tt>.
  */
-bool skip_bytes(uint8_t** begin, uint8_t* end, size_t count);
+bool skip_bytes(uint8_t** begin, const uint8_t* end, size_t count);
 
 /**
  * Reads a 3 byte color in the RGB format. This function will advance the
@@ -82,7 +82,7 @@ uint32_t read_color_un(uint8_t** buffer);
  * output via the \c destination parameter.
  */
 gif_result_code read_color_table(uint8_t** begin,
-                                 uint8_t* end,
+                                 const uint8_t* end,
                                  uint32_t** destination,
                                  uint8_t size,
                                  gif_allocator allocator);
