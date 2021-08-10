@@ -30,6 +30,13 @@
       }
     },
     {
+      "name": "clang-tidy",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_C_CLANG_TIDY": "clang-tidy;--header-filter=${sourceDir}/*"
+      }
+    },
+    {
       "name": "flags-unix",
       "hidden": true,
       "cacheVariables": {
@@ -100,7 +107,7 @@
     },
     {
       "name": "ci-ubuntu",
-      "inherits": ["ci-build", "ci-unix", "cppcheck", "dev-mode", "vcpkg"]
+      "inherits": ["ci-build", "ci-unix", "clang-tidy", "cppcheck", "dev-mode", "vcpkg"]
     },
     {
       "name": "ci-windows",

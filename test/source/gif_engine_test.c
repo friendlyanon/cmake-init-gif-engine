@@ -45,6 +45,7 @@ UTEST_F_TEARDOWN(parser_fixture_2frame)
 #define BLACK 0x00000000U
 #define WHITE 0x00FFFFFFU
 
+// NOLINTNEXTLINE(readability-function-size)
 UTEST_F(parser_fixture_2frame, parse)
 {
   /* Arrange */
