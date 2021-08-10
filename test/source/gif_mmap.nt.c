@@ -116,7 +116,7 @@ void gif_mmap_print_last_error_to_stderr(void)
   LocalFree(error_message);
 }
 
-#define ARRAY_LENGTH(array) (sizeof(array) / sizeof(*array))
+#define ARRAY_LENGTH(array) (sizeof(array) / sizeof(*(array)))
 
 bool gif_mmap_deallocate(gif_mmap_span* span)
 {

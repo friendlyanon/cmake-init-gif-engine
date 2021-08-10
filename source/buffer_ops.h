@@ -20,7 +20,7 @@ typedef enum compare_result {
  * passed to the API functions.
  */
 #define ITER_CHECK(begin, end) \
-  assert(begin <= end && "Begin must not be greater than end")
+  assert((begin) <= (end) && "Begin must not be greater than end")
 
 /**
  * A memcmp wrapper to compare \c begin and \c data until \c data_size length
