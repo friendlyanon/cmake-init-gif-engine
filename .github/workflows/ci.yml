@@ -10,6 +10,8 @@ on:
     branches:
     - develop
 
+  workflow_dispatch: ~
+
 env:
   VCPKG_COMMIT: 4990d2b9510876531eb7e73eeba09210178e804f
 
