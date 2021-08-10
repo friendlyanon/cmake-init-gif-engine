@@ -1,6 +1,6 @@
 #pragma once
 
-void gif_set_last_position(void* data);
+void gif_set_last_position(void* position);
 
 #define THROW(code, position) \
   do { \
