@@ -60,7 +60,7 @@ UTEST_F(parser_fixture_2frame, parse)
   memcpy(&leftover_bytes, &parse_result.data, sizeof(size_t));
 
   /* Assert */
-  ASSERT_EQ(parse_result.code, GIF_SUCCESS);
+  ASSERT_EQ((int)parse_result.code, GIF_SUCCESS);
   ASSERT_EQ(leftover_bytes, 1U);
 
   ASSERT_EQ(details.descriptor.canvas_width, 2);
@@ -87,7 +87,7 @@ UTEST_F(parser_fixture_2frame, parse)
 
   gif_frame_data frame1 = frame_vector.frames[0];
   gif_graphic_extension extension1 = frame1.graphic_extension;
-  ASSERT_EQ(extension1.packed.disposal_method, GIF_DISPOSAL_NOTHING);
+  ASSERT_EQ((int)extension1.packed.disposal_method, GIF_DISPOSAL_NOTHING);
   ASSERT_EQ(extension1.packed.user_input_flag, false);
   ASSERT_EQ(extension1.packed.transparent_color_flag, true);
 
@@ -111,7 +111,7 @@ UTEST_F(parser_fixture_2frame, parse)
 
   gif_frame_data frame2 = frame_vector.frames[1];
   gif_graphic_extension extension2 = frame2.graphic_extension;
-  ASSERT_EQ(extension2.packed.disposal_method, GIF_DISPOSAL_BACKGROUND);
+  ASSERT_EQ((int)extension2.packed.disposal_method, GIF_DISPOSAL_BACKGROUND);
   ASSERT_EQ(extension2.packed.user_input_flag, true);
   ASSERT_EQ(extension2.packed.transparent_color_flag, false);
 
@@ -196,7 +196,7 @@ UTEST_F(parser_fixture_11frame, realloc_fail)
   gif_free_details(&details, &free);
 
   /* Assert */
-  ASSERT_EQ(parse_result.code, GIF_REALLOC_FAIL);
+  ASSERT_EQ((int)parse_result.code, GIF_REALLOC_FAIL);
 }
 
 UTEST_MAIN()
