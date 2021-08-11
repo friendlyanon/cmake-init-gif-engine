@@ -25,46 +25,46 @@ void gif_parse_detail_set_globals(uint8_t* buffer,
 
 static uint8_t magic[] = {'G', 'I', 'F'};
 
-static compare_result is_gif_file(uint8_t** begin, const uint8_t* end)
+static compare_result is_gif_file(uint8_t** current, const uint8_t* end)
 {
-  ITER_CHECK(*begin, end);
+  ITER_CHECK(*current, end);
 
-  return buffer_is_eq(begin, end, magic, sizeof(magic));
+  return buffer_is_eq(current, end, magic, sizeof(magic));
 }
 
 static uint8_t gif_version[] = {'8', '9', 'a'};
 
-static compare_result is_gif_version_supported(uint8_t** begin,
+static compare_result is_gif_version_supported(uint8_t** current,
                                                const uint8_t* end)
 {
-  ITER_CHECK(*begin, end);
+  ITER_CHECK(*current, end);
 
-  return buffer_is_eq(begin, end, gif_version, sizeof(gif_version));
+  return buffer_is_eq(current, end, gif_version, sizeof(gif_version));
 }
 
 #define LOGICAL_SCREEN_DESCRIPTOR_SIZE 7U
 
-static bool read_descriptor(uint8_t** begin, const uint8_t* end)
+static bool read_descriptor(uint8_t** current, const uint8_t* end)
 {
-  ITER_CHECK(*begin, end);
+  ITER_CHECK(*current, end);
 
-  if ((size_t)(end - *begin) < LOGICAL_SCREEN_DESCRIPTOR_SIZE) {
+  if ((size_t)(end - *current) < LOGICAL_SCREEN_DESCRIPTOR_SIZE) {
     return false;
   }
 
   gif_descriptor* descriptor = &details_->descriptor;
-  descriptor->canvas_width = read_le_short_un(begin);
-  descriptor->canvas_height = read_le_short_un(begin);
+  descriptor->canvas_width = read_le_short_un(current);
+  descriptor->canvas_height = read_le_short_un(current);
 
-  uint8_t packed_byte = read_byte_un(begin);
+  uint8_t packed_byte = read_byte_un(current);
   gif_descriptor_packed* packed = &descriptor->packed;
   packed->global_color_table_flag = (packed_byte & B8(10000000)) != 0;
   packed->color_resolution = (packed_byte & B8(01110000)) >> 4U;
   packed->sort_flag = (packed_byte & B8(00001000)) != 0;
   packed->size = packed_byte & B8(00000111);
 
-  descriptor->background_color_index = read_byte_un(begin);
-  descriptor->pixel_aspect_ratio = read_byte_un(begin);
+  descriptor->background_color_index = read_byte_un(current);
+  descriptor->pixel_aspect_ratio = read_byte_un(current);
 
   return true;
 }
