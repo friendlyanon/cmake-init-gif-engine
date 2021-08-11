@@ -170,9 +170,14 @@ static gif_result_code read_graphics_control_extension(void** data,
   gif_graphic_extension* graphic_extension =
       &details_->frame_vector.frames[frame_index].graphic_extension;
   gif_graphic_extension_packed* packed = &graphic_extension->packed;
-  packed->disposal_method = (packed_byte & B8(00011100)) >> 2U;
+  uint8_t disposal_method = (packed_byte & B8(00011100)) >> 2U;
   packed->user_input_flag = (packed_byte & B8(00000010)) != 0;
   packed->transparent_color_flag = packed_byte & B8(00000001);
+
+  if (disposal_method > 3U) {
+    return GIF_UNKNOWN_DISPOSAL_METHOD;
+  }
+  packed->disposal_method = (gif_disposal_method)disposal_method;
 
   graphic_extension->delay = delay;
   graphic_extension->transparent_color_index = transparent_color_index;
