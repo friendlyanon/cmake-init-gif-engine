@@ -12,7 +12,25 @@ project(
 
 include(cmake/project-is-top-level.cmake)
 include(cmake/variables.cmake)
-include(cmake/stringify-result-code.cmake)
+
+# ---- Generate gif_result_code stringifyer function ----
+
+add_custom_command(
+    OUTPUT "${PROJECT_BINARY_DIR}/result_code.c"
+    COMMAND "${CMAKE_COMMAND}"
+    -D "input=${PROJECT_SOURCE_DIR}/include/gif_engine/result_code.h"
+    -D "output=${PROJECT_BINARY_DIR}/result_code.c"
+    -P "${PROJECT_SOURCE_DIR}/cmake/stringify-result-code.cmake"
+    COMMAND "${CMAKE_COMMAND}" -E copy_if_different
+    "${PROJECT_BINARY_DIR}/result_code.c.tmp"
+    "${PROJECT_BINARY_DIR}/result_code.c"
+    COMMAND "${CMAKE_COMMAND}" -E remove
+    "${PROJECT_BINARY_DIR}/result_code.c.tmp"
+    MAIN_DEPENDENCY include/gif_engine/result_code.h
+    DEPENDS "${PROJECT_SOURCE_DIR}/cmake/stringify-result-code.cmake"
+    COMMENT "Generating stringifyer function for gif_result_code"
+    VERBATIM
+)
 
 # ---- Declare library ----
 
@@ -23,6 +41,7 @@ add_library(
     source/decode.c
     source/parse.c
     source/last_position.c
+    "${PROJECT_BINARY_DIR}/result_code.c"
 )
 add_library(gif_engine::gif_engine ALIAS gif_engine_gif_engine)
 
@@ -31,12 +50,6 @@ generate_export_header(
     gif_engine_gif_engine
     BASE_NAME gif_engine
     EXPORT_FILE_NAME export/gif_engine/export.h
-)
-
-stringify_result_code(include/gif_engine/result_code.h result_code.c)
-target_sources(
-    gif_engine_gif_engine PRIVATE
-    "${PROJECT_BINARY_DIR}/result_code.c"
 )
 
 if(NOT BUILD_SHARED_LIBS)
