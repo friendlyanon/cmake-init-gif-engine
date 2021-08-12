@@ -12,6 +12,7 @@ project(
 
 include(cmake/project-is-top-level.cmake)
 include(cmake/variables.cmake)
+include(cmake/stringify-result-code.cmake)
 
 # ---- Declare library ----
 
@@ -30,6 +31,12 @@ generate_export_header(
     gif_engine_gif_engine
     BASE_NAME gif_engine
     EXPORT_FILE_NAME export/gif_engine/export.h
+)
+
+stringify_result_code(include/gif_engine/result_code.h result_code.c)
+target_sources(
+    gif_engine_gif_engine PRIVATE
+    "${PROJECT_BINARY_DIR}/result_code.c"
 )
 
 if(NOT BUILD_SHARED_LIBS)

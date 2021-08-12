@@ -79,6 +79,12 @@ GIF_ENGINE_EXPORT gif_result gif_decode(gif_details* details,
 GIF_ENGINE_EXPORT void gif_free_details(gif_details* details,
                                         gif_deallocator deallocator);
 
+/**
+ * Returns the string representation of ::gif_result_code values. The returned
+ * value will be \c NULL for unknown values.
+ */
+GIF_ENGINE_EXPORT const char* gif_result_code_to_string(gif_result_code code);
+
 #ifdef __cplusplus
 }  // extern "C"
 #endif
