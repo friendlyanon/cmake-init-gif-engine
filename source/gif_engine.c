@@ -18,11 +18,12 @@ gif_result gif_parse(uint8_t* buffer,
   gif_set_last_position(NULL);
 
   void* data = NULL;
-  gif_result_code code = gif_parse_impl(&data);
+  gif_result result = gif_parse_impl(&data);
+  gif_set_last_position(result.data);
   gif_parse_detail_set_globals(NULL, 0, NULL, NULL);
 
   return (gif_result) {
-      .code = code,
+      .code = result.code,
       .data = data,
   };
 }

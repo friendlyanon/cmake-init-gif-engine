@@ -5,7 +5,6 @@
 
 #include "binary_literal.h"
 #include "buffer_ops.h"
-#include "last_position.h"
 
 static uint8_t* buffer_;
 static size_t buffer_size_;
@@ -268,28 +267,28 @@ static gif_result_code read_extension_block(
 
   uint8_t extension_type_byte;
   if (!read_byte(current, end, &extension_type_byte)) {
-    THROW(GIF_READ_PAST_BUFFER, *current);
+    return GIF_READ_PAST_BUFFER;
   }
 
   gif_extension_type extension_type = (gif_extension_type)extension_type_byte;
   switch (extension_type) {
     case GIF_GRAPHICS_CONTROL_EXTENSION: {
       if (*seen_graphics_control_extension) {
-        THROW(GIF_MULTIPLE_GRAPHICS_CONTROL_EXTENSIONS, *current);
+        return GIF_MULTIPLE_GRAPHICS_CONTROL_EXTENSIONS;
       }
       *seen_graphics_control_extension = true;
 
       gif_result_code code =
           read_graphics_control_extension(data, current, end, frame_index);
       if (code != GIF_SUCCESS) {
-        THROW(code, *current);
+        return code;
       }
       break;
     }
     case GIF_APPLICATION_EXTENSION: {
       gif_result_code code = read_application_extension(current, end);
       if (code != GIF_SUCCESS) {
-        THROW(code, *current);
+        return code;
       }
       break;
     }
@@ -297,11 +296,11 @@ static gif_result_code read_extension_block(
       /* fallthrough */
     case GIF_TEXT_EXTENSION:
       if (!skip_block(current, end)) {
-        THROW(GIF_READ_PAST_BUFFER, *current);
+        return GIF_READ_PAST_BUFFER;
       }
       break;
     default:
-      THROW(GIF_UNKNOWN_EXTENSION, *current);
+      return GIF_UNKNOWN_EXTENSION;
   }
 
   return GIF_SUCCESS;
@@ -411,7 +410,7 @@ typedef enum gif_block_type {
   GIF_TAIL_BLOCK = 0x3B,
 } gif_block_type;
 
-gif_result_code gif_parse_impl(void** data)
+gif_result gif_parse_impl(void** data)
 {
   uint8_t* current = buffer_;
   const uint8_t* end = buffer_ + buffer_size_;
@@ -423,10 +422,9 @@ gif_result_code gif_parse_impl(void** data)
       case CMP_EQ: \
         break; \
       case CMP_NEQ: \
-        return fail_code; \
+        return (gif_result) {fail_code, current}; \
       case CMP_OOB: \
-        gif_set_last_position(current); \
-        return GIF_READ_PAST_BUFFER; \
+        return (gif_result) {GIF_READ_PAST_BUFFER, current}; \
     } \
   } while (0)
 
@@ -434,7 +432,7 @@ gif_result_code gif_parse_impl(void** data)
   CONST_CHECK(is_gif_version_supported, GIF_NOT_A_GIF89A);
 
   if (!read_descriptor(&current, end)) {
-    THROW(GIF_READ_PAST_BUFFER, current);
+    return (gif_result) {GIF_READ_PAST_BUFFER, current};
   }
 
   if (details_->descriptor.packed.global_color_table_flag) {
@@ -444,7 +442,7 @@ gif_result_code gif_parse_impl(void** data)
                                             details_->descriptor.packed.size,
                                             allocator_);
     if (code != GIF_SUCCESS) {
-      THROW(code, current);
+      return (gif_result) {code, current};
     }
   }
 
@@ -453,7 +451,7 @@ gif_result_code gif_parse_impl(void** data)
   while (1) {
     uint8_t block_type_byte;
     if (!read_byte(&current, end, &block_type_byte)) {
-      THROW(GIF_READ_PAST_BUFFER, current);
+      return (gif_result) {GIF_READ_PAST_BUFFER, current};
     }
 
     gif_block_type block_type = (gif_block_type)block_type_byte;
@@ -462,7 +460,7 @@ gif_result_code gif_parse_impl(void** data)
         gif_result_code code = read_extension_block(
             data, &current, end, frame_index, &seen_graphics_control_extension);
         if (code != GIF_SUCCESS) {
-          return code;
+          return (gif_result) {code, current};
         }
         break;
       }
@@ -470,7 +468,7 @@ gif_result_code gif_parse_impl(void** data)
         gif_result_code code =
             read_image_descriptor_block(data, &current, end, frame_index);
         if (code != GIF_SUCCESS) {
-          return code;
+          return (gif_result) {code, current};
         }
         ++frame_index;
         seen_graphics_control_extension = false;
@@ -478,11 +476,11 @@ gif_result_code gif_parse_impl(void** data)
       }
       case GIF_TAIL_BLOCK:
         if (frame_index == 0) {
-          THROW(GIF_IMAGE_DESCRIPTOR_MISSING, current);
+          return (gif_result) {GIF_IMAGE_DESCRIPTOR_MISSING, current};
         }
         goto tail_block;
       default:
-        THROW(GIF_UNKNOWN_BLOCK, current);
+        return (gif_result) {GIF_UNKNOWN_BLOCK, current};
     }
   }
 
@@ -494,5 +492,5 @@ tail_block:
     memcpy(data, &leftover_bytes, sizeof(size_t));
   } while (0);
 
-  return GIF_SUCCESS;
+  return (gif_result) {GIF_SUCCESS, NULL};
 }

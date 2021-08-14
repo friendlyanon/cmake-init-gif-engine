@@ -10,4 +10,4 @@ void gif_parse_detail_set_globals(uint8_t* buffer,
                                   gif_details* details,
                                   gif_allocator allocator);
 
-gif_result_code gif_parse_impl(void** data);
+gif_result gif_parse_impl(void** data);
