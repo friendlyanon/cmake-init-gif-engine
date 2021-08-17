@@ -55,6 +55,13 @@ these correspond to in the [`CMakePresets.json`](CMakePresets.json) file.
 sorts of things that you would otherwise want to pass to the configure command
 in the terminal.
 
+### Generated sources
+
+This project processes some of its source files to output new ones and this
+process must be invoked to not have red squigglies when starting development on
+the library. To not require a full build, the `generate-sources` target can be
+built to generate these sources.
+
 ### Configure, build and test
 
 To build the project as a developer, please make sure you have [vcpkg][3]
