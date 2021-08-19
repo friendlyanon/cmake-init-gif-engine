@@ -3,12 +3,15 @@
 #include <assert.h>
 #include <string.h>
 
+#define RANGE_CHECK() \
+  assert(*begin <= end && "Begin must not be greater than end")
+
 compare_result buffer_is_eq(uint8_t** begin,
                             const uint8_t* end,
                             uint8_t* data,
                             size_t data_size)
 {
-  RANGE_CHECK(*begin, end);
+  RANGE_CHECK();
 
   if ((size_t)(end - *begin) < data_size) {
     return CMP_OOB;
@@ -21,7 +24,7 @@ compare_result buffer_is_eq(uint8_t** begin,
 
 bool read_byte(uint8_t** begin, const uint8_t* end, uint8_t* destination)
 {
-  RANGE_CHECK(*begin, end);
+  RANGE_CHECK();
 
   if ((size_t)(end - *begin) < 1U) {
     return false;
@@ -42,7 +45,7 @@ uint8_t read_byte_un(uint8_t** buffer)
 
 bool read_le_short(uint8_t** begin, const uint8_t* end, uint16_t* destination)
 {
-  RANGE_CHECK(*begin, end);
+  RANGE_CHECK();
 
   if ((size_t)(end - *begin) < 2U) {
     return false;
@@ -62,7 +65,7 @@ uint16_t read_le_short_un(uint8_t** buffer)
 
 bool skip_bytes(uint8_t** begin, const uint8_t* end, size_t count)
 {
-  RANGE_CHECK(*begin, end);
+  RANGE_CHECK();
 
   if ((size_t)(end - *begin) < count) {
     return false;
@@ -93,7 +96,7 @@ gif_result_code read_color_table(uint8_t** begin,
                                  uint8_t size,
                                  gif_allocator allocator)
 {
-  RANGE_CHECK(*begin, end);
+  RANGE_CHECK();
 
   size_t color_count = size_to_count(size);
   size_t color_bytes = color_count * 3;

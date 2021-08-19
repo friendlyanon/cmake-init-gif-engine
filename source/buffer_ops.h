@@ -14,15 +14,6 @@ typedef enum compare_result {
 } compare_result;
 
 /**
- * Sanity check macro that checks the \c begin and \c end iterators' validity
- * in debug mode. The \c begin iterator must not be greater than the \c end
- * iterator in the GIF functions. The buffer sizes should not be zero when
- * passed to the API functions.
- */
-#define RANGE_CHECK(begin, end) \
-  assert((begin) <= (end) && "Begin must not be greater than end")
-
-/**
  * A memcmp wrapper to compare \c begin and \c data until \c data_size length
  * with bounds checking. This function will advance the pointer pointed to by
  * \c begin by \c data_size if the read isn't OOB.
