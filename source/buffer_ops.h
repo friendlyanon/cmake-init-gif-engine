@@ -19,7 +19,7 @@ typedef enum compare_result {
  * iterator in the GIF functions. The buffer sizes should not be zero when
  * passed to the API functions.
  */
-#define ITER_CHECK(begin, end) \
+#define RANGE_CHECK(begin, end) \
   assert((begin) <= (end) && "Begin must not be greater than end")
 
 /**

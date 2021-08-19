@@ -26,7 +26,7 @@ static uint8_t magic[] = {'G', 'I', 'F'};
 
 static compare_result is_gif_file(uint8_t** current, const uint8_t* end)
 {
-  ITER_CHECK(*current, end);
+  RANGE_CHECK(*current, end);
 
   return buffer_is_eq(current, end, magic, sizeof(magic));
 }
@@ -36,7 +36,7 @@ static uint8_t gif_version[] = {'8', '9', 'a'};
 static compare_result is_gif_version_supported(uint8_t** current,
                                                const uint8_t* end)
 {
-  ITER_CHECK(*current, end);
+  RANGE_CHECK(*current, end);
 
   return buffer_is_eq(current, end, gif_version, sizeof(gif_version));
 }
@@ -45,7 +45,7 @@ static compare_result is_gif_version_supported(uint8_t** current,
 
 static bool read_descriptor(uint8_t** current, const uint8_t* end)
 {
-  ITER_CHECK(*current, end);
+  RANGE_CHECK(*current, end);
 
   if ((size_t)(end - *current) < LOGICAL_SCREEN_DESCRIPTOR_SIZE) {
     return false;
@@ -77,7 +77,7 @@ typedef enum gif_extension_type {
 
 static bool skip_block(uint8_t** current, const uint8_t* end)
 {
-  ITER_CHECK(*current, end);
+  RANGE_CHECK(*current, end);
 
   while (1) {
     uint8_t subblock_size;
@@ -141,7 +141,7 @@ static gif_result_code read_graphics_control_extension(void** data,
                                                        const uint8_t* end,
                                                        size_t frame_index)
 {
-  ITER_CHECK(*current, end);
+  RANGE_CHECK(*current, end);
 
   /* The plus two comes from the length byte itself and the terminating null
    * byte */
@@ -201,7 +201,7 @@ _Static_assert(sizeof(netscape_auth_code) == 3U,
 static gif_result_code read_application_extension(uint8_t** current,
                                                   const uint8_t* end)
 {
-  ITER_CHECK(*current, end);
+  RANGE_CHECK(*current, end);
 
   /* The plus two comes from the length byte itself and the subblock length
    * byte, which could potentially be the terminating null byte */
@@ -263,7 +263,7 @@ static gif_result_code read_extension_block(
     size_t frame_index,
     bool* seen_graphics_control_extension)
 {
-  ITER_CHECK(*current, end);
+  RANGE_CHECK(*current, end);
 
   uint8_t extension_type_byte;
   if (!read_byte(current, end, &extension_type_byte)) {
@@ -330,7 +330,7 @@ static gif_result_code read_image_descriptor_block(void** data,
                                                    const uint8_t* end,
                                                    size_t frame_index)
 {
-  ITER_CHECK(*current, end);
+  RANGE_CHECK(*current, end);
   if ((size_t)(end - *current) < GIF_IMAGE_DESCRIPTOR_SIZE) {
     return GIF_READ_PAST_BUFFER;
   }
@@ -414,7 +414,7 @@ gif_result gif_parse_impl(void** data)
 {
   uint8_t* current = buffer_;
   const uint8_t* end = buffer_ + buffer_size_;
-  ITER_CHECK(current, end);
+  RANGE_CHECK(current, end);
 
 #define CONST_CHECK(predicate, fail_code) \
   do { \
