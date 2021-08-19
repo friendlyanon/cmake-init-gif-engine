@@ -6,8 +6,8 @@
 
 #include "decode.h"
 #include "last_position.h"
-#include "parse.h"
-#include "parse_state.h"
+#include "parse/parse.h"
+#include "parse/parse_state.h"
 
 gif_result gif_parse(uint8_t* buffer,
                      size_t buffer_size,

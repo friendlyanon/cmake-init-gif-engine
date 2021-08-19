@@ -39,7 +39,7 @@ add_library(
     source/gif_engine.c
     source/buffer_ops.c
     source/decode.c
-    source/parse.c
+    source/parse/parse.c
     source/last_position.c
     "${PROJECT_BINARY_DIR}/result_code.c"
 )
