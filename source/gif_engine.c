@@ -15,6 +15,9 @@ gif_result gif_parse(uint8_t* buffer,
                      gif_allocator allocator)
 {
   memset(details, 0, sizeof(gif_details));
+  if (buffer_size == 0) {
+    return (gif_result) {GIF_ZERO_SIZED_BUFFER, NULL};
+  }
 
   gif_parse_state state = (gif_parse_state) {
       .current = &buffer,

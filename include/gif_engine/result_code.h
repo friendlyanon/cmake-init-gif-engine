@@ -32,4 +32,6 @@ typedef enum gif_result_code {
   GIF_FRAME_OUT_OF_BOUNDS,
 
   GIF_FRAME_DATA_EMPTY,
+
+  GIF_ZERO_SIZED_BUFFER,
 } gif_result_code;
