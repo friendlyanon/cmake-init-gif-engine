@@ -7,6 +7,7 @@
 #include "decode.h"
 #include "last_position.h"
 #include "parse.h"
+#include "parse_state.h"
 
 gif_result gif_parse(uint8_t* buffer,
                      size_t buffer_size,
@@ -14,17 +15,21 @@ gif_result gif_parse(uint8_t* buffer,
                      gif_allocator allocator)
 {
   memset(details, 0, sizeof(gif_details));
-  gif_parse_detail_set_globals(buffer, buffer_size, details, allocator);
-  gif_set_last_position(NULL);
 
-  void* data = NULL;
-  gif_result result = gif_parse_impl(&data);
-  gif_set_last_position(result.data);
-  gif_parse_detail_set_globals(NULL, 0, NULL, NULL);
+  gif_parse_state state = (gif_parse_state) {
+      .current = &buffer,
+      .end = buffer + buffer_size,
+      .details = details,
+      .allocator = allocator,
+      .data = NULL,
+  };
+
+  gif_result_code code = gif_parse_impl(&state);
+  gif_set_last_position(code == GIF_SUCCESS ? NULL : buffer);
 
   return (gif_result) {
-      .code = result.code,
-      .data = data,
+      .code = code,
+      .data = state.data,
   };
 }
 
