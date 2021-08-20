@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <string.h>
 
-#include "decode.h"
+#include "decode/decode.h"
 #include "parse/parse.h"
 #include "parse/parse_state.h"
 

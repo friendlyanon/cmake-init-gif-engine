@@ -38,7 +38,7 @@ add_library(
     gif_engine_gif_engine
     source/gif_engine.c
     source/buffer_ops.c
-    source/decode.c
+    source/decode/decode.c
     source/parse/parse.c
     "${PROJECT_BINARY_DIR}/result_code.c"
 )

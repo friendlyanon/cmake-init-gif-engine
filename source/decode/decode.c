@@ -1,4 +1,4 @@
-#include "decode.h"
+#include "decode/decode.h"
 
 gif_result_code gif_decode_impl(void** data,
                                 gif_details* details,
