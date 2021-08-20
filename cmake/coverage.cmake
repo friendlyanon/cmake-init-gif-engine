@@ -8,6 +8,7 @@ set(
     -o "${PROJECT_BINARY_DIR}/coverage.info"
     -d "${PROJECT_BINARY_DIR}"
     --include "${PROJECT_SOURCE_DIR}/*"
+    --exclude "${PROJECT_BINARY_DIR}/vcpkg_installed/*"
     CACHE STRING
     "; separated command to generate a trace for the 'coverage' target"
 )
