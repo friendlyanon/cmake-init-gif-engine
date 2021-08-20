@@ -72,7 +72,7 @@
               uint8_t* data,
               size_t data_size) -&gt; <a href="buffer__ops_8h.html#a8fbd6dceec7bf13cba06c903c025429b" class="m-doc">compare_<wbr />result</a></span>
             </dt>
-            <dd>A memcmp wrapper to compare <code>begin</code> and <code>data</code> until <code>data_size</code> length with bounds checking.</dd>
+            <dd>A <code>memcmp</code> wrapper to compare <code>begin</code> and <code>data</code> until <code>data_size</code> length with bounds checking.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a352673609f36ff8b8a6e554beef6673e" class="m-doc">read_byte</a>(</span><span class="m-doc-wrap">uint8_t** begin,
               const uint8_t* end,
@@ -82,7 +82,7 @@
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a56b3a6224af4eaf480a301da08bedf74" class="m-doc">read_byte_un</a>(</span><span class="m-doc-wrap">uint8_t** buffer) -&gt; uint8_t</span>
             </dt>
-            <dd>Reads a 8 bit number without bounds checking.</dd>
+            <dd>Reads an 8 bit number without bounds checking.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a8f27493e58d1fa69d5347916ec96e894" class="m-doc">read_le_short</a>(</span><span class="m-doc-wrap">uint8_t** begin,
               const uint8_t* end,
@@ -135,7 +135,7 @@
               uint8_t* data,
               size_t data_size)</span></span>
             </h3>
-            <p>A memcmp wrapper to compare <code>begin</code> and <code>data</code> until <code>data_size</code> length with bounds checking.</p>
+            <p>A <code>memcmp</code> wrapper to compare <code>begin</code> and <code>data</code> until <code>data_size</code> length with bounds checking.</p>
             <table class="m-table m-fullwidth m-flat">
               <tfoot>
                 <tr>
@@ -167,7 +167,7 @@
             <h3>
               <span class="m-doc-wrap-bumper">uint8_t </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a56b3a6224af4eaf480a301da08bedf74" class="m-doc-self">read_byte_un</a>(</span><span class="m-doc-wrap">uint8_t** buffer)</span></span>
             </h3>
-            <p>Reads a 8 bit number without bounds checking.</p>
+            <p>Reads an 8 bit number without bounds checking.</p>
 <p>This function will advance the pointer pointed to by <code>buffer</code> by 1.</p>
           </div></section>
           <section class="m-doc-details" id="a8f27493e58d1fa69d5347916ec96e894"><div>
