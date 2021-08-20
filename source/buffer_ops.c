@@ -36,11 +36,9 @@ bool read_byte(uint8_t** begin, const uint8_t* end, uint8_t* destination)
 
 uint8_t read_byte_un(uint8_t** buffer)
 {
-  uint8_t result;
-  uint8_t* begin = *buffer;
-  result = begin[0];
+  uint8_t byte = **buffer;
   ++*buffer;
-  return result;
+  return byte;
 }
 
 bool read_le_short(uint8_t** begin, const uint8_t* end, uint16_t* destination)
@@ -57,10 +55,9 @@ bool read_le_short(uint8_t** begin, const uint8_t* end, uint16_t* destination)
 
 uint16_t read_le_short_un(uint8_t** buffer)
 {
-  uint8_t* begin = *buffer;
-  uint16_t result = (uint16_t)((uint16_t)begin[0] | (uint16_t)begin[1] << 8U);
-  *buffer += 2;
-  return result;
+  uint16_t low_byte = read_byte_un(buffer);
+  uint16_t high_byte = read_byte_un(buffer);
+  return (uint16_t)(high_byte << 8U | low_byte);
 }
 
 bool skip_bytes(uint8_t** begin, const uint8_t* end, size_t count)

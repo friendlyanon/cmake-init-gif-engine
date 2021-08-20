@@ -14,9 +14,9 @@ typedef enum compare_result {
 } compare_result;
 
 /**
- * A memcmp wrapper to compare \c begin and \c data until \c data_size length
- * with bounds checking. This function will advance the pointer pointed to by
- * \c begin by \c data_size if the read isn't OOB.
+ * A \c memcmp wrapper to compare \c begin and \c data until \c data_size
+ * length with bounds checking. This function will advance the pointer pointed
+ * to by \c begin by \c data_size if the read isn't OOB.
  *
  * @return Result of the equality comparison or an indication of OOB
  */
@@ -34,8 +34,8 @@ compare_result buffer_is_eq(uint8_t** begin,
 bool read_byte(uint8_t** begin, const uint8_t* end, uint8_t* destination);
 
 /**
- * Reads a 8 bit number without bounds checking. This function will advance the
- * pointer pointed to by \c buffer by 1.
+ * Reads an 8 bit number without bounds checking. This function will advance
+ * the pointer pointed to by \c buffer by 1.
  */
 uint8_t read_byte_un(uint8_t** buffer);
 
@@ -55,7 +55,7 @@ uint16_t read_le_short_un(uint8_t** buffer);
 
 /**
  * Skips \c count number of bytes with bounds checking. This function will
- * advance the pointer pointed to by \c begin by <tt>count</tt>.
+ * advance the pointer pointed to by \c begin by \c count.
  */
 bool skip_bytes(uint8_t** begin, const uint8_t* end, size_t count);
 
