@@ -40,7 +40,6 @@ add_library(
     source/buffer_ops.c
     source/decode.c
     source/parse/parse.c
-    source/last_position.c
     "${PROJECT_BINARY_DIR}/result_code.c"
 )
 add_library(gif_engine::gif_engine ALIAS gif_engine_gif_engine)

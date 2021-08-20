@@ -52,10 +52,10 @@ UTEST_F(parser_fixture_2frame, parse)
   gif_details details;
 
   /* Act */
-  gif_result parse_result = gif_parse(utest_fixture->span.pointer,
-                                      utest_fixture->span.size,
-                                      &details,
-                                      &realloc);
+  gif_parse_result parse_result = gif_parse(utest_fixture->span.pointer,
+                                            utest_fixture->span.size,
+                                            &details,
+                                            &realloc);
   size_t leftover_bytes;
   memcpy(&leftover_bytes, &parse_result.data, sizeof(size_t));
 
@@ -188,10 +188,10 @@ UTEST_F(parser_fixture_11frame, realloc_fail)
   gif_details details;
 
   /* Act */
-  gif_result parse_result = gif_parse(utest_fixture->span.pointer,
-                                      utest_fixture->span.size,
-                                      &details,
-                                      &fake_realloc);
+  gif_parse_result parse_result = gif_parse(utest_fixture->span.pointer,
+                                            utest_fixture->span.size,
+                                            &details,
+                                            &fake_realloc);
   /* We can free early here, because this test only checks the return code */
   gif_free_details(&details, &free);
 
