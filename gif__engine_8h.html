@@ -80,26 +80,22 @@
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#ad872f5f024716f43bbb1d6694a8f6bc4" class="m-doc">gif_parse</a>(</span><span class="m-doc-wrap">uint8_t* buffer,
+              <span class="m-doc-wrap-bumper">auto <a href="#a21317f5138ffed386116a341e5347a22" class="m-doc">gif_parse</a>(</span><span class="m-doc-wrap">uint8_t* buffer,
               size_t buffer_size,
               <a href="structgif__details.html" class="m-doc">gif_<wbr />details</a>* details,
-              <a href="gif__engine_8h.html#adebdc5ece010255aafbd17e93baa4c06" class="m-doc">gif_<wbr />allocator</a> allocator) -&gt; <a href="structgif__result.html" class="m-doc">gif_<wbr />result</a></span>
+              <a href="gif__engine_8h.html#adebdc5ece010255aafbd17e93baa4c06" class="m-doc">gif_<wbr />allocator</a> allocator) -&gt; <a href="structgif__parse__result.html" class="m-doc">gif_<wbr />parse_<wbr />result</a></span>
             </dt>
             <dd>Parses the GIF file located at <code>buffer</code>.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#aa0394b85f9f0cff1cba14f286839aad4" class="m-doc">gif_pop_last_position</a>(</span><span class="m-doc-wrap">void) -&gt; void*</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a656ac8879c8f71168b50214337add3bb" class="m-doc">gif_decode</a>(</span><span class="m-doc-wrap"><a href="structgif__details.html" class="m-doc">gif_<wbr />details</a>* details,
+              <a href="gif__engine_8h.html#adebdc5ece010255aafbd17e93baa4c06" class="m-doc">gif_<wbr />allocator</a> allocator) -&gt; <a href="structgif__decode__result.html" class="m-doc">gif_<wbr />decode_<wbr />result</a></span>
             </dt>
-            <dd>Returns the last position that was read in the buffer.</dd>
-            <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a39edbe0abccbd6d8728db1f733f305ad" class="m-doc">gif_decode</a>(</span><span class="m-doc-wrap"><a href="structgif__details.html" class="m-doc">gif_<wbr />details</a>* details,
-              <a href="gif__engine_8h.html#adebdc5ece010255aafbd17e93baa4c06" class="m-doc">gif_<wbr />allocator</a> allocator) -&gt; <a href="structgif__result.html" class="m-doc">gif_<wbr />result</a></span>
-            </dt>
-            <dd>Decodes the frame data parsed by <a href="gif__engine_8h.html#ad872f5f024716f43bbb1d6694a8f6bc4" class="m-doc">gif_<wbr />parse</a>.</dd>
+            <dd>Decodes the frame data parsed by <a href="gif__engine_8h.html#a21317f5138ffed386116a341e5347a22" class="m-doc">gif_<wbr />parse</a>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">void <a href="#abd6964717c2a34b645263477e9de4712" class="m-doc">gif_free_details</a>(</span><span class="m-doc-wrap"><a href="structgif__details.html" class="m-doc">gif_<wbr />details</a>* details,
               <a href="gif__engine_8h.html#ae3043d47758bf1da6556deb0213fa4b8" class="m-doc">gif_<wbr />deallocator</a> deallocator)</span>
             </dt>
-            <dd>Frees the <a href="structgif__details.html" class="m-doc">gif_<wbr />details</a> struct populated by <a href="gif__engine_8h.html#ad872f5f024716f43bbb1d6694a8f6bc4" class="m-doc">gif_<wbr />parse</a>.</dd>
+            <dd>Frees the <a href="structgif__details.html" class="m-doc">gif_<wbr />details</a> struct populated by <a href="gif__engine_8h.html#a21317f5138ffed386116a341e5347a22" class="m-doc">gif_<wbr />parse</a>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a52bc40ab2ec1fa6e71bd8932ad94bc88" class="m-doc">gif_result_code_to_string</a>(</span><span class="m-doc-wrap"><a href="result__code_8h.html#a4e23027c2fedeb9dfec028d3978861e1" class="m-doc">gif_<wbr />result_<wbr />code</a> code) -&gt; const char*</span>
             </dt>
@@ -108,31 +104,24 @@
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="ad872f5f024716f43bbb1d6694a8f6bc4"><div>
+          <section class="m-doc-details" id="a21317f5138ffed386116a341e5347a22"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"><a href="structgif__result.html" class="m-doc">gif_<wbr />result</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ad872f5f024716f43bbb1d6694a8f6bc4" class="m-doc-self">gif_parse</a>(</span><span class="m-doc-wrap">uint8_t* buffer,
+              <span class="m-doc-wrap-bumper"><a href="structgif__parse__result.html" class="m-doc">gif_<wbr />parse_<wbr />result</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a21317f5138ffed386116a341e5347a22" class="m-doc-self">gif_parse</a>(</span><span class="m-doc-wrap">uint8_t* buffer,
               size_t buffer_size,
               <a href="structgif__details.html" class="m-doc">gif_<wbr />details</a>* details,
               <a href="gif__engine_8h.html#adebdc5ece010255aafbd17e93baa4c06" class="m-doc">gif_<wbr />allocator</a> allocator)</span></span>
             </h3>
             <p>Parses the GIF file located at <code>buffer</code>.</p>
-<p>This function will parse the contents of <code>buffer</code> in a way that makes OOB reads impossible, if the provided <code>buffer</code> and <code>buffer_size</code> arguments are valid. Because this function must allocate, the user can provide an allocator function using the <code>allocator</code> arguments, which is a pointer to a function with a signature matching that of <code>realloc</code>. The <code>details</code> argument is a pointer to a <a href="structgif__result.html" class="m-doc">gif_<wbr />result</a> struct, which need not be zero initialized, because this function does zero initialization as its first step. Typical usage of this function looks as follows:</p><pre class="m-code"><span class="n">gif_details</span><span class="w"> </span><span class="n">details</span><span class="p">;</span><span class="w"></span>
-<span class="n">gif_result</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gif_parse</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span><span class="w"> </span><span class="n">buffer_size</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">details</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">realloc</span><span class="p">);</span><span class="w"></span></pre><p>The <code>code</code> member of the returned <a href="structgif__result.html" class="m-doc">gif_<wbr />result</a> object holds the result of the parsing process. If the <code>code</code> is <a href="result__code_8h.html#a4e23027c2fedeb9dfec028d3978861e1ae33cf82923226aa3465d4cc1503559e6" class="m-doc">GIF_<wbr />SUCCESS</a>, then the <code>data</code> member will hold the number of bytes remaining after the tail block in the buffer. Note that the number of bytes is a <code>size_t</code> value memcpy&#x27;d into this field, so you have to copy it out in a similar manner:</p><pre class="m-code"><span class="kt">size_t</span><span class="w"> </span><span class="n">leftover_bytes</span><span class="p">;</span><span class="w"></span>
-<span class="n">memcpy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">leftover_bytes</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">size_t</span><span class="p">));</span><span class="w"></span></pre><p>If the <code>code</code> member is <a href="result__code_8h.html#a4e23027c2fedeb9dfec028d3978861e1a0d03c2db488741c8cc08ad937a78e4f1" class="m-doc">GIF_<wbr />REALLOC_<wbr />FAIL</a>, then the pointer that caused the <code>allocator</code> function to fail in a realloc context (i.e. when the first argument isn&#x27;t <code>NULL</code>) will be returned in the <code>data</code> member as is.</p><p>This function is not thread-safe.</p>
+<p>This function will parse the contents of <code>buffer</code> in a way that makes OOB reads impossible, if the provided <code>buffer</code> and <code>buffer_size</code> arguments are valid. Because this function must allocate, the user can provide an allocator function using the <code>allocator</code> arguments, which is a pointer to a function with a signature matching that of <code>realloc</code>. The <code>details</code> argument is a pointer to a <a href="structgif__details.html" class="m-doc">gif_<wbr />details</a> struct, which need not be zero initialized, because this function does zero initialization as its first step. Typical usage of this function looks as follows:</p><pre class="m-code"><span class="n">gif_details</span><span class="w"> </span><span class="n">details</span><span class="p">;</span><span class="w"></span>
+<span class="n">gif_parse_result</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gif_parse</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span><span class="w"> </span><span class="n">buffer_size</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">details</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">realloc</span><span class="p">);</span><span class="w"></span></pre><p>The <code>code</code> member of the returned <a href="structgif__parse__result.html" class="m-doc">gif_<wbr />parse_<wbr />result</a> object holds the result of the parsing process. If the <code>code</code> is <a href="result__code_8h.html#a4e23027c2fedeb9dfec028d3978861e1ae33cf82923226aa3465d4cc1503559e6" class="m-doc">GIF_<wbr />SUCCESS</a>, then the <code>data</code> member will hold the number of bytes remaining after the tail block in the buffer. Note that the number of bytes is a <code>size_t</code> value memcpy&#x27;d into this field, so you have to copy it out in a similar manner:</p><pre class="m-code"><span class="kt">size_t</span><span class="w"> </span><span class="n">leftover_bytes</span><span class="p">;</span><span class="w"></span>
+<span class="n">memcpy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">leftover_bytes</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">result</span><span class="p">.</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">size_t</span><span class="p">));</span><span class="w"></span></pre><p>If the <code>code</code> member is <a href="result__code_8h.html#a4e23027c2fedeb9dfec028d3978861e1a0d03c2db488741c8cc08ad937a78e4f1" class="m-doc">GIF_<wbr />REALLOC_<wbr />FAIL</a>, then the pointer that caused the <code>allocator</code> function to fail in a realloc context (i.e. when the first argument isn&#x27;t <code>NULL</code>) will be returned in the <code>data</code> member as is.</p><p>This function is thread-safe.</p>
           </div></section>
-          <section class="m-doc-details" id="aa0394b85f9f0cff1cba14f286839aad4"><div>
+          <section class="m-doc-details" id="a656ac8879c8f71168b50214337add3bb"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">void* </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aa0394b85f9f0cff1cba14f286839aad4" class="m-doc-self">gif_pop_last_position</a>(</span><span class="m-doc-wrap">void)</span></span>
-            </h3>
-            <p>Returns the last position that was read in the buffer.</p>
-<p>This function will pop an internal slot, which holds a pointer pointing into the memory region provided as an argument to <a href="gif__engine_8h.html#ad872f5f024716f43bbb1d6694a8f6bc4" class="m-doc">gif_<wbr />parse</a>. If that function didn&#x27;t return <a href="result__code_8h.html#a4e23027c2fedeb9dfec028d3978861e1ae33cf82923226aa3465d4cc1503559e6" class="m-doc">GIF_<wbr />SUCCESS</a>, then this function can be used to inspect the cause of the failure.</p><p>This function is not thread-safe.</p>
-          </div></section>
-          <section class="m-doc-details" id="a39edbe0abccbd6d8728db1f733f305ad"><div>
-            <h3>
-              <span class="m-doc-wrap-bumper"><a href="structgif__result.html" class="m-doc">gif_<wbr />result</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a39edbe0abccbd6d8728db1f733f305ad" class="m-doc-self">gif_decode</a>(</span><span class="m-doc-wrap"><a href="structgif__details.html" class="m-doc">gif_<wbr />details</a>* details,
+              <span class="m-doc-wrap-bumper"><a href="structgif__decode__result.html" class="m-doc">gif_<wbr />decode_<wbr />result</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a656ac8879c8f71168b50214337add3bb" class="m-doc-self">gif_decode</a>(</span><span class="m-doc-wrap"><a href="structgif__details.html" class="m-doc">gif_<wbr />details</a>* details,
               <a href="gif__engine_8h.html#adebdc5ece010255aafbd17e93baa4c06" class="m-doc">gif_<wbr />allocator</a> allocator)</span></span>
             </h3>
-            <p>Decodes the frame data parsed by <a href="gif__engine_8h.html#ad872f5f024716f43bbb1d6694a8f6bc4" class="m-doc">gif_<wbr />parse</a>.</p>
+            <p>Decodes the frame data parsed by <a href="gif__engine_8h.html#a21317f5138ffed386116a341e5347a22" class="m-doc">gif_<wbr />parse</a>.</p>
 <p>This function is not yet implemented.</p>
           </div></section>
           <section class="m-doc-details" id="abd6964717c2a34b645263477e9de4712"><div>
@@ -140,8 +129,8 @@
               <span class="m-doc-wrap-bumper">void </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#abd6964717c2a34b645263477e9de4712" class="m-doc-self">gif_free_details</a>(</span><span class="m-doc-wrap"><a href="structgif__details.html" class="m-doc">gif_<wbr />details</a>* details,
               <a href="gif__engine_8h.html#ae3043d47758bf1da6556deb0213fa4b8" class="m-doc">gif_<wbr />deallocator</a> deallocator)</span></span>
             </h3>
-            <p>Frees the <a href="structgif__details.html" class="m-doc">gif_<wbr />details</a> struct populated by <a href="gif__engine_8h.html#ad872f5f024716f43bbb1d6694a8f6bc4" class="m-doc">gif_<wbr />parse</a>.</p>
-<p>This function should be called even if the <a href="gif__engine_8h.html#ad872f5f024716f43bbb1d6694a8f6bc4" class="m-doc">gif_<wbr />parse</a> function did not succeed.</p>
+            <p>Frees the <a href="structgif__details.html" class="m-doc">gif_<wbr />details</a> struct populated by <a href="gif__engine_8h.html#a21317f5138ffed386116a341e5347a22" class="m-doc">gif_<wbr />parse</a>.</p>
+<p>This function should be called even if the <a href="gif__engine_8h.html#a21317f5138ffed386116a341e5347a22" class="m-doc">gif_<wbr />parse</a> function did not succeed.</p>
           </div></section>
           <section class="m-doc-details" id="a52bc40ab2ec1fa6e71bd8932ad94bc88"><div>
             <h3>
