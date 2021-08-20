@@ -122,9 +122,15 @@ jobs:
       run: cmake --build build/coverage -t coverage
 
     - name: Submit to codecov.io
-      uses: codecov/codecov-action@v1
+      uses: codecov/codecov-action@v2
       with:
-        file: build/coverage/coverage.info
+        files: build/coverage/coverage.info
+
+    - name: Make a coverage artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: coverage.info
+        path: build/coverage/coverage.info
 
   sanitize:
     needs: [lint]
