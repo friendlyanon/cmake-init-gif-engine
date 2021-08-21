@@ -11,6 +11,7 @@ project(
 )
 
 include(cmake/project-is-top-level.cmake)
+include(cmake/functions.cmake)
 include(cmake/variables.cmake)
 
 # ---- Generate gif_result_code stringifyer function ----
@@ -32,17 +33,28 @@ add_custom_command(
     VERBATIM
 )
 
+source_group(
+    TREE "${PROJECT_SOURCE_DIR}" FILES
+    include/gif_engine/result_code.h
+)
+
 # ---- Declare library ----
 
-add_library(
-    gif_engine_gif_engine
-    source/gif_engine.c
+add_library(gif_engine_gif_engine)
+add_library(gif_engine::gif_engine ALIAS gif_engine_gif_engine)
+
+target_sources_grouped(
+    gif_engine_gif_engine TREE "${PROJECT_SOURCE_DIR}" FILES
     source/buffer_ops.c
+    source/gif_engine.c
     source/decode/decode.c
     source/parse/parse.c
+)
+
+target_sources_grouped(
+    gif_engine_gif_engine generated FILES
     "${PROJECT_BINARY_DIR}/result_code.c"
 )
-add_library(gif_engine::gif_engine ALIAS gif_engine_gif_engine)
 
 include(GenerateExportHeader)
 generate_export_header(
