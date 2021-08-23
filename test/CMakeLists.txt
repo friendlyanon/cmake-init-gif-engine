@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.14)
 project(gif_engineTests LANGUAGES C)
 
 include(../cmake/project-is-top-level.cmake)
+include(../cmake/functions.cmake)
 
 if(PROJECT_IS_TOP_LEVEL)
   find_package(gif_engine REQUIRED)
@@ -18,21 +19,34 @@ set(CMAKE_C_STANDARD_REQUIRED YES)
 include_directories(source)
 
 add_library(gif_engine_mmap OBJECT)
+target_sources_grouped(
+    gif_engine_mmap TREE "${PROJECT_SOURCE_DIR}" FILES
+    source/gif_mmap.h
+)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-  target_sources(gif_engine_mmap PRIVATE source/gif_mmap.nt.c)
+  target_sources_grouped(
+      gif_engine_mmap TREE "${PROJECT_SOURCE_DIR}" FILES
+      source/gif_mmap.nt.c
+  )
   target_compile_definitions(gif_engine_mmap PRIVATE WIN32_LEAN_AND_MEAN)
   if(NOT CMAKE_VERSION VERSION_LESS "3.16")
     target_precompile_headers(gif_engine_mmap PRIVATE <Windows.h>)
+    source_group(Precompiled REGULAR_EXPRESSION "cmake_pch\\.[ch]")
   endif()
 else()
-  target_sources(gif_engine_mmap PRIVATE source/gif_mmap.posix.c)
+  target_sources_grouped(
+      gif_engine_mmap TREE "${PROJECT_SOURCE_DIR}" FILES
+      source/gif_mmap.posix.c
+  )
 endif()
 
-add_executable(
-    gif_engine_test
+add_executable(gif_engine_test)
+target_sources_grouped(
+    gif_engine_test TREE "${PROJECT_SOURCE_DIR}" FILES
     source/gif_engine_test.c
 )
+
 target_link_libraries(
     gif_engine_test PRIVATE
     gif_engine_mmap gif_engine::gif_engine utest::utest

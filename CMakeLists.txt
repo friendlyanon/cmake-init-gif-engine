@@ -52,7 +52,7 @@ target_sources_grouped(
 )
 
 target_sources_grouped(
-    gif_engine_gif_engine generated FILES
+    gif_engine_gif_engine Generated FILES
     "${PROJECT_BINARY_DIR}/result_code.c"
 )
 

@@ -27,3 +27,17 @@ add_custom_target(
     "${PROJECT_BINARY_DIR}/result_code.c"
     COMMENT "Generating sources added with add_custom_command"
 )
+
+# Add headers to targets in dev mode only, so IDEs that do not use the
+# filesystem view for displaying targets have the headers associated as well
+target_sources_grouped(
+    gif_engine_gif_engine TREE "${PROJECT_SOURCE_DIR}" FILES
+    include/gif_engine/error.h
+    include/gif_engine/gif_engine.h
+    include/gif_engine/structs.h
+    source/binary_literal.h
+    source/buffer_ops.h
+    source/decode/decode.h
+    source/parse/parse.h
+    source/parse/parse_state.h
+)
