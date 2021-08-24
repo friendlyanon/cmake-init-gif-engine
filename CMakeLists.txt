@@ -17,18 +17,17 @@ include(cmake/variables.cmake)
 # ---- Generate gif_result_code stringifyer function ----
 
 add_custom_command(
-    OUTPUT "${PROJECT_BINARY_DIR}/result_code.c"
+    OUTPUT result_code.c
     COMMAND "${CMAKE_COMMAND}"
     -D "input=${PROJECT_SOURCE_DIR}/include/gif_engine/result_code.h"
-    -D "output=${PROJECT_BINARY_DIR}/result_code.c"
+    -D output=result_code.c
     -P "${PROJECT_SOURCE_DIR}/cmake/stringify-result-code.cmake"
     COMMAND "${CMAKE_COMMAND}" -E copy_if_different
-    "${PROJECT_BINARY_DIR}/result_code.c.tmp"
-    "${PROJECT_BINARY_DIR}/result_code.c"
-    COMMAND "${CMAKE_COMMAND}" -E remove
-    "${PROJECT_BINARY_DIR}/result_code.c.tmp"
+    result_code.c.tmp result_code.c
+    COMMAND "${CMAKE_COMMAND}" -E remove result_code.c.tmp
     MAIN_DEPENDENCY include/gif_engine/result_code.h
-    DEPENDS "${PROJECT_SOURCE_DIR}/cmake/stringify-result-code.cmake"
+    DEPENDS cmake/stringify-result-code.cmake
+    WORKING_DIRECTORY "${PROJECT_BINARY_DIR}"
     COMMENT "Generating stringifyer function for gif_result_code"
     VERBATIM
 )
