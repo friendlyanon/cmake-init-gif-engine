@@ -21,6 +21,18 @@ else()
   endmacro()
 endif()
 
+# Allow the Ninja generators to output messages as they happen by assigning
+# these jobs to the 'console' job pool
+set(console_access "")
+if(CMAKE_GENERATOR MATCHES "^Ninja")
+  set(
+      console_access
+      USES_TERMINAL_CONFIGURE YES
+      USES_TERMINAL_BUILD YES
+      USES_TERMINAL_INSTALL YES
+  )
+endif()
+
 include(ExternalProject)
 
 set_property(DIRECTORY PROPERTY EP_PREFIX "${PROJECT_BINARY_DIR}/ep-prefix")
@@ -44,6 +56,7 @@ ExternalProject_Add(
     STEP_TARGETS install
     BUILD_ALWAYS YES
     EXCLUDE_FROM_ALL YES
+    ${console_access}
 )
 
 ensure_dependencies(gif-engine)
@@ -67,6 +80,7 @@ foreach(fuzzer IN ITEMS parser)
       EXCLUDE_FROM_ALL YES
       STEP_TARGETS build
       DEPENDS gif-engine-install
+      ${console_access}
   )
   ensure_dependencies("${fuzzer}")
   ExternalProject_Add_Step(
