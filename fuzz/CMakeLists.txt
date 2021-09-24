@@ -38,6 +38,11 @@ if(DEFINED CMAKE_TOOLCHAIN_FILE)
   set(toolchain "-DCMAKE_TOOLCHAIN_FILE:STRING=${CMAKE_TOOLCHAIN_FILE}")
 endif()
 
+set(config_handled_by_build "")
+if(NOT CMAKE_VERSION VERSION_LESS "3.20")
+  set(config_handled_by_build CONFIGURE_HANDLED_BY_BUILD YES)
+endif()
+
 set(config -DCMAKE_BUILD_TYPE:STRING=Fuzz)
 get_cmake_property(is_multi_config GENERATOR_IS_MULTI_CONFIG)
 if(is_multi_config)
@@ -72,6 +77,7 @@ ExternalProject_Add(
     BUILD_ALWAYS YES
     EXCLUDE_FROM_ALL YES
     ${console_access}
+    ${config_handled_by_build}
 )
 
 ensure_dependencies(gif-engine)
@@ -95,6 +101,7 @@ foreach(fuzzer IN ITEMS parser)
       EXCLUDE_FROM_ALL YES
       DEPENDS gif-engine-build
       ${console_access}
+      ${config_handled_by_build}
   )
   ensure_dependencies("${fuzzer}")
   ExternalProject_Add_Step(
