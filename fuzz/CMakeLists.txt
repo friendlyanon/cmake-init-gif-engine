@@ -39,21 +39,20 @@ set_property(DIRECTORY PROPERTY EP_PREFIX "${PROJECT_BINARY_DIR}/ep-prefix")
 
 set(flags "-O2 -g -fsanitize=fuzzer,address,undefined -fno-omit-frame-pointer \
 -fno-common")
-set(install_dir "${PROJECT_BINARY_DIR}/gif-engine-install")
+set(binary_dir "${PROJECT_BINARY_DIR}/gif-engine-build")
 
 ExternalProject_Add(
     gif-engine
     SOURCE_DIR "${PROJECT_SOURCE_DIR}/.."
-    BINARY_DIR "${PROJECT_BINARY_DIR}/gif-engine-build"
-    INSTALL_DIR "${install_dir}"
+    BINARY_DIR "${binary_dir}"
     CMAKE_CACHE_ARGS
     -DBUILD_SHARED_LIBS:STRING=NO
     "-DCMAKE_C_COMPILER:STRING=${CMAKE_C_COMPILER}"
     CMAKE_CACHE_DEFAULT_ARGS
     -DCMAKE_BUILD_TYPE:STRING=Fuzz
     "-DCMAKE_C_FLAGS_FUZZ:STRING=${flags}"
-    -DCMAKE_INSTALL_PREFIX:STRING=<INSTALL_DIR>
-    STEP_TARGETS install
+    INSTALL_COMMAND ""
+    STEP_TARGETS build
     BUILD_ALWAYS YES
     EXCLUDE_FROM_ALL YES
     ${console_access}
@@ -75,11 +74,11 @@ foreach(fuzzer IN ITEMS parser)
       -DCMAKE_BUILD_TYPE:STRING=Fuzz
       -DCMAKE_MAP_IMPORTED_CONFIG_FUZZ:STRING=Fuzz
       "-DCMAKE_C_FLAGS_FUZZ:STRING=${flags}"
-      "-DCMAKE_PREFIX_PATH:STRING=${install_dir}"
+      "-Dgif_engine_DIR:STRING=${binary_dir}"
       INSTALL_COMMAND ""
       EXCLUDE_FROM_ALL YES
       STEP_TARGETS build
-      DEPENDS gif-engine-install
+      DEPENDS gif-engine-build
       ${console_access}
   )
   ensure_dependencies("${fuzzer}")

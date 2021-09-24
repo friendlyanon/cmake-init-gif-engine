@@ -62,6 +62,10 @@ install(
     COMPONENT gif_engine_Development
 )
 
+# Make the build directory importable for the fuzzer project
+configure_file(cmake/install-config.cmake "${package}Config.cmake" COPYONLY)
+export(EXPORT gif_engineTargets NAMESPACE gif_engine::)
+
 if(PROJECT_IS_TOP_LEVEL)
   include(CPack)
 endif()
