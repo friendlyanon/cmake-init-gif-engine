@@ -33,6 +33,22 @@ if(CMAKE_GENERATOR MATCHES "^Ninja")
   )
 endif()
 
+set(toolchain "")
+if(DEFINED CMAKE_TOOLCHAIN_FILE)
+  set(toolchain "-DCMAKE_TOOLCHAIN_FILE:STRING=${CMAKE_TOOLCHAIN_FILE}")
+endif()
+
+set(config -DCMAKE_BUILD_TYPE:STRING=Fuzz)
+get_cmake_property(is_multi_config GENERATOR_IS_MULTI_CONFIG)
+if(is_multi_config)
+  if(NOT "Fuzz" IN_LIST CMAKE_CONFIGURATION_TYPES)
+    set(config "${CMAKE_CONFIGURATION_TYPES}")
+    list(APPEND config Fuzz)
+    set(CMAKE_CONFIGURATION_TYPES "${config}" CACHE STRING "" FORCE)
+  endif()
+  set(config "-DCMAKE_CONFIGURATION_TYPES:STRING=${CMAKE_CONFIGURATION_TYPES}")
+endif()
+
 include(ExternalProject)
 
 set_property(DIRECTORY PROPERTY EP_PREFIX "${PROJECT_BINARY_DIR}/ep-prefix")
@@ -48,9 +64,9 @@ ExternalProject_Add(
     CMAKE_CACHE_ARGS
     -DBUILD_SHARED_LIBS:STRING=NO
     "-DCMAKE_C_COMPILER:STRING=${CMAKE_C_COMPILER}"
-    CMAKE_CACHE_DEFAULT_ARGS
-    -DCMAKE_BUILD_TYPE:STRING=Fuzz
     "-DCMAKE_C_FLAGS_FUZZ:STRING=${flags}"
+    "${config}"
+    ${toolchain}
     INSTALL_COMMAND ""
     STEP_TARGETS build
     BUILD_ALWAYS YES
@@ -69,22 +85,22 @@ foreach(fuzzer IN ITEMS parser)
       SOURCE_DIR "${src}"
       BINARY_DIR "${PROJECT_BINARY_DIR}/${fuzzer}-build"
       CMAKE_CACHE_ARGS
-      "-DCMAKE_C_COMPILER:STRING=${CMAKE_C_COMPILER}"
-      CMAKE_CACHE_DEFAULT_ARGS
-      -DCMAKE_BUILD_TYPE:STRING=Fuzz
       -DCMAKE_MAP_IMPORTED_CONFIG_FUZZ:STRING=Fuzz
+      "-DCMAKE_C_COMPILER:STRING=${CMAKE_C_COMPILER}"
       "-DCMAKE_C_FLAGS_FUZZ:STRING=${flags}"
       "-Dgif_engine_DIR:STRING=${binary_dir}"
+      "${config}"
+      ${toolchain}
       INSTALL_COMMAND ""
       EXCLUDE_FROM_ALL YES
-      STEP_TARGETS build
       DEPENDS gif-engine-build
       ${console_access}
   )
   ensure_dependencies("${fuzzer}")
   ExternalProject_Add_Step(
       "${fuzzer}" echo
-      COMMAND "${CMAKE_COMMAND}" --build <BINARY_DIR> --target echo
+      COMMAND "${CMAKE_COMMAND}"
+      --build <BINARY_DIR> --config "$<CONFIG>" --target echo
       DEPENDEES build
       ALWAYS YES
   )
