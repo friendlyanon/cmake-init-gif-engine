@@ -34,11 +34,6 @@ add_custom_command(
     VERBATIM
 )
 
-source_group(
-    TREE "${PROJECT_SOURCE_DIR}" FILES
-    include/gif_engine/result_code.h
-)
-
 # ---- Declare library ----
 
 add_library(gif_engine_gif_engine)

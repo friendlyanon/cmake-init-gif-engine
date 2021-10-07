@@ -41,3 +41,8 @@ target_sources_grouped(
     source/parse/parse.h
     source/parse/parse_state.h
 )
+
+source_group(
+    TREE "${PROJECT_SOURCE_DIR}" FILES
+    include/gif_engine/result_code.h
+)
