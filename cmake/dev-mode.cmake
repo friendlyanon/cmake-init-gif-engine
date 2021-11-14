@@ -46,3 +46,5 @@ source_group(
     TREE "${PROJECT_SOURCE_DIR}" FILES
     include/gif_engine/result_code.h
 )
+
+set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT gif_engine_gif_engine)
