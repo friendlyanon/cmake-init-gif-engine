@@ -13,9 +13,6 @@ endif()
 find_package(utest REQUIRED)
 include(utest_discover_tests)
 
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_C_STANDARD_REQUIRED YES)
-
 include_directories(source)
 
 add_library(gif_engine_mmap OBJECT)
