@@ -104,11 +104,14 @@ foreach(fuzzer IN ITEMS parser)
       ${config_handled_by_build}
   )
   ensure_dependencies("${fuzzer}")
-  ExternalProject_Add_Step(
-      "${fuzzer}" echo
-      COMMAND "${CMAKE_COMMAND}"
-      --build <BINARY_DIR> --config "$<CONFIG>" --target echo
-      DEPENDEES build
-      ALWAYS YES
-  )
+  if(DEFINED ENV{GITHUB_ENV})
+    configure_file(append.cmake "${src}/append.cmake" COPYONLY)
+    ExternalProject_Add_Step(
+        "${fuzzer}" env
+        COMMAND "${CMAKE_COMMAND}"
+        --build <BINARY_DIR> --config "$<CONFIG>" --target env
+        DEPENDEES build
+        ALWAYS YES
+    )
+  endif()
 endforeach()

@@ -69,14 +69,13 @@ jobs:
     - name: Configure
       run: cmake -S fuzz -B build -G Ninja -D CMAKE_C_COMPILER=clang-11
 
+    - name: Build
+      # Outputs FUZZER to the env in GHA
+      run: cmake --build build --target ${{ matrix.fuzzer }}
+
     - name: Fuzz
-      # Run via script, so we have a tty to echo the build output
-      shell: script -qec "bash --noprofile --norc -eo pipefail {0}" /dev/null
-      run: "cmake --build build --target ${{ matrix.fuzzer }} \
-        | tee /dev/tty \
-        | grep -oPe '^Exe: \\K(.+)' \
-        | { read -r exe; \"$exe\" -max_len=512 -max_total_time=120 \
-        -print_corpus_stats=1 -print_final_stats=1 fuzz/corpus test/assets; }"
+      run: "\"$FUZZER\" -max_len=512 -max_total_time=120 -print_corpus_stats=1
+        -print_final_stats=1 fuzz/corpus test/assets"
 
     - name: Sync corpus back to storage
       if: always()
