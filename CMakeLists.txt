@@ -73,7 +73,7 @@ set_target_properties(
 )
 
 target_include_directories(
-    gif_engine_gif_engine ${gif_engine_warning_guard}
+    gif_engine_gif_engine ${warning_guard}
     PUBLIC
     "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
 )

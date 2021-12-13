@@ -15,7 +15,7 @@ endif()
 # to omit warnings from the provided paths, if the compiler supports that
 # This is to provide a user experience similar to find_package when
 # add_subdirectory or FetchContent is used to consume this project
-set(gif_engine_warning_guard "")
+set(warning_guard "")
 if(NOT PROJECT_IS_TOP_LEVEL)
   option(
       gif_engine_INCLUDES_WITH_SYSTEM
@@ -24,6 +24,6 @@ if(NOT PROJECT_IS_TOP_LEVEL)
   )
   mark_as_advanced(gif_engine_INCLUDES_WITH_SYSTEM)
   if(gif_engine_INCLUDES_WITH_SYSTEM)
-    set(gif_engine_warning_guard SYSTEM)
+    set(warning_guard SYSTEM)
   endif()
 endif()
