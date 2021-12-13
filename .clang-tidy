@@ -11,7 +11,8 @@ Checks: "-*,\
   portability-*,\
   openmp-*,\
   readability-*,\
-  -readability-magic-numbers"
+  -readability-magic-numbers,\
+  -readability-function-cognitive-complexity"
 WarningsAsErrors: ''
 CheckOptions:
   - key: 'bugprone-argument-comment.StrictMode'
