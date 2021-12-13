@@ -74,16 +74,13 @@ set_target_properties(
 
 target_include_directories(
     gif_engine_gif_engine ${warning_guard}
-    PUBLIC
-    "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
+    PUBLIC "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
+    PRIVATE source
 )
-
-target_include_directories(gif_engine_gif_engine PRIVATE source)
 
 target_include_directories(
     gif_engine_gif_engine SYSTEM
-    PUBLIC
-    "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/export>"
+    PUBLIC "$<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/export>"
 )
 
 target_compile_features(gif_engine_gif_engine PUBLIC c_std_11)
