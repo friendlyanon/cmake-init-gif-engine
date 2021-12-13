@@ -5,6 +5,7 @@
 
 #include "binary_literal.h"
 #include "buffer_ops.h"
+#include "try.h"
 
 static uint8_t magic[] = {'G', 'I', 'F'};
 
@@ -124,10 +125,7 @@ static gif_result_code read_graphics_control_extension(gif_parse_state* state,
     return GIF_READ_PAST_BUFFER;
   }
 
-  gif_result_code frame_data_code = ensure_frame_data(state, frame_index);
-  if (frame_data_code != GIF_SUCCESS) {
-    return frame_data_code;
-  }
+  TRY(ensure_frame_data(state, frame_index));
 
   if (read_byte_un(state->current) != GIF_GRAPHICS_CONTROL_EXTENSION_SIZE) {
     return GIF_GRAPHICS_CONTROL_EXTENSION_SIZE_MISMATCH;
@@ -248,18 +246,11 @@ static gif_result_code read_extension_block(
       }
       *seen_graphics_control_extension = true;
 
-      gif_result_code code =
-          read_graphics_control_extension(state, frame_index);
-      if (code != GIF_SUCCESS) {
-        return code;
-      }
+      TRY(read_graphics_control_extension(state, frame_index));
       break;
     }
     case GIF_APPLICATION_EXTENSION: {
-      gif_result_code code = read_application_extension(state);
-      if (code != GIF_SUCCESS) {
-        return code;
-      }
+      TRY(read_application_extension(state));
       break;
     }
     case GIF_COMMENT_EXTENSION:
@@ -303,10 +294,7 @@ static gif_result_code read_image_descriptor_block(gif_parse_state* state,
     return GIF_READ_PAST_BUFFER;
   }
 
-  gif_result_code frame_data_code = ensure_frame_data(state, frame_index);
-  if (frame_data_code != GIF_SUCCESS) {
-    return frame_data_code;
-  }
+  TRY(ensure_frame_data(state, frame_index));
 
   gif_frame_data* frame_data =
       &state->details->frame_vector.frames[frame_index];
@@ -336,14 +324,11 @@ static gif_result_code read_image_descriptor_block(gif_parse_state* state,
   packed->size = packed_byte & B8(00000111);
 
   if (packed->local_color_table_flag) {
-    gif_result_code code = read_color_table(state->current,
-                                            state->end,
-                                            &frame_data->local_color_table,
-                                            packed->size,
-                                            state->allocator);
-    if (code != GIF_SUCCESS) {
-      return code;
-    }
+    TRY(read_color_table(state->current,
+                         state->end,
+                         &frame_data->local_color_table,
+                         packed->size,
+                         state->allocator));
   }
 
   uint8_t min_code_size;
@@ -405,15 +390,11 @@ gif_result_code gif_parse_impl(gif_parse_state* state)
   }
 
   if (state->details->descriptor.packed.global_color_table_flag) {
-    gif_result_code code =
-        read_color_table(state->current,
+    TRY(read_color_table(state->current,
                          state->end,
                          &state->details->global_color_table,
                          state->details->descriptor.packed.size,
-                         state->allocator);
-    if (code != GIF_SUCCESS) {
-      return code;
-    }
+                         state->allocator));
   }
 
   size_t frame_index = 0;
@@ -427,18 +408,12 @@ gif_result_code gif_parse_impl(gif_parse_state* state)
     gif_block_type block_type = (gif_block_type)block_type_byte;
     switch (block_type) {
       case GIF_EXTENSION_BLOCK: {
-        gif_result_code code = read_extension_block(
-            state, frame_index, &seen_graphics_control_extension);
-        if (code != GIF_SUCCESS) {
-          return code;
-        }
+        TRY(read_extension_block(
+            state, frame_index, &seen_graphics_control_extension));
         break;
       }
       case GIF_IMAGE_DESCRIPTOR_BLOCK: {
-        gif_result_code code = read_image_descriptor_block(state, frame_index);
-        if (code != GIF_SUCCESS) {
-          return code;
-        }
+        TRY(read_image_descriptor_block(state, frame_index));
         ++frame_index;
         seen_graphics_control_extension = false;
         break;
