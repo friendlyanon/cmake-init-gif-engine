@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.14)
 project(gif_engineTests LANGUAGES C)
 
 include(../cmake/project-is-top-level.cmake)
+include(../cmake/folders.cmake)
 include(../cmake/functions.cmake)
 
 if(PROJECT_IS_TOP_LEVEL)
@@ -54,3 +55,5 @@ utest_discover_tests(
     WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}/assets"
     DEPENDS gif_engine::gif_engine
 )
+
+add_folders(Test)

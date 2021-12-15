@@ -1,3 +1,5 @@
+include(cmake/folders.cmake)
+
 include(CTest)
 if(BUILD_TESTING)
   add_subdirectory(test)
@@ -48,3 +50,5 @@ source_group(
 )
 
 set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT gif_engine_gif_engine)
+
+add_folders(Project)
