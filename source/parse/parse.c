@@ -61,17 +61,17 @@ typedef enum gif_extension_type {
   GIF_TEXT_EXTENSION = 0x01,
 } gif_extension_type;
 
-static bool skip_block(uint8_t** current, const uint8_t* end)
+static bool skip_block(uint8_t** current, size_t* remaining)
 {
   while (1) {
     uint8_t subblock_size;
-    if (!read_byte(current, end, &subblock_size)) {
+    if (!read_byte(current, remaining, &subblock_size)) {
       return false;
     }
     if (subblock_size == 0) {
       return true;
     }
-    if (!skip_bytes(current, end, subblock_size)) {
+    if (!skip_bytes(current, remaining, subblock_size)) {
       return false;
     }
   }
