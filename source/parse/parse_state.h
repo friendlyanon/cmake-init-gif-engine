@@ -6,7 +6,7 @@
 
 typedef struct gif_parse_state {
   uint8_t** current;
-  const uint8_t* end;
+  size_t* remaining;
 
   gif_details* details;
   gif_allocator allocator;

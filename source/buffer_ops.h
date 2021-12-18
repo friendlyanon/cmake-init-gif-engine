@@ -14,24 +14,24 @@ typedef enum compare_result {
 } compare_result;
 
 /**
- * A \c memcmp wrapper to compare \c begin and \c data until \c data_size
+ * A \c memcmp wrapper to compare \c current and \c data until \c data_size
  * length with bounds checking. This function will advance the pointer pointed
- * to by \c begin by \c data_size if the read isn't OOB.
+ * to by \c current by \c data_size if the read isn't OOB.
  *
  * @return Result of the equality comparison or an indication of OOB
  */
-compare_result buffer_is_eq(uint8_t** begin,
-                            const uint8_t* end,
+compare_result buffer_is_eq(uint8_t** current,
+                            size_t* remaining,
                             uint8_t* data,
                             size_t data_size);
 
 /**
  * Reads an 8 bit number with bounds checking. This function will advance the
- * pointer pointed to by \c begin by 1 if the read isn't OOB.
+ * pointer pointed to by \c current by 1 if the read isn't OOB.
  *
  * @return \c true if the read isn't OOB, otherwise \c false
  */
-bool read_byte(uint8_t** begin, const uint8_t* end, uint8_t* destination);
+bool read_byte(uint8_t** current, size_t* remaining, uint8_t* destination);
 
 /**
  * Reads an 8 bit number without bounds checking. This function will advance
@@ -41,11 +41,11 @@ uint8_t read_byte_un(uint8_t** buffer);
 
 /**
  * Reads a 16 bit little-endian number with bounds checking. This function will
- * advance the pointer pointed to by \c begin by 2 if the read isn't OOB.
+ * advance the pointer pointed to by \c current by 2 if the read isn't OOB.
  *
  * @return \c true if the read isn't OOB, otherwise \c false
  */
-bool read_le_short(uint8_t** begin, const uint8_t* end, uint16_t* destination);
+bool read_le_short(uint8_t** current, size_t* remaining, uint16_t* destination);
 
 /**
  * Reads a 16 bit little-endian number without bounds checking. This function
@@ -55,13 +55,13 @@ uint16_t read_le_short_un(uint8_t** buffer);
 
 /**
  * Skips \c count number of bytes with bounds checking. This function will
- * advance the pointer pointed to by \c begin by \c count.
+ * advance the pointer pointed to by \c current by \c count.
  */
-bool skip_bytes(uint8_t** begin, const uint8_t* end, size_t count);
+bool skip_bytes(uint8_t** current, size_t* remaining, size_t count);
 
 /**
  * Reads a 3 byte color in the RGB format. This function will advance the
- * pointer pointed to by \c begin by 3.
+ * pointer pointed to by \c current by 3.
  *
  * @return 32 bit integer in the \c 0x00RRGGBB format that encodes an RGB color
  */
@@ -69,11 +69,11 @@ uint32_t read_color_un(uint8_t** buffer);
 
 /**
  * Reads a color table. This function will advance the pointer pointed to by \c
- * begin by <tt>(2 &lt;&lt; size) * 3</tt>. The allocated color table will be
+ * current by <tt>(2 &lt;&lt; size) * 3</tt>. The allocated color table will be
  * output via the \c destination parameter.
  */
-gif_result_code read_color_table(uint8_t** begin,
-                                 const uint8_t* end,
+gif_result_code read_color_table(uint8_t** current,
+                                 size_t* remaining,
                                  uint32_t** destination,
                                  uint8_t size,
                                  gif_allocator allocator);

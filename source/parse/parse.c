@@ -11,7 +11,7 @@ static uint8_t magic[] = {'G', 'I', 'F'};
 
 static compare_result is_gif_file(gif_parse_state* state)
 {
-  return buffer_is_eq(state->current, state->end, magic, sizeof(magic));
+  return buffer_is_eq(state->current, state->remaining, magic, sizeof(magic));
 }
 
 static uint8_t gif_version[] = {'8', '9', 'a'};
@@ -19,14 +19,14 @@ static uint8_t gif_version[] = {'8', '9', 'a'};
 static compare_result is_gif_version_supported(gif_parse_state* state)
 {
   return buffer_is_eq(
-      state->current, state->end, gif_version, sizeof(gif_version));
+      state->current, state->remaining, gif_version, sizeof(gif_version));
 }
 
 #define LOGICAL_SCREEN_DESCRIPTOR_SIZE 7U
 
 static bool read_descriptor(gif_parse_state* state)
 {
-  if ((size_t)(state->end - *state->current) < LOGICAL_SCREEN_DESCRIPTOR_SIZE) {
+  if (*state->remaining < LOGICAL_SCREEN_DESCRIPTOR_SIZE) {
     return false;
   }
 
@@ -44,6 +44,7 @@ static bool read_descriptor(gif_parse_state* state)
   descriptor->background_color_index = read_byte_un(state->current);
   descriptor->pixel_aspect_ratio = read_byte_un(state->current);
 
+  *state->remaining -= LOGICAL_SCREEN_DESCRIPTOR_SIZE;
   return true;
 }
 
@@ -119,9 +120,7 @@ static gif_result_code read_graphics_control_extension(gif_parse_state* state,
 {
   /* The plus two comes from the length byte itself and the terminating null
    * byte */
-  if ((size_t)(state->end - *state->current)
-      < GIF_GRAPHICS_CONTROL_EXTENSION_SIZE + 2U)
-  {
+  if (*state->remaining < GIF_GRAPHICS_CONTROL_EXTENSION_SIZE + 2U) {
     return GIF_READ_PAST_BUFFER;
   }
 
@@ -154,6 +153,7 @@ static gif_result_code read_graphics_control_extension(gif_parse_state* state,
   graphic_extension->delay = delay;
   graphic_extension->transparent_color_index = transparent_color_index;
 
+  *state->remaining -= GIF_GRAPHICS_CONTROL_EXTENSION_SIZE + 2U;
   return GIF_SUCCESS;
 }
 
@@ -175,9 +175,7 @@ static gif_result_code read_application_extension(gif_parse_state* state)
 {
   /* The plus two comes from the length byte itself and the subblock length
    * byte, which could potentially be the terminating null byte */
-  if ((size_t)(state->end - *state->current)
-      < GIF_APPLICATION_EXTENSION_SIZE + 2U)
-  {
+  if (*state->remaining < GIF_APPLICATION_EXTENSION_SIZE + 2U) {
     return GIF_READ_PAST_BUFFER;
   }
 
@@ -202,7 +200,7 @@ static gif_result_code read_application_extension(gif_parse_state* state)
   }
 
   uint8_t subblock_id;
-  if (!read_byte(state->current, state->end, &subblock_id)) {
+  if (!read_byte(state->current, state->remaining, &subblock_id)) {
     return GIF_READ_PAST_BUFFER;
   }
 
@@ -211,12 +209,12 @@ static gif_result_code read_application_extension(gif_parse_state* state)
   }
 
   uint16_t repeat_count;
-  if (!read_le_short(state->current, state->end, &repeat_count)) {
+  if (!read_le_short(state->current, state->remaining, &repeat_count)) {
     return GIF_READ_PAST_BUFFER;
   }
 
   uint8_t terminator_byte;
-  if (!read_byte(state->current, state->end, &terminator_byte)) {
+  if (!read_byte(state->current, state->remaining, &terminator_byte)) {
     return GIF_READ_PAST_BUFFER;
   }
 
@@ -224,6 +222,7 @@ static gif_result_code read_application_extension(gif_parse_state* state)
     return GIF_NETSCAPE_NULL_MISSING;
   }
 
+  *state->remaining -= GIF_APPLICATION_EXTENSION_SIZE + 2U;
   state->details->repeat_count = repeat_count;
   return GIF_SUCCESS;
 }
@@ -234,7 +233,7 @@ static gif_result_code read_extension_block(
     bool* seen_graphics_control_extension)
 {
   uint8_t extension_type_byte;
-  if (!read_byte(state->current, state->end, &extension_type_byte)) {
+  if (!read_byte(state->current, state->remaining, &extension_type_byte)) {
     return GIF_READ_PAST_BUFFER;
   }
 
@@ -256,7 +255,7 @@ static gif_result_code read_extension_block(
     case GIF_COMMENT_EXTENSION:
       /* fallthrough */
     case GIF_TEXT_EXTENSION:
-      if (!skip_block(state->current, state->end)) {
+      if (!skip_block(state->current, state->remaining)) {
         return GIF_READ_PAST_BUFFER;
       }
       break;
@@ -290,7 +289,7 @@ static bool is_frame_out_of_bounds(gif_descriptor* descriptor,
 static gif_result_code read_image_descriptor_block(gif_parse_state* state,
                                                    size_t frame_index)
 {
-  if ((size_t)(state->end - *state->current) < GIF_IMAGE_DESCRIPTOR_SIZE) {
+  if (*state->remaining < GIF_IMAGE_DESCRIPTOR_SIZE) {
     return GIF_READ_PAST_BUFFER;
   }
 
@@ -323,16 +322,18 @@ static gif_result_code read_image_descriptor_block(gif_parse_state* state,
   packed->sort_flag = (packed_byte & B8(00100000)) != 0;
   packed->size = packed_byte & B8(00000111);
 
+  *state->remaining -= GIF_IMAGE_DESCRIPTOR_SIZE;
+
   if (packed->local_color_table_flag) {
     TRY(read_color_table(state->current,
-                         state->end,
+                         state->remaining,
                          &frame_data->local_color_table,
                          packed->size,
                          state->allocator));
   }
 
   uint8_t min_code_size;
-  if (!read_byte(state->current, state->end, &min_code_size)) {
+  if (!read_byte(state->current, state->remaining, &min_code_size)) {
     return GIF_READ_PAST_BUFFER;
   }
 
@@ -340,13 +341,13 @@ static gif_result_code read_image_descriptor_block(gif_parse_state* state,
   size_t data_length = 0;
   while (1) {
     uint8_t subblock_size;
-    if (!read_byte(state->current, state->end, &subblock_size)) {
+    if (!read_byte(state->current, state->remaining, &subblock_size)) {
       return GIF_READ_PAST_BUFFER;
     }
     if (subblock_size == 0) {
       break;
     }
-    if (!skip_bytes(state->current, state->end, subblock_size)) {
+    if (!skip_bytes(state->current, state->remaining, subblock_size)) {
       return GIF_READ_PAST_BUFFER;
     }
     data_length += subblock_size;
@@ -391,7 +392,7 @@ gif_result_code gif_parse_impl(gif_parse_state* state)
 
   if (state->details->descriptor.packed.global_color_table_flag) {
     TRY(read_color_table(state->current,
-                         state->end,
+                         state->remaining,
                          &state->details->global_color_table,
                          state->details->descriptor.packed.size,
                          state->allocator));
@@ -401,7 +402,7 @@ gif_result_code gif_parse_impl(gif_parse_state* state)
   bool seen_graphics_control_extension = false;
   while (1) {
     uint8_t block_type_byte;
-    if (!read_byte(state->current, state->end, &block_type_byte)) {
+    if (!read_byte(state->current, state->remaining, &block_type_byte)) {
       return GIF_READ_PAST_BUFFER;
     }
 
@@ -432,8 +433,7 @@ tail_block:
   do {
     _Static_assert(sizeof(void*) >= sizeof(size_t),
                    "void* should have a size greater than or equal to size_t");
-    size_t leftover_bytes = (size_t)(state->end - *state->current);
-    memcpy(&state->data, &leftover_bytes, sizeof(size_t));
+    memcpy(&state->data, state->remaining, sizeof(size_t));
   } while (0);
 
   return GIF_SUCCESS;

@@ -20,7 +20,7 @@ gif_parse_result gif_parse(uint8_t* buffer,
 
   gif_parse_state state = (gif_parse_state) {
       .current = &buffer,
-      .end = buffer + buffer_size,
+      .remaining = &buffer_size,
       .details = details,
       .allocator = allocator,
       .data = NULL,
