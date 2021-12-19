@@ -39,6 +39,7 @@ target_sources_grouped(
     include/gif_engine/structs.h
     source/binary_literal.h
     source/buffer_ops.h
+    source/try.h
     source/decode/decode.h
     source/parse/parse.h
     source/parse/parse_state.h
