@@ -49,8 +49,10 @@ bool read_le_short(uint8_t** current, size_t* remaining, uint16_t* destination)
 
 uint16_t read_le_short_un(uint8_t** buffer)
 {
-  uint16_t low_byte = read_byte_un(buffer);
-  uint16_t high_byte = read_byte_un(buffer);
+  uint8_t* pointer = *buffer;
+  uint16_t low_byte = pointer[0];
+  uint16_t high_byte = pointer[1];
+  *buffer += 2;
   return (uint16_t)(high_byte << 8U | low_byte);
 }
 
