@@ -3,6 +3,9 @@ include(cmake/folders.cmake)
 include(CTest)
 if(BUILD_TESTING)
   add_subdirectory(test)
+  set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT gif_engine_test)
+else()
+  set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT gif_engine_gif_engine)
 endif()
 
 option(BUILD_MCSS_DOCS "Build documentation using Doxygen and m.css" OFF)
@@ -49,7 +52,5 @@ source_group(
     TREE "${PROJECT_SOURCE_DIR}" FILES
     include/gif_engine/result_code.h
 )
-
-set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT gif_engine_gif_engine)
 
 add_folders(Project)
