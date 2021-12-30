@@ -4,7 +4,7 @@
 
 #define TRY(expression) \
   do { \
-    gif_result_code result_code = (expression); \
+    const gif_result_code result_code = (expression); \
     if (result_code != GIF_SUCCESS) { \
       return result_code; \
     } \

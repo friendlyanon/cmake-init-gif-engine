@@ -4,7 +4,6 @@
 #include <gif_engine/export.h>
 #include <gif_engine/structs.h>
 #include <stddef.h>
-#include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -49,7 +48,7 @@ typedef void (*gif_deallocator)(void* allocation);
  *
  * This function is thread-safe.
  */
-GIF_ENGINE_EXPORT gif_parse_result gif_parse(uint8_t* buffer,
+GIF_ENGINE_EXPORT gif_parse_result gif_parse(const void* buffer,
                                              size_t buffer_size,
                                              gif_details* details,
                                              gif_allocator allocator);
@@ -65,7 +64,7 @@ GIF_ENGINE_EXPORT gif_decode_result gif_decode(gif_details* details,
  * Frees the gif_details struct populated by ::gif_parse. This function should
  * be called even if the ::gif_parse function did not succeed.
  */
-GIF_ENGINE_EXPORT void gif_free_details(gif_details* details,
+GIF_ENGINE_EXPORT void gif_free_details(const gif_details* details,
                                         gif_deallocator deallocator);
 
 /**

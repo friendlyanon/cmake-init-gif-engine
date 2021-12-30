@@ -76,7 +76,7 @@ typedef struct gif_frame_data {
 
   gif_frame_descriptor descriptor;
 
-  uint8_t* first_subblock;
+  const uint8_t* first_subblock;
   size_t data_length;
 } gif_frame_data;
 
@@ -95,11 +95,11 @@ typedef struct gif_details {
 
   gif_frame_vector frame_vector;
 
-  uint8_t* raw_data;
+  const uint8_t* raw_data;
   size_t raw_data_size;
 } gif_details;
 
 typedef struct gif_frame_span {
-  uint32_t* data;
+  const uint32_t* data;
   size_t size;
 } gif_frame_span;

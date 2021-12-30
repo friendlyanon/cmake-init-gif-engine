@@ -50,7 +50,7 @@
       "name": "flags-unix",
       "hidden": true,
       "cacheVariables": {
-        "CMAKE_C_FLAGS": "-Wall -Wextra -pedantic -Wstrict-prototypes",
+        "CMAKE_C_FLAGS": "-Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wcast-qual -Wshadow -Wformat=2 -Wundef -Werror=float-equal -Werror=strict-prototypes -Wwrite-strings",
         "CMAKE_C_EXTENSIONS": "OFF"
       }
     },

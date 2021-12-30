@@ -1,8 +1,8 @@
 #include "decode/decode.h"
 
-gif_result_code gif_decode_impl(void** data,
-                                gif_details* details,
-                                gif_allocator allocator)
+gif_result_code gif_decode_impl(void** const data,
+                                gif_details* const details,
+                                const gif_allocator allocator)
 {
   (void)data;
   (void)details;
