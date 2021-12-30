@@ -66,48 +66,48 @@
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#add4f11278c5bb95e7d13677941ea0fe3" class="m-doc">buffer_is_eq</a>(</span><span class="m-doc-wrap">uint8_t** current,
+              <span class="m-doc-wrap-bumper">auto <a href="#aa3d450c0a274801bc0e90e5654b6058a" class="m-doc">buffer_is_eq</a>(</span><span class="m-doc-wrap">const uint8_t** current,
               size_t* remaining,
-              uint8_t* data,
+              const uint8_t* data,
               size_t data_size) -&gt; <a href="buffer__ops_8h.html#a8fbd6dceec7bf13cba06c903c025429b" class="m-doc">compare_<wbr />result</a></span>
             </dt>
             <dd>A <code>memcmp</code> wrapper to compare <code>current</code> and <code>data</code> until <code>data_size</code> length with bounds checking.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a96f5bb378723e99d654de74a8b5af30b" class="m-doc">read_byte</a>(</span><span class="m-doc-wrap">uint8_t** current,
+              <span class="m-doc-wrap-bumper">auto <a href="#a07b19194b1bd0434dbc8a30b343d8d0d" class="m-doc">read_byte</a>(</span><span class="m-doc-wrap">const uint8_t** current,
               size_t* remaining,
               uint8_t* destination) -&gt; bool</span>
             </dt>
             <dd>Reads an 8 bit number with bounds checking.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a56b3a6224af4eaf480a301da08bedf74" class="m-doc">read_byte_un</a>(</span><span class="m-doc-wrap">uint8_t** buffer) -&gt; uint8_t</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a33cb210539ff9a9446d1a16b25f414b8" class="m-doc">read_byte_un</a>(</span><span class="m-doc-wrap">const uint8_t** buffer) -&gt; uint8_t</span>
             </dt>
             <dd>Reads an 8 bit number without bounds checking.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a5a9ea5ce842fe2390a9ef79a36c9df66" class="m-doc">read_le_short</a>(</span><span class="m-doc-wrap">uint8_t** current,
+              <span class="m-doc-wrap-bumper">auto <a href="#a3d1da6fab528ceb6726dda56e41bd8f4" class="m-doc">read_le_short</a>(</span><span class="m-doc-wrap">const uint8_t** current,
               size_t* remaining,
               uint16_t* destination) -&gt; bool</span>
             </dt>
             <dd>Reads a 16 bit little-endian number with bounds checking.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a5b4bb5e9dfeb64c089ecc32ec58f4848" class="m-doc">read_le_short_un</a>(</span><span class="m-doc-wrap">uint8_t** buffer) -&gt; uint16_t</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#a275f97fd3e0dba29ceb15e2b36a89a1e" class="m-doc">read_le_short_un</a>(</span><span class="m-doc-wrap">const uint8_t** buffer) -&gt; uint16_t</span>
             </dt>
             <dd>Reads a 16 bit little-endian number without bounds checking.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a2f9c7e1deec2aee9a4ecd72202f36b31" class="m-doc">skip_bytes</a>(</span><span class="m-doc-wrap">uint8_t** current,
+              <span class="m-doc-wrap-bumper">auto <a href="#a7effa28644c0bc8d206cff18a6085c91" class="m-doc">skip_bytes</a>(</span><span class="m-doc-wrap">const uint8_t** current,
               size_t* remaining,
               size_t count) -&gt; bool</span>
             </dt>
             <dd>Skips <code>count</code> number of bytes with bounds checking.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a554a899dc78661d4b30456fff253cf39" class="m-doc">read_color_un</a>(</span><span class="m-doc-wrap">uint8_t** buffer) -&gt; uint32_t</span>
+              <span class="m-doc-wrap-bumper">auto <a href="#ac66657cf8caf53d61dc3a10114485040" class="m-doc">read_color_un</a>(</span><span class="m-doc-wrap">const uint8_t** buffer) -&gt; uint32_t</span>
             </dt>
             <dd>Reads a 3 byte color in the RGB format.</dd>
-            <dt id="a9ceb0c39270416274411362faa775420">
-              <span class="m-doc-wrap-bumper">static auto <a href="#a9ceb0c39270416274411362faa775420" class="m-doc-self">size_to_count</a>(</span><span class="m-doc-wrap">uint8_t size) -&gt; size_t</span>
+            <dt id="a1add63a3512d82a66a96d0606529caae">
+              <span class="m-doc-wrap-bumper">static auto <a href="#a1add63a3512d82a66a96d0606529caae" class="m-doc-self">size_to_count</a>(</span><span class="m-doc-wrap">const uint8_t size) -&gt; size_t</span>
             </dt>
             <dd><span></span></dd>
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a24d9d36526bf6beaa17ca4ea92c3bebc" class="m-doc">read_color_table</a>(</span><span class="m-doc-wrap">uint8_t** current,
+              <span class="m-doc-wrap-bumper">auto <a href="#a26df7af220a765aaf6b13e904bd2aca5" class="m-doc">read_color_table</a>(</span><span class="m-doc-wrap">const uint8_t** current,
               size_t* remaining,
               uint32_t** destination,
               uint8_t size,
@@ -118,11 +118,11 @@
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="add4f11278c5bb95e7d13677941ea0fe3"><div>
+          <section class="m-doc-details" id="aa3d450c0a274801bc0e90e5654b6058a"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"><a href="buffer__ops_8h.html#a8fbd6dceec7bf13cba06c903c025429b" class="m-doc">compare_<wbr />result</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#add4f11278c5bb95e7d13677941ea0fe3" class="m-doc-self">buffer_is_eq</a>(</span><span class="m-doc-wrap">uint8_t** current,
+              <span class="m-doc-wrap-bumper"><a href="buffer__ops_8h.html#a8fbd6dceec7bf13cba06c903c025429b" class="m-doc">compare_<wbr />result</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#aa3d450c0a274801bc0e90e5654b6058a" class="m-doc-self">buffer_is_eq</a>(</span><span class="m-doc-wrap">const uint8_t** current,
               size_t* remaining,
-              uint8_t* data,
+              const uint8_t* data,
               size_t data_size)</span></span>
             </h3>
             <p>A <code>memcmp</code> wrapper to compare <code>current</code> and <code>data</code> until <code>data_size</code> length with bounds checking.</p>
@@ -136,9 +136,9 @@
             </table>
 <p>This function will advance the pointer pointed to by <code>current</code> by <code>data_size</code> if the read isn&#x27;t OOB.</p>
           </div></section>
-          <section class="m-doc-details" id="a96f5bb378723e99d654de74a8b5af30b"><div>
+          <section class="m-doc-details" id="a07b19194b1bd0434dbc8a30b343d8d0d"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a96f5bb378723e99d654de74a8b5af30b" class="m-doc-self">read_byte</a>(</span><span class="m-doc-wrap">uint8_t** current,
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a07b19194b1bd0434dbc8a30b343d8d0d" class="m-doc-self">read_byte</a>(</span><span class="m-doc-wrap">const uint8_t** current,
               size_t* remaining,
               uint8_t* destination)</span></span>
             </h3>
@@ -153,16 +153,16 @@
             </table>
 <p>This function will advance the pointer pointed to by <code>current</code> by 1 if the read isn&#x27;t OOB.</p>
           </div></section>
-          <section class="m-doc-details" id="a56b3a6224af4eaf480a301da08bedf74"><div>
+          <section class="m-doc-details" id="a33cb210539ff9a9446d1a16b25f414b8"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">uint8_t </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a56b3a6224af4eaf480a301da08bedf74" class="m-doc-self">read_byte_un</a>(</span><span class="m-doc-wrap">uint8_t** buffer)</span></span>
+              <span class="m-doc-wrap-bumper">uint8_t </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a33cb210539ff9a9446d1a16b25f414b8" class="m-doc-self">read_byte_un</a>(</span><span class="m-doc-wrap">const uint8_t** buffer)</span></span>
             </h3>
             <p>Reads an 8 bit number without bounds checking.</p>
 <p>This function will advance the pointer pointed to by <code>buffer</code> by 1.</p>
           </div></section>
-          <section class="m-doc-details" id="a5a9ea5ce842fe2390a9ef79a36c9df66"><div>
+          <section class="m-doc-details" id="a3d1da6fab528ceb6726dda56e41bd8f4"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a5a9ea5ce842fe2390a9ef79a36c9df66" class="m-doc-self">read_le_short</a>(</span><span class="m-doc-wrap">uint8_t** current,
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a3d1da6fab528ceb6726dda56e41bd8f4" class="m-doc-self">read_le_short</a>(</span><span class="m-doc-wrap">const uint8_t** current,
               size_t* remaining,
               uint16_t* destination)</span></span>
             </h3>
@@ -177,25 +177,25 @@
             </table>
 <p>This function will advance the pointer pointed to by <code>current</code> by 2 if the read isn&#x27;t OOB.</p>
           </div></section>
-          <section class="m-doc-details" id="a5b4bb5e9dfeb64c089ecc32ec58f4848"><div>
+          <section class="m-doc-details" id="a275f97fd3e0dba29ceb15e2b36a89a1e"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">uint16_t </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a5b4bb5e9dfeb64c089ecc32ec58f4848" class="m-doc-self">read_le_short_un</a>(</span><span class="m-doc-wrap">uint8_t** buffer)</span></span>
+              <span class="m-doc-wrap-bumper">uint16_t </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a275f97fd3e0dba29ceb15e2b36a89a1e" class="m-doc-self">read_le_short_un</a>(</span><span class="m-doc-wrap">const uint8_t** buffer)</span></span>
             </h3>
             <p>Reads a 16 bit little-endian number without bounds checking.</p>
 <p>This function will advance the pointer pointed to by <code>buffer</code> by 2.</p>
           </div></section>
-          <section class="m-doc-details" id="a2f9c7e1deec2aee9a4ecd72202f36b31"><div>
+          <section class="m-doc-details" id="a7effa28644c0bc8d206cff18a6085c91"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a2f9c7e1deec2aee9a4ecd72202f36b31" class="m-doc-self">skip_bytes</a>(</span><span class="m-doc-wrap">uint8_t** current,
+              <span class="m-doc-wrap-bumper">bool </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a7effa28644c0bc8d206cff18a6085c91" class="m-doc-self">skip_bytes</a>(</span><span class="m-doc-wrap">const uint8_t** current,
               size_t* remaining,
               size_t count)</span></span>
             </h3>
             <p>Skips <code>count</code> number of bytes with bounds checking.</p>
 <p>This function will advance the pointer pointed to by <code>current</code> by <code>count</code>.</p>
           </div></section>
-          <section class="m-doc-details" id="a554a899dc78661d4b30456fff253cf39"><div>
+          <section class="m-doc-details" id="ac66657cf8caf53d61dc3a10114485040"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">uint32_t </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a554a899dc78661d4b30456fff253cf39" class="m-doc-self">read_color_un</a>(</span><span class="m-doc-wrap">uint8_t** buffer)</span></span>
+              <span class="m-doc-wrap-bumper">uint32_t </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#ac66657cf8caf53d61dc3a10114485040" class="m-doc-self">read_color_un</a>(</span><span class="m-doc-wrap">const uint8_t** buffer)</span></span>
             </h3>
             <p>Reads a 3 byte color in the RGB format.</p>
             <table class="m-table m-fullwidth m-flat">
@@ -208,9 +208,9 @@
             </table>
 <p>This function will advance the pointer pointed to by <code>current</code> by 3.</p>
           </div></section>
-          <section class="m-doc-details" id="a24d9d36526bf6beaa17ca4ea92c3bebc"><div>
+          <section class="m-doc-details" id="a26df7af220a765aaf6b13e904bd2aca5"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"><a href="result__code_8h.html#a4e23027c2fedeb9dfec028d3978861e1" class="m-doc">gif_<wbr />result_<wbr />code</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a24d9d36526bf6beaa17ca4ea92c3bebc" class="m-doc-self">read_color_table</a>(</span><span class="m-doc-wrap">uint8_t** current,
+              <span class="m-doc-wrap-bumper"><a href="result__code_8h.html#a4e23027c2fedeb9dfec028d3978861e1" class="m-doc">gif_<wbr />result_<wbr />code</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a26df7af220a765aaf6b13e904bd2aca5" class="m-doc-self">read_color_table</a>(</span><span class="m-doc-wrap">const uint8_t** current,
               size_t* remaining,
               uint32_t** destination,
               uint8_t size,

@@ -80,7 +80,7 @@
           <h2><a href="#func-members">Functions</a></h2>
           <dl class="m-doc">
             <dt>
-              <span class="m-doc-wrap-bumper">auto <a href="#a21317f5138ffed386116a341e5347a22" class="m-doc">gif_parse</a>(</span><span class="m-doc-wrap">uint8_t* buffer,
+              <span class="m-doc-wrap-bumper">auto <a href="#a1afb55a72dfae94b4167bc64e7251541" class="m-doc">gif_parse</a>(</span><span class="m-doc-wrap">const void* buffer,
               size_t buffer_size,
               <a href="structgif__details.html" class="m-doc">gif_<wbr />details</a>* details,
               <a href="gif__engine_8h.html#adebdc5ece010255aafbd17e93baa4c06" class="m-doc">gif_<wbr />allocator</a> allocator) -&gt; <a href="structgif__parse__result.html" class="m-doc">gif_<wbr />parse_<wbr />result</a></span>
@@ -90,12 +90,12 @@
               <span class="m-doc-wrap-bumper">auto <a href="#a656ac8879c8f71168b50214337add3bb" class="m-doc">gif_decode</a>(</span><span class="m-doc-wrap"><a href="structgif__details.html" class="m-doc">gif_<wbr />details</a>* details,
               <a href="gif__engine_8h.html#adebdc5ece010255aafbd17e93baa4c06" class="m-doc">gif_<wbr />allocator</a> allocator) -&gt; <a href="structgif__decode__result.html" class="m-doc">gif_<wbr />decode_<wbr />result</a></span>
             </dt>
-            <dd>Decodes the frame data parsed by <a href="gif__engine_8h.html#a21317f5138ffed386116a341e5347a22" class="m-doc">gif_<wbr />parse</a>.</dd>
+            <dd>Decodes the frame data parsed by <a href="gif__engine_8h.html#a1afb55a72dfae94b4167bc64e7251541" class="m-doc">gif_<wbr />parse</a>.</dd>
             <dt>
-              <span class="m-doc-wrap-bumper">void <a href="#abd6964717c2a34b645263477e9de4712" class="m-doc">gif_free_details</a>(</span><span class="m-doc-wrap"><a href="structgif__details.html" class="m-doc">gif_<wbr />details</a>* details,
+              <span class="m-doc-wrap-bumper">void <a href="#a406070c2958ddd5a00d937a8cfdb345c" class="m-doc">gif_free_details</a>(</span><span class="m-doc-wrap">const <a href="structgif__details.html" class="m-doc">gif_<wbr />details</a>* details,
               <a href="gif__engine_8h.html#ae3043d47758bf1da6556deb0213fa4b8" class="m-doc">gif_<wbr />deallocator</a> deallocator)</span>
             </dt>
-            <dd>Frees the <a href="structgif__details.html" class="m-doc">gif_<wbr />details</a> struct populated by <a href="gif__engine_8h.html#a21317f5138ffed386116a341e5347a22" class="m-doc">gif_<wbr />parse</a>.</dd>
+            <dd>Frees the <a href="structgif__details.html" class="m-doc">gif_<wbr />details</a> struct populated by <a href="gif__engine_8h.html#a1afb55a72dfae94b4167bc64e7251541" class="m-doc">gif_<wbr />parse</a>.</dd>
             <dt>
               <span class="m-doc-wrap-bumper">auto <a href="#a52bc40ab2ec1fa6e71bd8932ad94bc88" class="m-doc">gif_result_code_to_string</a>(</span><span class="m-doc-wrap"><a href="result__code_8h.html#a4e23027c2fedeb9dfec028d3978861e1" class="m-doc">gif_<wbr />result_<wbr />code</a> code) -&gt; const char*</span>
             </dt>
@@ -104,9 +104,9 @@
         </section>
         <section>
           <h2>Function documentation</h2>
-          <section class="m-doc-details" id="a21317f5138ffed386116a341e5347a22"><div>
+          <section class="m-doc-details" id="a1afb55a72dfae94b4167bc64e7251541"><div>
             <h3>
-              <span class="m-doc-wrap-bumper"><a href="structgif__parse__result.html" class="m-doc">gif_<wbr />parse_<wbr />result</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a21317f5138ffed386116a341e5347a22" class="m-doc-self">gif_parse</a>(</span><span class="m-doc-wrap">uint8_t* buffer,
+              <span class="m-doc-wrap-bumper"><a href="structgif__parse__result.html" class="m-doc">gif_<wbr />parse_<wbr />result</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a1afb55a72dfae94b4167bc64e7251541" class="m-doc-self">gif_parse</a>(</span><span class="m-doc-wrap">const void* buffer,
               size_t buffer_size,
               <a href="structgif__details.html" class="m-doc">gif_<wbr />details</a>* details,
               <a href="gif__engine_8h.html#adebdc5ece010255aafbd17e93baa4c06" class="m-doc">gif_<wbr />allocator</a> allocator)</span></span>
@@ -121,16 +121,16 @@
               <span class="m-doc-wrap-bumper"><a href="structgif__decode__result.html" class="m-doc">gif_<wbr />decode_<wbr />result</a> </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a656ac8879c8f71168b50214337add3bb" class="m-doc-self">gif_decode</a>(</span><span class="m-doc-wrap"><a href="structgif__details.html" class="m-doc">gif_<wbr />details</a>* details,
               <a href="gif__engine_8h.html#adebdc5ece010255aafbd17e93baa4c06" class="m-doc">gif_<wbr />allocator</a> allocator)</span></span>
             </h3>
-            <p>Decodes the frame data parsed by <a href="gif__engine_8h.html#a21317f5138ffed386116a341e5347a22" class="m-doc">gif_<wbr />parse</a>.</p>
+            <p>Decodes the frame data parsed by <a href="gif__engine_8h.html#a1afb55a72dfae94b4167bc64e7251541" class="m-doc">gif_<wbr />parse</a>.</p>
 <p>This function is not yet implemented.</p>
           </div></section>
-          <section class="m-doc-details" id="abd6964717c2a34b645263477e9de4712"><div>
+          <section class="m-doc-details" id="a406070c2958ddd5a00d937a8cfdb345c"><div>
             <h3>
-              <span class="m-doc-wrap-bumper">void </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#abd6964717c2a34b645263477e9de4712" class="m-doc-self">gif_free_details</a>(</span><span class="m-doc-wrap"><a href="structgif__details.html" class="m-doc">gif_<wbr />details</a>* details,
+              <span class="m-doc-wrap-bumper">void </span><span class="m-doc-wrap"><span class="m-doc-wrap-bumper"><a href="#a406070c2958ddd5a00d937a8cfdb345c" class="m-doc-self">gif_free_details</a>(</span><span class="m-doc-wrap">const <a href="structgif__details.html" class="m-doc">gif_<wbr />details</a>* details,
               <a href="gif__engine_8h.html#ae3043d47758bf1da6556deb0213fa4b8" class="m-doc">gif_<wbr />deallocator</a> deallocator)</span></span>
             </h3>
-            <p>Frees the <a href="structgif__details.html" class="m-doc">gif_<wbr />details</a> struct populated by <a href="gif__engine_8h.html#a21317f5138ffed386116a341e5347a22" class="m-doc">gif_<wbr />parse</a>.</p>
-<p>This function should be called even if the <a href="gif__engine_8h.html#a21317f5138ffed386116a341e5347a22" class="m-doc">gif_<wbr />parse</a> function did not succeed.</p>
+            <p>Frees the <a href="structgif__details.html" class="m-doc">gif_<wbr />details</a> struct populated by <a href="gif__engine_8h.html#a1afb55a72dfae94b4167bc64e7251541" class="m-doc">gif_<wbr />parse</a>.</p>
+<p>This function should be called even if the <a href="gif__engine_8h.html#a1afb55a72dfae94b4167bc64e7251541" class="m-doc">gif_<wbr />parse</a> function did not succeed.</p>
           </div></section>
           <section class="m-doc-details" id="a52bc40ab2ec1fa6e71bd8932ad94bc88"><div>
             <h3>
