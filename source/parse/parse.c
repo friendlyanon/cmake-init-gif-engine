@@ -33,7 +33,7 @@ static compare_result is_gif_version_supported(gif_parse_state* const state)
 
 #define LOGICAL_SCREEN_DESCRIPTOR_SIZE 7U
 
-static bool read_descriptor(gif_parse_state* const state)
+static gif_result_code read_descriptor(gif_parse_state* const state)
 {
   CHECK_STATE_REMAINING(LOGICAL_SCREEN_DESCRIPTOR_SIZE);
 
@@ -51,7 +51,7 @@ static bool read_descriptor(gif_parse_state* const state)
   descriptor->background_color_index = read_byte_un(state->current);
   descriptor->pixel_aspect_ratio = read_byte_un(state->current);
 
-  return true;
+  return GIF_SUCCESS;
 }
 
 typedef enum gif_extension_type {
@@ -384,9 +384,7 @@ gif_result_code gif_parse_impl(gif_parse_state* const state)
   CONST_CHECK(is_gif_file, GIF_NOT_A_GIF);
   CONST_CHECK(is_gif_version_supported, GIF_NOT_A_GIF89A);
 
-  if (!read_descriptor(state)) {
-    return GIF_READ_PAST_BUFFER;
-  }
+  TRY(read_descriptor(state));
 
   if (state->details->descriptor.packed.global_color_table_flag) {
     TRY(read_color_table(state->current,
