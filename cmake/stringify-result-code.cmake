@@ -1,3 +1,5 @@
+cmake_minimum_required(VERSION 3.14)
+
 # This script extracts the enumerations of the gif_result_code enum and writes
 # a source file to the binary directory that implements stringification of this
 # enum. This is done this way, because Doxygen cannot handle X macros, so it
