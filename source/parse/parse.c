@@ -425,12 +425,10 @@ gif_result_code gif_parse_impl(gif_parse_state* const state)
     }
   }
 
-tail_block:
-  do {
-    _Static_assert(sizeof(void*) >= sizeof(size_t),
-                   "void* should have a size greater than or equal to size_t");
-    memcpy(&state->data, state->remaining, sizeof(size_t));
-  } while (0);
+tail_block:;
+  _Static_assert(sizeof(void*) >= sizeof(size_t),
+                 "void* should have a size greater than or equal to size_t");
+  memcpy(&state->data, state->remaining, sizeof(size_t));
 
   return GIF_SUCCESS;
 }
