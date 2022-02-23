@@ -6,6 +6,8 @@ include(../cmake/project-is-top-level.cmake)
 include(../cmake/folders.cmake)
 include(../cmake/functions.cmake)
 
+# ---- Dependencies ----
+
 if(PROJECT_IS_TOP_LEVEL)
   find_package(gif_engine REQUIRED)
   enable_testing()
@@ -13,6 +15,8 @@ endif()
 
 find_package(utest REQUIRED)
 include(utest_discover_tests)
+
+# ---- Quarantine OS specific functionality ----
 
 include_directories(source)
 
@@ -22,7 +26,7 @@ target_sources_grouped(
     source/gif_mmap.h
 )
 
-if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+if(WIN32)
   target_sources_grouped(
       gif_engine_mmap TREE "${PROJECT_SOURCE_DIR}" FILES
       source/gif_mmap.nt.c
@@ -39,6 +43,8 @@ else()
   )
 endif()
 
+# ---- Test target ----
+
 add_executable(gif_engine_test)
 target_sources_grouped(
     gif_engine_test TREE "${PROJECT_SOURCE_DIR}" FILES
@@ -49,6 +55,8 @@ target_link_libraries(
     gif_engine_test PRIVATE
     gif_engine_mmap gif_engine::gif_engine utest::utest
 )
+
+# ---- End-of-file commands ----
 
 utest_discover_tests(
     gif_engine_test
