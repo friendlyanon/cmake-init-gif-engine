@@ -170,26 +170,26 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos, ubuntu, windows]
+        os: [macos-latest, ubuntu-latest, windows-2019]
 
         type: [shared, static]
 
         include:
         - { type: shared, shared: YES }
         - { type: static, shared: NO }
-        - os: windows
+        - os: windows-2019
           # Disable C5105, because the Windows runner uses an old SDK
           env: "{ \
             \"VCPKG_DEFAULT_TRIPLET\": \"x64-windows\", \
             \"EXTRA_C_FLAGS\": \"/wd5105\" }"
 
-    runs-on: ${{ matrix.os }}-latest
+    runs-on: ${{ matrix.os }}
 
     steps:
     - uses: actions/checkout@v1
 
     - name: Install static analyzers
-      if: matrix.os == 'ubuntu'
+      if: matrix.os == 'ubuntu-latest'
       run: sudo apt-get install clang-tidy cppcheck -y -q
 
     - name: Install vcpkg
@@ -200,7 +200,8 @@ jobs:
 
     - name: Configure
       env: ${{ fromJson(matrix.env || '{}') }}
-      run: cmake --preset=ci-${{ matrix.os }}
+      shell: pwsh
+      run: cmake "--preset=ci-$("${{ matrix.os }}".split("-")[0])"
         -D BUILD_SHARED_LIBS=${{ matrix.shared }}
 
     - name: Build
